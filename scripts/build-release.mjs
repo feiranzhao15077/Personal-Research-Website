@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-const env = { ...process.env, RELEASE_MODE: 'production' };
+const env = { ...process.env, RELEASE_MODE: 'production', RELEASE_TARGET: 'full' };
 const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 const gate = spawnSync(npm, ['run', 'validate:release'], { env, stdio: 'inherit', shell: process.platform === 'win32' });
 if (gate.status !== 0) process.exit(gate.status || 1);

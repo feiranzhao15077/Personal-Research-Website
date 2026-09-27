@@ -175,6 +175,7 @@
   .about-grid .lead { color: var(--blue); margin-bottom: 1.5rem; }
   .about-grid p:not(.lead):not(.eyebrow) { color: var(--ink-soft); }
   .material-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); border-top: 1px solid var(--line); }
+  .material-grid.two-items { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .material-item { display: flex; flex-direction: column; gap: .4rem; min-height: 180px; padding: 1.5rem; text-decoration: none; border-right: 1px solid var(--line); color: var(--ink); }
   .material-item:last-child { border-right: 0; }
   a.material-item:hover { background: var(--blue-pale); }
@@ -268,7 +269,7 @@
     .study-grid { gap: 4rem; }
     .approach-grid { grid-template-columns: 1fr; gap: 1.5rem; }
     .about-grid, .project-two-column { gap: 1.5rem; }
-    .material-grid { grid-template-columns: 1fr; }
+    .material-grid, .material-grid.two-items { grid-template-columns: 1fr; }
     .material-item { min-height: 120px; border-right: 0; border-bottom: 1px solid var(--line); }
     .contact-grid { align-items: flex-start; flex-direction: column; }
     .project-meta { grid-template-columns: 1fr; }

@@ -31,6 +31,11 @@ test('all required static routes exist with semantic metadata', () => {
 
 test('navigation, core evidence and boundaries render in static HTML', () => {
   const home = read('index.html');
+  if (production) assert.ok(home.includes('https://zhaofeiran.pages.dev/'));
+  if (production && process.env.RELEASE_TARGET === 'initial') {
+    assert.ok(!home.includes('/documents/cv.pdf'));
+    assert.ok(!home.includes('版本待确认'));
+  }
   for (const href of ['/#research-map','/#projects','/#materials','/#contact','/projects/emvision/','/projects/lowalt-md/','/projects/em-trace/','/projects/quadcontrol-lab/','/documents/research-overview.pdf'].map(sitePath)) assert.ok(home.includes(href), href);
   for (const id of ['EVM-02','LOW-01','LOW-02','EMT-01','QC-01']) assert.ok(home.includes(id), id);
   assert.ok(home.includes('不支持以下解读'));

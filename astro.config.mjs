@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-const site = process.env.PUBLIC_SITE_URL || 'https://research.example.invalid';
+const site = process.env.PUBLIC_SITE_URL || 'https://zhaofeiran.pages.dev';
 const base = process.env.PUBLIC_BASE_PATH || '/';
 if (!/^\/(?:[a-zA-Z0-9_-]+\/)*$/.test(base)) throw new Error('PUBLIC_BASE_PATH must be / or /repository-name/');
 

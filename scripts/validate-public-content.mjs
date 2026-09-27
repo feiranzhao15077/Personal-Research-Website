@@ -40,10 +40,15 @@ if (release) {
     if (profile[status] !== 'APPROVED' || (typeof profile[key] === 'string' ? profile[key] === 'TBD' : profile[key]?.zh === 'TBD')) problems.push(`${key} remains unapproved`);
   }
   const cv = YAML.parse(fs.readFileSync(path.join(root, 'src/content/materials/cv.yaml'), 'utf8'));
-  if (cv.accessStatus !== 'PUBLIC' || !cv.publicUrl) problems.push('CV is not public and approved');
+  if (process.env.RELEASE_TARGET === 'initial') {
+    if (cv.accessStatus !== 'PENDING' || cv.publicUrl || fs.existsSync(path.join(root, 'public/documents/cv.pdf'))) problems.push('initial release contains a CV asset or link');
+  } else if (cv.accessStatus !== 'PUBLIC' || !cv.publicUrl) problems.push('CV is not public and approved');
   if (scanDist) {
     const index = fs.readFileSync(path.join(root, 'dist/index.html'), 'utf8');
     if (/noindex|\.invalid/.test(index)) problems.push('dist contains draft indexing metadata');
+    if (process.env.RELEASE_TARGET === 'initial' && /documents\/cv\.pdf|版本待确认|CV 版本/.test(index)) problems.push('initial release dist exposes CV or a CV placeholder');
+    if (/feiranzhao15077\.github\.io|\/personal-research-website\//i.test(index)) problems.push('dist contains obsolete deployment URL or base path');
+    if (!index.includes('https://zhaofeiran.pages.dev/')) problems.push('dist lacks frozen canonical site URL');
     const robots = fs.readFileSync(path.join(root, 'dist/robots.txt'), 'utf8');
     if (!robots.includes('Sitemap: ') || /Disallow: \/(?:\s|$)/.test(robots)) problems.push('production robots configuration is invalid');
   }

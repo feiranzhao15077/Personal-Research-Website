@@ -91,6 +91,11 @@ test('figure viewer opens, zooms, closes and returns keyboard focus', async ({ p
 
 test('CV has a visible reserved slot without a fabricated download', async ({ page }) => {
   await page.goto('/');
+  if (process.env.RELEASE_MODE === 'production' && process.env.RELEASE_TARGET === 'initial') {
+    await expect(page.locator('.material-item.pending')).toHaveCount(0);
+    await expect(page.locator('a[href*="/documents/cv.pdf"]')).toHaveCount(0);
+    return;
+  }
   const cv = page.locator('.material-item.pending');
   await expect(cv).toContainText('学术 CV');
   await expect(cv).toContainText('版本待确认');

@@ -43,27 +43,20 @@ build 顺序为内容/引用/原图与 PDF 哈希校验 → 源码公开性扫�
 
 Astro 6.4.8 + strict TypeScript + plain CSS，无 SSR、React、GSAP、WebGL、外部字体或第三方脚本。地图/导航/正文零 JS；原生 dialog 仅增强原图链接。
 
-生产 URL 用两个变量定义，禁止在页面硬编码仓库路径：
-
-| 目标 | PUBLIC_SITE_URL | PUBLIC_BASE_PATH |
-|---|---|---|
-| GitHub 用户站 | https://feiranzhao15077.github.io | / |
-| GitHub 项目站 | https://feiranzhao15077.github.io | /personal-research-website/ |
-| 后续自定义域名 | 经批准的 HTTPS origin | / |
-
-默认 build 为 noindex 草稿，robots 禁止抓取。正式发布前补齐批准的 CV PDF、确认 origin，使用以下 PowerShell 命令（这些命令只构建，不部署）：
+正式 URL 为 `https://zhaofeiran.pages.dev/`，base 为 `/`。Astro 使用 `PUBLIC_SITE_URL` 和 `PUBLIC_BASE_PATH` 统一生成 canonical、Open Graph、sitemap、robots 与站内链接。默认 build 是 noindex 草稿，robots 禁止抓取。初版发布本地预检：
 
 ```powershell
-$env:PUBLIC_SITE_URL = 'https://feiranzhao15077.github.io'
+$env:PUBLIC_SITE_URL = 'https://zhaofeiran.pages.dev'
 $env:PUBLIC_BASE_PATH = '/'
-npm run build:release
+npm run predeploy:initial
+npm run dry-run
 ```
 
-`build:release` 设置生产模式，身份/邮箱/CV/URL 未批准则失败；构建后扫描私有链接、占位信息，核对所有内部链接和锚点，并匿名检查外部材料。正式构建生成允许抓取的 robots/sitemap，自定义 404 仍 noindex。最终 CV 在 Phase 7B 接入普通“打开 CV”与“下载 CV”链接，无内嵌 PDF viewer。
+`INITIAL_SITE_RELEASE` 允许最终 CV 缺席，但会拒绝任何 CV 链接或临时 PDF；生产首页隐藏 CV 占位。`FULL_RELEASE` 仍要求本人批准的 CV、固定路径和 hash。`npm run predeploy:initial` 检查类型、内容、隐私、发布模式、生产构建、静态与浏览器测试、站内及外部链接。正式构建生成允许抓取的 robots/sitemap，404 仍 noindex。
 
 当前最终 CV 未完成，因此 `npm run validate:release` 与 `npm run predeploy` 会以 `RELEASE BLOCKER` 失败；草稿构建仍可用，站内保留无链接占位。最终 CV 须放在 `public/documents/cv.pdf`，并仅在 `src/content/materials/cv.yaml` 中设置 `accessStatus: PUBLIC`、`approvalStatus: APPROVED`、`publicUrl: /documents/cv.pdf`、实际 SHA-256 `sourceHash` 与字节数 `sourceSize`。Header、首页 CTA、资料区和 Footer 的 CV 链接统一从该条目生成。
 
-`.github/workflows/deploy.yml` 已本地准备，仅允许 main 分支手动触发；它读取仓库变量 `PUBLIC_SITE_URL` 与 `PUBLIC_BASE_PATH`，并在发布门禁通过后才上传 Pages artifact。尚未创建远端、启用 Pages 或部署。`npm run dry-run` 对当前 `dist/` 进行本地静态服务浏览器预检；项目站模式先设置环境变量并运行草稿 `npm run build`，再运行 `npm run dry-run`。发布顺序与回滚步骤见规划目录的 `planning/release/deployment_runbook.md`。
+Cloudflare Pages 连接公开源码仓库 `feiranzhao15077/Personal-Research-Website` 的 `main` 分支。构建命令 `npm run build`，输出目录 `dist`，Node 24.20.0；生产环境变量为 `RELEASE_MODE=production`、`RELEASE_TARGET=initial`、`PUBLIC_SITE_URL=https://zhaofeiran.pages.dev`、`PUBLIC_BASE_PATH=/`。不需要 Astro Cloudflare adapter、SSR、Pages Functions 或 Workers。`npm run dry-run` 对当前 `dist/` 进行本地静态服务浏览器预检。
 
 ## 安全与资产
 

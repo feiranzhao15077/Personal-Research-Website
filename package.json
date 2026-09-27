@@ -13,14 +13,18 @@
     "validate:content": "node scripts/validate-content.mjs",
     "validate:public": "node scripts/validate-public-content.mjs",
     "validate:dist": "node scripts/validate-public-content.mjs --dist",
-    "validate:release": "node scripts/validate-release.mjs",
+    "validate:release": "node scripts/validate-release.mjs --full",
+    "validate:initial": "node scripts/validate-release.mjs --initial",
     "predeploy": "node scripts/predeploy.mjs",
+    "predeploy:initial": "node scripts/predeploy.mjs --initial",
     "dry-run": "node scripts/dry-run-deployment.mjs",
-    "build": "npm run validate:content && npm run validate:public && astro build && npm run validate:dist",
+    "build": "node scripts/build-site.mjs",
+    "build:astro": "astro build",
     "test": "node --test tests/*.test.mjs",
     "test:browser": "playwright test",
     "build:release": "node scripts/build-release.mjs",
-    "validate:links": "node scripts/validate-links.mjs"
+    "validate:links": "node scripts/validate-links.mjs",
+    "validate:external": "node scripts/validate-links.mjs --external"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
