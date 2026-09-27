@@ -14,8 +14,10 @@ async function loadFigures(page: import('@playwright/test').Page) {
 
 test('research routes, figures, boundaries, materials and width stay available', async ({ page }, testInfo) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: /从物理模型/ })).toBeVisible();
-  await expect(page.locator('.hero-note')).toContainText('本科生');
+  await expect(page.getByRole('heading', { name: '赵斐然', exact: true, level: 1 })).toBeVisible();
+  await expect(page.locator('.hero-identity')).toContainText('应用物理学本科生');
+  await expect(page.getByRole('link', { name: '探索研究脉络' })).toHaveAttribute('href', '#research-map');
+  await expect(page.getByRole('link', { name: '阅读 EMvision', exact: true })).toHaveAttribute('href', '/projects/emvision/');
   await expect(page.locator('.map-qualifier')).toContainText('不表示数据、代码依赖或因果链');
   await expect(page.locator('.site-footer')).toContainText('Built with Astro');
   for (const id of projects) await expect(page.locator(`a[href="/projects/${id}/"]`).first()).toBeVisible();

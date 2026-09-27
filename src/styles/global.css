@@ -56,12 +56,13 @@
   .site-nav a:hover { color: var(--blue); text-decoration: underline; }
   .hero { padding-block: clamp(4rem, 6vw, 5rem) clamp(5rem, 7vw, 6rem); background: var(--paper); }
   .hero-grid { display: block; }
-  .hero h1 { max-width: 780px; font-size: clamp(2.5rem, 4vw, 3.25rem); line-height: 1.18; text-wrap: balance; }
-  .hero h1 span { display: block; color: var(--blue); }
-  .hero-deck { max-width: 40rem; color: var(--ink-soft); font-size: clamp(1.2rem, 2vw, 1.5rem); margin-top: 2rem; line-height: 1.65; }
-  .hero-note { margin-top: 1.3rem; font-size: .89rem; letter-spacing: .09em; color: var(--ink-faint); }
+  .hero-copy { max-width: 44rem; }
+  .hero h1 { color: var(--blue); font-size: clamp(3rem, 5vw, 4rem); line-height: 1.25; text-wrap: balance; }
+  .hero-identity { margin-top: 1rem; color: var(--ink-soft); font-size: 1rem; }
+  .hero-deck { max-width: 40rem; color: var(--ink); font-size: clamp(1.25rem, 2vw, 1.65rem); margin-top: 2rem; line-height: 1.65; }
+  .hero-note { margin-top: 1rem; font-size: 1rem; color: var(--ink-soft); }
   .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; margin-top: 2rem; }
-  .hero-github { min-height: 44px; display: inline-flex; align-items: center; font-size: .88rem; font-weight: 700; }
+  .hero-github { min-height: 44px; display: inline-flex; align-items: center; gap: .35em; margin-top: .75rem; font-size: .88rem; font-weight: 700; }
   .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: .8rem; padding: .65rem 1.2rem; text-decoration: none; font-size: .9rem; font-weight: 700; border: 1px solid var(--blue); }
   .button.primary { color: var(--white); background: var(--blue); }
   .button.primary:hover { background: var(--blue-deep); }
@@ -271,7 +272,7 @@
     .site-nav { justify-content: flex-start; gap: .1rem .9rem; }
     .site-nav a { font-size: .8rem; }
     .hero { padding-block: 3rem; }
-    .hero h1 { font-size: clamp(2.05rem, 8.5vw, 2.7rem); }
+    .hero h1 { font-size: clamp(2.75rem, 9vw, 3.25rem); }
     .study-grid, .branch-grid, .about-grid, .project-two-column, .figures-grid, .evidence-grid { grid-template-columns: 1fr; }
     .branch-grid { gap: 2.3rem; }
     .study-grid { gap: 4rem; }
@@ -293,7 +294,7 @@
     .site-nav { gap: .05rem .6rem; }
     .site-nav a { font-size: .74rem; }
     .brand-context { display: none; }
-    .hero h1 { font-size: 2rem; }
+    .hero h1 { font-size: 2.75rem; }
     .heading-sub { display: block; margin: .3rem 0 0; }
   }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }

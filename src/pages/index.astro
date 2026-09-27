@@ -22,22 +22,30 @@ const emvision = p.get('emvision')!, lowalt = p.get('lowalt-md')!, emtrace = p.g
 ---
 <BaseLayout title="应用物理 · 计算电磁 · 智能感知" description="围绕电磁感知与无人系统，以可审计的物理模型、受控实验和明确的证据边界呈现四个研究项目。">
   <section class="hero" aria-labelledby="hero-title"><div class="shell hero-grid">
-    <div><p class="eyebrow">{profile.publicName.zh} / Research Portfolio</p><h1 id="hero-title">从物理模型，到可审计的<span>研究证据。</span></h1><p class="hero-deck">{profile.statement.zh}</p><p class="hero-note">{profile.schoolWording.zh}本科生 · 电磁感知 · 自主系统</p>
-      <div class="cta-row"><a class="button primary" href="#research-map">浏览研究脉络 <span aria-hidden="true">↓</span></a><a class="button subtle" href={sitePath('/documents/research-overview.pdf')} target="_blank" rel="noopener">研究概览 PDF ↗</a>{cvUrl && <a class="button subtle" href={cvUrl} target="_blank" rel="noopener">打开 CV ↗</a>}<a class="hero-github" href={profile.githubUrl} target="_blank" rel="noopener noreferrer">GitHub 研究仓库 ↗</a></div>
+    <div class="hero-copy">
+      <h1 id="hero-title">{profile.publicName.zh}</h1>
+      <p class="hero-identity">{profile.schoolWording.zh}本科生</p>
+      <p class="hero-deck">以物理建模为基础，<br />探索电磁感知、智能探测与自主系统。</p>
+      <p class="hero-note">从物理模型，到可审计的研究证据。</p>
+      <div class="cta-row">
+        <a class="button primary" href="#research-map">探索研究脉络 <span aria-hidden="true">↓</span></a>
+        <a class="button subtle" href={projectUrl('emvision')}>阅读 EMvision <span aria-hidden="true">↗</span></a>
+      </div>
+      <a class="hero-github" href={profile.githubUrl} target="_blank" rel="noopener noreferrer">Research Portfolio / GitHub <span aria-hidden="true">↗</span></a>
     </div>
   </div></section>
 
   <ResearchMap map={map} />
 
-  <section class="section flagship-section" id="projects" aria-labelledby="flagship-heading"><div class="shell">
-    <div class="section-intro"><p class="eyebrow">02 / Flagship Study</p><h2 id="flagship-heading">EMvision <span class="heading-sub">受控识别实验</span></h2><p>{emvision.data.summary.zh}</p></div>
-    <div class="flagship-overview"><div class="feature-content"><p class="small-label">研究问题与协议</p><p class="feature-question">{emvision.data.researchQuestion.zh}</p><dl class="factor-list"><div><dt>C</dt><dd>训练端通道匹配</dd></div><div><dt>G</dt><dd>生成器族匹配</dd></div><div><dt>P</dt><dd>参数分布匹配</dd></div></dl></div><FlagshipResult evidence={e.get('EVM-02')!} /></div>
-    <div class="flagship-figure"><FigureFrame figure={f.get('FIG-EVM-03')!} /><a class="text-link" href={projectUrl('emvision')}>阅读 EMvision 的协议、结果与完整边界 <span aria-hidden="true">↗</span></a></div>
+  <section class="section approach-section" id="approach" aria-labelledby="approach-heading"><div class="shell">
+    <div class="section-intro"><p class="eyebrow">02 / Approach</p><h2 id="approach-heading">研究方法是一条可追溯的链。</h2><p>从问题定义到证据审计，每一环都对应具体项目中的工作。</p></div>
+    <ol class="approach-grid"><li><span>01</span><h3>物理问题</h3><p>LowAlt-MD · 低空传播如何改变谱结构</p></li><li><span>02</span><h3>数学建模</h3><p>LowAlt-MD · M0–M3 分层机制</p></li><li><span>03</span><h3>数值实现</h3><p>EM-Trace · CAD、CST 与复场提取</p></li><li><span>04</span><h3>受控实验</h3><p>EMvision · C/G/P 全因子配对</p></li><li><span>05</span><h3>证据审计</h3><p>EM-Trace · 方向与极化纠错</p></li><li><span>06</span><h3>可复核工程</h3><p>公开摘要与精选代码；不等于完整复现包</p></li></ol>
   </div></section>
 
-  <section class="section approach-section" id="approach" aria-labelledby="approach-heading"><div class="shell">
-    <div class="section-intro"><p class="eyebrow">03 / Approach</p><h2 id="approach-heading">研究方法是一条可追溯的链。</h2><p>从问题定义到证据审计，每一环都对应具体项目中的工作。</p></div>
-    <ol class="approach-grid"><li><span>01</span><h3>物理问题</h3><p>LowAlt-MD · 低空传播如何改变谱结构</p></li><li><span>02</span><h3>数学建模</h3><p>LowAlt-MD · M0–M3 分层机制</p></li><li><span>03</span><h3>数值实现</h3><p>EM-Trace · CAD、CST 与复场提取</p></li><li><span>04</span><h3>受控实验</h3><p>EMvision · C/G/P 全因子配对</p></li><li><span>05</span><h3>证据审计</h3><p>EM-Trace · 方向与极化纠错</p></li><li><span>06</span><h3>可复核工程</h3><p>公开摘要与精选代码；不等于完整复现包</p></li></ol>
+  <section class="section flagship-section" id="projects" aria-labelledby="flagship-heading"><div class="shell">
+    <div class="section-intro"><p class="eyebrow">03 / Flagship Study</p><h2 id="flagship-heading">EMvision <span class="heading-sub">受控识别实验</span></h2><p>{emvision.data.summary.zh}</p></div>
+    <div class="flagship-overview"><div class="feature-content"><p class="small-label">研究问题与协议</p><p class="feature-question">{emvision.data.researchQuestion.zh}</p><dl class="factor-list"><div><dt>C</dt><dd>训练端通道匹配</dd></div><div><dt>G</dt><dd>生成器族匹配</dd></div><div><dt>P</dt><dd>参数分布匹配</dd></div></dl></div><FlagshipResult evidence={e.get('EVM-02')!} /></div>
+    <div class="flagship-figure"><FigureFrame figure={f.get('FIG-EVM-03')!} /><a class="text-link" href={projectUrl('emvision')}>阅读 EMvision 的协议、结果与完整边界 <span aria-hidden="true">↗</span></a></div>
   </div></section>
 
   <section class="section studies-section" aria-labelledby="studies-heading"><div class="shell">

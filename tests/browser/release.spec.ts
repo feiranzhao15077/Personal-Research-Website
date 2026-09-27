@@ -13,6 +13,18 @@ test('release: nine widths, five routes, text reflow and semantic content', asyn
       measurements.push({ width, route, overflow });
       expect(overflow).toBeLessThanOrEqual(1);
       await expect(page.locator('main h1')).toHaveCount(1);
+      if (route === '/') {
+        const order = await page.locator('main > section').evaluateAll((sections) => sections.slice(0, 4).map((section) => section.id || section.classList[0]));
+        expect(order).toEqual(['hero', 'research-map', 'approach', 'projects']);
+        const heroLinks = page.locator('.hero a');
+        for (const link of await heroLinks.all()) {
+          expect((await link.boundingBox())?.height).toBeGreaterThanOrEqual(44);
+        }
+        if ([320, 390, 768, 1024, 1440].includes(width)) {
+          fs.mkdirSync('.screenshots', { recursive: true });
+          await page.screenshot({ path: `.screenshots/phase8b1-hero-${width}.png` });
+        }
+      }
       await expect(page.locator('main')).toContainText('不支持以下解读');
       for (const link of await page.locator('.site-nav a').all()) {
         const box = await link.boundingBox();
