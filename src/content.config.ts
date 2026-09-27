@@ -137,6 +137,7 @@ const materials = defineCollection({
     sourceCommit: z.string().regex(/^[a-f0-9]{40}$/).optional(),
     sourceHash: z.string().regex(/^[a-f0-9]{64}$/).optional(),
     sourceSize: z.number().int().positive().optional(),
+    approvalStatus: z.enum(['PENDING', 'APPROVED']).optional(),
     accessStatus: z.enum(['PUBLIC', 'PUBLIC_SUMMARY_ONLY', 'PENDING', 'PRIVATE_INTERNAL']),
     project: slug.optional(),
     recommendedPlacement: z.array(z.enum(['HERO', 'MATERIALS', 'PROJECT', 'CONTACT']))

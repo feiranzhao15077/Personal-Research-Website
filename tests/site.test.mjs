@@ -6,6 +6,9 @@ import { gzipSync } from 'node:zlib';
 
 const root = path.resolve(import.meta.dirname, '..');
 const dist = path.join(root, 'dist');
+const base = process.env.PUBLIC_BASE_PATH || '/';
+const production = process.env.RELEASE_MODE === 'production';
+const sitePath = (pathname) => `${base.replace(/\/$/, '')}${pathname}`;
 const files = [
   'index.html', 'projects/emvision/index.html', 'projects/lowalt-md/index.html',
   'projects/em-trace/index.html', 'projects/quadcontrol-lab/index.html', '404.html'
@@ -20,14 +23,15 @@ test('all required static routes exist with semantic metadata', () => {
     assert.match(html, /<main id="main">/);
     assert.match(html, /<title>/);
     assert.match(html, /name="description"/);
-    assert.match(html, /name="robots" content="noindex,nofollow"/);
+    if (!production || file === '404.html') assert.match(html, /name="robots" content="noindex,nofollow"/);
+    else assert.doesNotMatch(html, /name="robots" content="noindex,nofollow"/);
     assert.ok(gzipSync(html).length < 100 * 1024, `${file}: HTML over budget`);
   }
 });
 
 test('navigation, core evidence and boundaries render in static HTML', () => {
   const home = read('index.html');
-  for (const href of ['/#research-map','/#projects','/#materials','/#contact','/projects/emvision/','/projects/lowalt-md/','/projects/em-trace/','/projects/quadcontrol-lab/','/documents/research-overview.pdf']) assert.ok(home.includes(href), href);
+  for (const href of ['/#research-map','/#projects','/#materials','/#contact','/projects/emvision/','/projects/lowalt-md/','/projects/em-trace/','/projects/quadcontrol-lab/','/documents/research-overview.pdf'].map(sitePath)) assert.ok(home.includes(href), href);
   for (const id of ['EVM-02','LOW-01','LOW-02','EMT-01','QC-01']) assert.ok(home.includes(id), id);
   assert.ok(home.includes('不支持以下解读'));
   assert.ok(!home.includes('mailto:TBD'));
@@ -42,7 +46,8 @@ test('local links and figure assets resolve in dist', () => {
     const html = read(file);
     for (const match of html.matchAll(/(?:href|src)="(\/[^"]*)"/g)) {
       const url = new URL(match[1], 'https://draft.invalid');
-      const relative = decodeURIComponent(url.pathname.slice(1));
+      assert.ok(url.pathname.startsWith(base), `${file}: wrong base ${url.pathname}`);
+      const relative = decodeURIComponent(url.pathname.slice(base.length));
       const target = path.join(dist, relative);
       const exists = fs.existsSync(target) || fs.existsSync(path.join(target, 'index.html'));
       assert.ok(exists, `${file} → ${relative}`);

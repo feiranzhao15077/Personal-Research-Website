@@ -61,7 +61,9 @@ npm run build:release
 
 `build:release` 设置生产模式，身份/邮箱/CV/URL 未批准则失败；构建后扫描私有链接、占位信息，核对所有内部链接和锚点，并匿名检查外部材料。正式构建生成允许抓取的 robots/sitemap，自定义 404 仍 noindex。最终 CV 在 Phase 7B 接入普通“打开 CV”与“下载 CV”链接，无内嵌 PDF viewer。
 
-当前最终 CV 未完成，因此发布门禁应失败；站内保留无链接占位。未配置远端或部署工作流。下一阶段才配置受保护的 GitHub Actions 静态发布，具体平台规则在部署时复核。
+当前最终 CV 未完成，因此 `npm run validate:release` 与 `npm run predeploy` 会以 `RELEASE BLOCKER` 失败；草稿构建仍可用，站内保留无链接占位。最终 CV 须放在 `public/documents/cv.pdf`，并仅在 `src/content/materials/cv.yaml` 中设置 `accessStatus: PUBLIC`、`approvalStatus: APPROVED`、`publicUrl: /documents/cv.pdf`、实际 SHA-256 `sourceHash` 与字节数 `sourceSize`。Header、首页 CTA、资料区和 Footer 的 CV 链接统一从该条目生成。
+
+`.github/workflows/deploy.yml` 已本地准备，仅允许 main 分支手动触发；它读取仓库变量 `PUBLIC_SITE_URL` 与 `PUBLIC_BASE_PATH`，并在发布门禁通过后才上传 Pages artifact。尚未创建远端、启用 Pages 或部署。`npm run dry-run` 对当前 `dist/` 进行本地静态服务浏览器预检；项目站模式先设置环境变量并运行草稿 `npm run build`，再运行 `npm run dry-run`。发布顺序与回滚步骤见规划目录的 `planning/release/deployment_runbook.md`。
 
 ## 安全与资产
 

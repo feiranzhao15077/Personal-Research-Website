@@ -1,8 +1,9 @@
 id: cv
 label:
-  zh: CV（待确认）
+  zh: 学术 CV
 type: CV
 accessStatus: PENDING
+approvalStatus: PENDING
 recommendedPlacement:
 - HERO
 - MATERIALS

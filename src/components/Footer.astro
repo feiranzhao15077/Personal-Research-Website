@@ -1,9 +1,16 @@
 ---
+import { getCollection } from 'astro:content';
+import { sitePath } from '../lib/urls';
+const profile = (await getCollection('site'))[0].data;
+const cv = (await getCollection('materials')).find((item) => item.id === profile.cvMaterialId)?.data;
+const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.publicUrl) : undefined;
+---
 ---
 <footer class="site-footer">
   <div class="shell footer-inner">
     <p>应用物理 · 计算电磁 · 智能感知</p>
     <p>研究结论请连同协议、证据状态与边界阅读。</p>
+    {cvUrl && <a href={cvUrl} target="_blank" rel="noopener">打开 CV ↗</a>}
     <a href="#main">返回页首 ↑</a>
   </div>
 </footer>

@@ -22,7 +22,7 @@ function walk(directory) {
     if (item.isDirectory()) walk(relative);
     else if (/\.(?:md|yaml|yml|html|xml|txt|svg|json|js|css)$/i.test(item.name)) {
       const text = fs.readFileSync(path.join(root, relative), 'utf8');
-      if (release && scanDist && /\bTBD\b|\.invalid|PLACEHOLDER/.test(text)) problems.push(`${relative}: unresolved release placeholder`);
+      if (release && scanDist && /\bTBD\b|\.invalid|PLACEHOLDER|版本待确认|正式 CV 待版本确定后补入|最终 CV 版本仍待确认/.test(text)) problems.push(`${relative}: unresolved release placeholder`);
       for (const email of text.matchAll(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g)) if (email[0] !== approvedEmail) problems.push(`${relative}: unapproved email`);
       for (const [regex, label] of patterns) if (regex.test(text)) problems.push(`${relative}: ${label}`);
     }

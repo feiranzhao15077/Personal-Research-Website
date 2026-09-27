@@ -2,6 +2,8 @@
 import { sitePath } from '../lib/urls';
 import { getCollection } from 'astro:content';
 const profile = (await getCollection('site'))[0].data;
+const cv = (await getCollection('materials')).find((item) => item.id === profile.cvMaterialId)?.data;
+const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.publicUrl) : undefined;
 ---
 <header class="site-header">
   <div class="shell header-inner">
@@ -11,6 +13,7 @@ const profile = (await getCollection('site'))[0].data;
       <a href={sitePath('/#projects')}>项目</a>
       <a href={sitePath('/#about')}>关于</a>
       <a href={sitePath('/#materials')}>资料</a>
+      {cvUrl && <a href={cvUrl} target="_blank" rel="noopener">CV ↗</a>}
       <a href={sitePath('/#contact')}>联系</a>
     </nav>
   </div>
