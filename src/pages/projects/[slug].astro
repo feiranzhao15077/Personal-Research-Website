@@ -1,0 +1,42 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EvidenceBlock from '../../components/EvidenceBlock.astro';
+import FigureFrame from '../../components/FigureFrame.astro';
+import { ordered, projectUrl } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({ params: { slug: project.data.slug }, props: { project } }));
+}
+interface Props { project: CollectionEntry<'projects'>; }
+const { project } = Astro.props;
+const d = project.data;
+const [allEvidence, allFigures, allMaterials] = await Promise.all([getCollection('evidence'), getCollection('figures'), getCollection('materials')]);
+const mainEvidence = ordered(d.mainEvidence, allEvidence);
+const deepEvidence = ordered(d.deepEvidence, allEvidence);
+const figures = ordered(d.figures, allFigures);
+const materials = ordered(d.materials, allMaterials).filter((item) => item.data.accessStatus !== 'PENDING');
+const { Content } = await render(project);
+const names: Record<string,string> = { 'em-trace': 'EM-Trace', 'lowalt-md': 'LowAlt-MD', emvision: 'EMvision', 'quadcontrol-lab': 'QuadControl-Lab' };
+const related = (await getCollection('projects')).filter((item) => item.id !== project.id);
+---
+<BaseLayout title={d.title.zh} description={d.summary.zh} path={projectUrl(d.slug)}>
+  <div class="project-hero"><div class="shell"><nav class="breadcrumb" aria-label="面包屑"><a href="/">首页</a><span aria-hidden="true">/</span><span>{d.title.zh}</span></nav><p class="eyebrow">Research Project / {d.role.replaceAll('_', ' ')}</p><h1>{d.title.zh}</h1><p class="project-subtitle">{d.subtitle.zh}</p><p class="lead">{d.summary.zh}</p><div class="project-meta"><div><span>研究方向</span><strong>{d.researchTrack.zh}</strong></div><div><span>证据状态</span><strong>{d.status.zh}</strong></div></div></div></div>
+
+  <section class="section project-section" aria-labelledby="question-heading"><div class="shell project-two-column"><div class="project-side"><p class="eyebrow">01 / Question</p><h2 id="question-heading">研究问题</h2></div><div><p class="large-question">{d.researchQuestion.zh}</p><p>{d.whyItMatters.zh}</p></div></div></section>
+
+  <section class="section project-section method-section" aria-labelledby="method-heading"><div class="shell project-two-column"><div class="project-side"><p class="eyebrow">02 / Method</p><h2 id="method-heading">方法与协议</h2></div><div><ol class="method-list">{d.methods.map((method, index) => <li><span>{String(index+1).padStart(2, '0')}</span><p>{method.zh}</p></li>)}</ol></div></div></section>
+
+  <section class="section project-section" id="evidence" aria-labelledby="evidence-heading"><div class="shell"><div class="section-intro"><p class="eyebrow">03 / Evidence</p><h2 id="evidence-heading">代表结果与解释边界</h2><p>数值、协议、来源状态与边界按证据 ID 一起呈现。负结果与更正记录保留在默认阅读层。</p></div><div class="evidence-grid">{mainEvidence.map((item) => <EvidenceBlock evidence={item} />)}</div>
+    {deepEvidence.length > 0 && <details class="deep-evidence"><summary>展开审计细节与补充证据 <span aria-hidden="true">＋</span></summary><div class="evidence-grid">{deepEvidence.map((item) => <EvidenceBlock evidence={item} />)}</div></details>}
+  </div></section>
+
+  <section class="section project-section figure-section" id="figures" aria-labelledby="figures-heading"><div class="shell"><div class="section-intro"><p class="eyebrow">04 / Figures</p><h2 id="figures-heading">代表图件</h2><p>图件保持公开源文件的像素与内容；点击可在新标签页查看完整原图。</p></div><div class="figures-grid">{figures.map((figure) => <FigureFrame figure={figure} />)}</div></div></section>
+
+  <section class="section project-section learning-section" aria-labelledby="learning-heading"><div class="shell project-two-column"><div class="project-side"><p class="eyebrow">05 / Interpretation</p><h2 id="learning-heading">研究收获与限制</h2></div><div class="prose"><Content /><h3>明确的限制</h3><ul>{d.limitations.map((limit) => <li>{limit.zh}</li>)}</ul><div class="contribution-note"><h3>个人贡献</h3>{d.contributions.map((item) => <p>{item.zh}</p>)}</div></div></div></section>
+
+  <section class="section project-section project-materials" id="materials" aria-labelledby="project-materials-heading"><div class="shell"><div class="section-intro"><p class="eyebrow">06 / Sources</p><h2 id="project-materials-heading">公开资料</h2></div><div class="source-list">{materials.map((material) => <a href={material.data.publicUrl} target="_blank" rel="noopener noreferrer"><span>{material.data.type.replaceAll('_', ' ')}</span><strong>{material.data.label.zh}</strong><span aria-hidden="true">↗</span></a>)}</div></div></section>
+
+  <section class="section related-section" aria-labelledby="related-heading"><div class="shell"><p class="eyebrow">Next / Explore</p><h2 id="related-heading">继续浏览研究</h2><div class="related-links">{related.map((item) => <a href={projectUrl(item.data.slug)}>{names[item.data.slug]} <span aria-hidden="true">↗</span></a>)}</div></div></section>
+</BaseLayout>

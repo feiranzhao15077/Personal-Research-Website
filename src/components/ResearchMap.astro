@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { projectUrl } from '../lib/content';
+interface Props { map: CollectionEntry<'maps'>; }
+const { map } = Astro.props;
+const main = map.data.nodes.filter((node) => node.trackId === 'electromagnetic').sort((a,b) => a.sequence-b.sequence);
+const branch = map.data.nodes.filter((node) => node.trackId === 'autonomous');
+const names: Record<string,string> = { 'em-trace': 'EM-Trace', 'lowalt-md': 'LowAlt-MD', emvision: 'EMvision', 'quadcontrol-lab': 'QuadControl-Lab' };
+---
+<section class="section map-section" id="research-map" aria-labelledby="map-heading">
+  <div class="shell">
+    <div class="section-intro"><p class="eyebrow">01 / Research Map</p><h2 id="map-heading">研究脉络</h2><p>从可审计的电磁建模，走向低空传播机制，再到固定合成协议下的识别实验。四旋翼控制作为独立的自主系统分支。</p></div>
+    <div class="map-tracks">
+      <div class="map-main" aria-label="电磁感知研究线">
+        <p class="track-label">Electromagnetic Sensing <span>电磁感知</span></p>
+        <ol class="map-nodes">{main.map((node) => <li class="map-node">
+          <span class="map-sequence">0{node.sequence}</span><h3><a href={projectUrl(node.projectId)}>{names[node.projectId]} <span aria-hidden="true">↗</span></a></h3>
+          <p class="node-role">{node.role.zh}</p><p>{node.question.zh}</p><p class="node-evidence">{node.evidenceTeaserId} · {node.evidenceTeaser.zh}</p>
+        </li>)}</ol>
+        <p class="map-qualifier">箭头仅表示研究主题与方法关注点的演进，不表示数据、代码依赖或因果链。</p>
+      </div>
+      <div class="map-branch" aria-label="独立自主系统分支">
+        <p class="track-label">Autonomous Systems <span>自主系统 · 独立分支</span></p>
+        {branch.map((node) => <div class="branch-node"><span class="map-sequence">B1</span><h3><a href={projectUrl(node.projectId)}>{names[node.projectId]} <span aria-hidden="true">↗</span></a></h3><p class="node-role">{node.role.zh}</p><p>{node.question.zh}</p><p class="node-evidence">{node.evidenceTeaserId} · {node.evidenceTeaser.zh}</p></div>)}
+      </div>
+    </div>
+  </div>
+</section>
