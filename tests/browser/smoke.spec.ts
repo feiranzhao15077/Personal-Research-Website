@@ -18,7 +18,7 @@ test('research routes, figures, boundaries, materials and width stay available',
   await expect(page.locator('.hero-identity')).toContainText('应用物理学本科生');
   await expect(page.getByRole('link', { name: '探索研究脉络' })).toHaveAttribute('href', '#research-map');
   await expect(page.getByRole('link', { name: '阅读 EMvision', exact: true })).toHaveAttribute('href', '/projects/emvision/');
-  await expect(page.locator('.map-qualifier')).toContainText('不表示数据、代码依赖或因果链');
+  await expect(page.locator('.map-qualifier')).toContainText('箭头表示研究主题与方法关注点的演进，不表示数据、代码依赖或因果关系。');
   await expect(page.locator('.site-footer')).toContainText('Built with Astro');
   for (const id of projects) await expect(page.locator(`a[href="/projects/${id}/"]`).first()).toBeVisible();
   await expect(page.locator('#research-map')).toBeVisible();
@@ -59,6 +59,16 @@ test('keyboard reaches links and native evidence disclosure', async ({ page }) =
   await expect(skip).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/#main$/);
+  const mapLinks = page.locator('#research-map .map-node-link');
+  await mapLinks.first().focus();
+  for (const [index, slug] of ['em-trace', 'lowalt-md', 'emvision', 'quadcontrol-lab'].entries()) {
+    await expect(mapLinks.nth(index)).toBeFocused();
+    await expect(mapLinks.nth(index)).toHaveAttribute('href', `/projects/${slug}/`);
+    await expect(mapLinks.nth(index).locator('.node-question')).toBeVisible();
+    if (index < 3) await page.keyboard.press('Tab');
+  }
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/\/projects\/quadcontrol-lab\/$/);
   await page.goto('/projects/emvision/');
   const disclosure = page.locator('.deep-evidence summary');
   await disclosure.focus();
@@ -133,7 +143,7 @@ test('research map remains readable and tappable with reduced motion', async ({ 
   await page.goto('/');
   await expect(page.locator('.map-node')).toHaveCount(3);
   await expect(page.locator('.map-branch')).toContainText('QuadControl-Lab');
-  await page.locator('.map-node h3 a').first().tap();
+  await page.locator('.map-node-link').first().tap();
   await expect(page).toHaveURL(/\/projects\/em-trace\/$/);
   await context.close();
 });

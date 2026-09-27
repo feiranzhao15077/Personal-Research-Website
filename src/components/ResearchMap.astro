@@ -12,16 +12,32 @@ const names: Record<string,string> = { 'em-trace': 'EM-Trace', 'lowalt-md': 'Low
     <div class="section-intro"><p class="eyebrow">01 / Research Map</p><h2 id="map-heading">研究脉络</h2><p>研究方向沿电磁建模、低空传播和合成识别实验展开；四旋翼控制是独立的自主系统分支。</p></div>
     <div class="map-tracks">
       <div class="map-main" aria-label="电磁感知研究线">
-        <p class="track-label">Electromagnetic Sensing <span>电磁感知</span></p>
-        <ol class="map-nodes">{main.map((node) => <li class:list={['map-node', { 'map-node-flagship': node.projectId === 'emvision' }]}>
-          <span class="map-sequence">0{node.sequence}</span>{node.projectId === 'emvision' && <span class="map-flagship-label">Flagship Study</span>}<h3><a href={projectUrl(node.projectId)}>{names[node.projectId]} <span aria-hidden="true">↗</span></a></h3>
-          <p class="node-role">{node.role.zh}</p><p>{node.question.zh}</p><p class="node-evidence">{node.evidenceTeaserId} · {node.evidenceTeaser.zh}</p>
+        <h3 class="track-label">Electromagnetic Sensing <span>电磁感知</span></h3>
+        <ol class="map-nodes">{main.map((node, index) => <li class:list={['map-node', { 'map-node-flagship': node.projectId === 'emvision' }]}>
+          {index < main.length - 1 && <svg class="map-connector" width="24" aria-hidden="true" focusable="false">
+            <defs><marker id={`map-arrow-${node.id}`} viewBox="0 0 8 8" refX="4" refY="4" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1 L4 4 L1 7" fill="none" stroke="currentColor" stroke-width="1.5" /></marker></defs>
+            <line x1="12" y1="0" x2="12" y2="100%" stroke="currentColor" stroke-width="1.5" marker-end={`url(#map-arrow-${node.id})`} />
+          </svg>}
+          <a class="map-node-link" tabindex="0" href={projectUrl(node.projectId)} aria-labelledby={`map-title-${node.id}`} aria-describedby={`map-question-${node.id}`}>
+            <svg class="map-point" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="5" /></svg>
+            <div class="map-node-title"><h4 id={`map-title-${node.id}`}>{names[node.projectId]}</h4><svg class="map-entry-arrow" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 16 L15 5 M5 5 H15 V15" /></svg></div>
+            <p class="node-role">{node.role.zh}</p>
+            <p class="node-question" id={`map-question-${node.id}`}>{node.question.zh}</p>
+            <p class="node-evidence">{node.evidenceTeaserId} · {node.evidenceTeaser.zh}</p>
+          </a>
         </li>)}</ol>
-        <p class="map-qualifier"><strong>关系说明</strong> 箭头仅表示研究主题与方法关注点的演进，不表示数据、代码依赖或因果链。</p>
+        <p class="map-qualifier"><strong>关系说明</strong> 箭头表示研究主题与方法关注点的演进，不表示数据、代码依赖或因果关系。</p>
       </div>
       <div class="map-branch" aria-label="独立自主系统分支">
-        <p class="track-label">Autonomous Systems <span>自主系统 · 独立分支</span></p>
-        {branch.map((node) => <div class="branch-node"><span class="map-sequence">B1</span><h3><a href={projectUrl(node.projectId)}>{names[node.projectId]} <span aria-hidden="true">↗</span></a></h3><p class="node-role">{node.role.zh}</p><p>{node.question.zh}</p><p class="node-evidence">{node.evidenceTeaserId} · {node.evidenceTeaser.zh}</p></div>)}
+        <h3 class="track-label">Autonomous Systems <span>自主系统 · 独立分支</span></h3>
+        {branch.map((node) => <div class="branch-node">
+          <a class="map-node-link" tabindex="0" href={projectUrl(node.projectId)} aria-labelledby={`map-title-${node.id}`} aria-describedby={`map-question-${node.id}`}>
+            <div class="map-node-title"><h4 id={`map-title-${node.id}`}>{names[node.projectId]}</h4><svg class="map-entry-arrow" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 16 L15 5 M5 5 H15 V15" /></svg></div>
+            <p class="node-role">{node.role.zh}</p>
+            <p class="node-question" id={`map-question-${node.id}`}>{node.question.zh}</p>
+            <p class="node-evidence">{node.evidenceTeaserId} · {node.evidenceTeaser.zh}</p>
+          </a>
+        </div>)}
       </div>
     </div>
   </div>

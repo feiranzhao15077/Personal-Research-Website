@@ -22,7 +22,20 @@ test('release: nine widths, five routes, text reflow and semantic content', asyn
         }
         if ([320, 390, 768, 1024, 1440].includes(width)) {
           fs.mkdirSync('.screenshots', { recursive: true });
-          await page.screenshot({ path: `.screenshots/phase8b1-hero-${width}.png` });
+          for (const link of await page.locator('#research-map .map-node-link').all()) {
+            expect((await link.boundingBox())?.height).toBeGreaterThanOrEqual(44);
+          }
+          await page.locator('#research-map').screenshot({ path: `.screenshots/phase8b2-map-${width}.png` });
+          if (width === 1440) {
+            const connector = page.locator('.map-connector').first();
+            const idleColor = await connector.evaluate((el) => getComputedStyle(el).color);
+            await page.locator('.map-node-link').first().hover();
+            await expect.poll(() => connector.evaluate((el) => getComputedStyle(el).color)).not.toBe(idleColor);
+            await page.mouse.move(0, 0);
+            await page.locator('.map-node-link').nth(2).focus();
+            await expect.poll(() => connector.evaluate((el) => getComputedStyle(el).color)).not.toBe(idleColor);
+            await page.locator('#research-map').screenshot({ path: '.screenshots/phase8b2-map-focus-1440.png' });
+          }
         }
       }
       await expect(page.locator('main')).toContainText('不支持以下解读');
