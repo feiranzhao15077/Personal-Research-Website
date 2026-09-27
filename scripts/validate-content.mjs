@@ -35,6 +35,7 @@ for (const p of projects) {
   for (const id of [...p.mainEvidence, ...p.deepEvidence, p.heroEvidence, p.homeEvidence]) check(p.evidenceRefs.includes(id), `${p.id}: unlisted evidence ${id}`);
   check(p.mainEvidence.includes(p.heroEvidence), `${p.id}: hero evidence absent from default layer`);
   for (const id of p.figures) check(fi.has(id), `${p.id}: invalid figure ${id}`);
+  check([...p.mainFigures, ...p.deepFigures].length === p.figures.length && new Set([...p.mainFigures, ...p.deepFigures]).size === p.figures.length && [...p.mainFigures, ...p.deepFigures].every((id) => p.figures.includes(id)), `${p.id}: figure layers must partition original figures`);
   for (const id of p.materials) check(mi.has(id), `${p.id}: invalid material ${id}`);
 }
 for (const e of evidence) {
@@ -65,6 +66,12 @@ for (const f of figures) {
     check(bytes.length === f.sourceSize, `${f.id}: byte length changed`);
     check(crypto.createHash('sha256').update(bytes).digest('hex') === f.sourceHash, `${f.id}: original hash changed`);
     if (f.mime === 'image/svg+xml') check(!/<script\b|\bon\w+\s*=|<foreignObject\b/i.test(bytes.toString('utf8')), `${f.id}: SVG active content`);
+  }
+  for (const derivative of f.webDerivative) {
+    check(derivative.inputHash === f.sourceHash, `${f.id}: derivative input hash mismatch`);
+    const preview = path.join(root, 'public', derivative.path.slice(1));
+    check(fs.existsSync(preview), `${f.id}: derivative missing`);
+    if (fs.existsSync(preview)) check(crypto.createHash('sha256').update(fs.readFileSync(preview)).digest('hex') === derivative.outputHash, `${f.id}: derivative hash changed`);
   }
 }
 const overview = materials.find((m) => m.id === 'overview');

@@ -50,10 +50,15 @@ test('local links and figure assets resolve in dist', () => {
   }
 });
 
-test('first-party CSS stays within budget and HTML has no client scripts', () => {
+test('first-party CSS and interaction JavaScript stay within budget', () => {
   const cssDir = path.join(dist, '_astro');
   const cssFiles = fs.readdirSync(cssDir).filter((file) => file.endsWith('.css'));
   const bytes = cssFiles.reduce((n, file) => n + gzipSync(fs.readFileSync(path.join(cssDir,file))).length, 0);
   assert.ok(bytes < 50 * 1024, `CSS gzip ${bytes} > 50KB`);
-  for (const file of files) assert.doesNotMatch(read(file), /<script\b/i, `${file}: client script`);
+  const jsFiles = fs.readdirSync(cssDir).filter((file) => file.endsWith('.js'));
+  const bundledJs = jsFiles.reduce((n, file) => n + gzipSync(fs.readFileSync(path.join(cssDir,file))).length, 0);
+  const inlineJs = [...read('index.html').matchAll(/<script[^>]*>([\s\S]*?)<\/script>/gi)].reduce((n, match) => n + gzipSync(match[1]).length, 0);
+  const jsBytes = bundledJs + inlineJs;
+  assert.ok(jsBytes < 80 * 1024, `JS gzip ${jsBytes} > 80KB`);
+  for (const file of files) assert.doesNotMatch(read(file), /<script[^>]+src="https?:/i, `${file}: third-party script`);
 });

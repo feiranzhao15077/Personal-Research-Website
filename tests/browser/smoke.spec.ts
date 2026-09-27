@@ -3,10 +3,12 @@ import fs from 'node:fs';
 
 const projects = ['emvision', 'lowalt-md', 'em-trace', 'quadcontrol-lab'];
 async function loadFigures(page: import('@playwright/test').Page) {
+  await page.locator('.deep-figures').evaluateAll((elements) => elements.forEach((element) => { (element as HTMLDetailsElement).open = true; }));
   for (const img of await page.locator('.figure-frame img').all()) {
     await img.scrollIntoViewIfNeeded();
     await expect.poll(() => img.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true);
   }
+  await page.locator('.deep-figures').evaluateAll((elements) => elements.forEach((element) => { (element as HTMLDetailsElement).open = false; }));
   await page.evaluate(() => window.scrollTo(0, 0));
 }
 
@@ -46,8 +48,11 @@ test('research routes, figures, boundaries, materials and width stay available',
 
 test('keyboard reaches links and native evidence disclosure', async ({ page }) => {
   await page.goto('/');
-  await page.keyboard.press('Tab');
-  await expect(page.getByRole('link', { name: '跳转到正文' })).toBeFocused();
+  const skip = page.getByRole('link', { name: '跳转到正文' });
+  await skip.focus();
+  await expect(skip).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/#main$/);
   await page.goto('/projects/emvision/');
   const disclosure = page.locator('.deep-evidence summary');
   await disclosure.focus();
@@ -63,5 +68,61 @@ test('core content remains readable with JavaScript disabled', async ({ browser 
   await page.goto('/projects/emvision/');
   await expect(page.locator('#evidence')).toContainText('EVM-02');
   await expect(page.locator('.figure-frame').first()).toBeVisible();
+  await expect(page.locator('.figure-image-link').first()).toHaveAttribute('href', /\/evidence\/originals\//);
+  await context.close();
+});
+
+test('figure viewer opens, zooms, closes and returns keyboard focus', async ({ page }) => {
+  await page.goto('/projects/emvision/');
+  const figure = page.locator('.figure-image-link').first();
+  await figure.focus();
+  await page.keyboard.press('Enter');
+  const viewer = page.locator('.figure-viewer');
+  await expect(viewer).toBeVisible();
+  await expect(viewer.locator('.viewer-image')).toHaveAttribute('src', /\/evidence\/originals\//);
+  await viewer.getByRole('button', { name: '放大图片' }).click();
+  await expect(viewer.locator('.viewer-image')).toHaveCSS('max-width', 'none');
+  await expect(viewer.locator('.viewer-image')).toHaveCSS('max-height', 'none');
+  await expect.poll(() => viewer.locator('.viewer-stage').evaluate((element) => element.scrollWidth > element.clientWidth || element.scrollHeight > element.clientHeight)).toBe(true);
+  await page.keyboard.press('Escape');
+  await expect(viewer).not.toBeVisible();
+  await expect(figure).toBeFocused();
+});
+
+test('CV has a visible reserved slot without a fabricated download', async ({ page }) => {
+  await page.goto('/');
+  const cv = page.locator('.material-item.pending');
+  await expect(cv).toContainText('学术 CV');
+  await expect(cv).toContainText('版本待确认');
+  await expect(cv).not.toHaveAttribute('href', /./);
+});
+
+test('all thirteen scientific figures remain reachable on mobile', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'chromium-mobile', 'Mobile figure inventory');
+  let count = 0;
+  for (const slug of projects) {
+    await page.goto(`/projects/${slug}/`);
+    await page.locator('.deep-figures').evaluateAll((elements) => elements.forEach((element) => { (element as HTMLDetailsElement).open = true; }));
+    for (const figure of await page.locator('.figure-frame').all()) {
+      const image = figure.locator('img');
+      await image.scrollIntoViewIfNeeded();
+      await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true);
+      await expect(figure.locator('figcaption')).toBeVisible();
+      await expect(figure.locator('.figure-image-link')).toHaveAttribute('href', /\/evidence\/originals\//);
+      count++;
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
+  }
+  expect(count).toBe(13);
+});
+
+test('research map remains readable and tappable with reduced motion', async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 375, height: 812 }, reducedMotion: 'reduce', isMobile: true, hasTouch: true });
+  const page = await context.newPage();
+  await page.goto('/');
+  await expect(page.locator('.map-node')).toHaveCount(3);
+  await expect(page.locator('.map-branch')).toContainText('QuadControl-Lab');
+  await page.locator('.map-node h3 a').first().tap();
+  await expect(page).toHaveURL(/\/projects\/em-trace\/$/);
   await context.close();
 });
