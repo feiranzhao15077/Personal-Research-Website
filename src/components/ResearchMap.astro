@@ -13,11 +13,11 @@ const names: Record<string,string> = { 'em-trace': 'EM-Trace', 'lowalt-md': 'Low
     <div class="map-tracks">
       <div class="map-main" aria-label="电磁感知研究线">
         <p class="track-label">Electromagnetic Sensing <span>电磁感知</span></p>
-        <ol class="map-nodes">{main.map((node) => <li class="map-node">
-          <span class="map-sequence">0{node.sequence}</span><h3><a href={projectUrl(node.projectId)}>{names[node.projectId]} <span aria-hidden="true">↗</span></a></h3>
+        <ol class="map-nodes">{main.map((node) => <li class:list={['map-node', { 'map-node-flagship': node.projectId === 'emvision' }]}>
+          <span class="map-sequence">0{node.sequence}</span>{node.projectId === 'emvision' && <span class="map-flagship-label">Flagship Study</span>}<h3><a href={projectUrl(node.projectId)}>{names[node.projectId]} <span aria-hidden="true">↗</span></a></h3>
           <p class="node-role">{node.role.zh}</p><p>{node.question.zh}</p><p class="node-evidence">{node.evidenceTeaserId} · {node.evidenceTeaser.zh}</p>
         </li>)}</ol>
-        <p class="map-qualifier">箭头仅表示研究主题与方法关注点的演进，不表示数据、代码依赖或因果链。</p>
+        <p class="map-qualifier"><strong>关系说明</strong> 箭头仅表示研究主题与方法关注点的演进，不表示数据、代码依赖或因果链。</p>
       </div>
       <div class="map-branch" aria-label="独立自主系统分支">
         <p class="track-label">Autonomous Systems <span>自主系统 · 独立分支</span></p>

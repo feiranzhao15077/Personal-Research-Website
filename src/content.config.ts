@@ -33,6 +33,8 @@ const projects = defineCollection({
     representativeResults: z.array(evidenceId).min(1),
     limitations: z.array(localized).min(1),
     figures: z.array(figureId).min(1),
+    mainFigures: z.array(figureId).min(1),
+    deepFigures: z.array(figureId),
     materials: z.array(z.string()).min(1),
     evidenceRefs: z.array(evidenceId).min(1),
     sourceOfTruth: z.string().min(1),

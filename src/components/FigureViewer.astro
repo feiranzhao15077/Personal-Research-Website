@@ -1,0 +1,62 @@
+<dialog class="figure-viewer" aria-label="科研图放大查看">
+  <div class="viewer-toolbar">
+    <strong class="viewer-title"></strong>
+    <div class="viewer-controls">
+      <button type="button" data-viewer-action="out" aria-label="缩小图片">−</button>
+      <button type="button" data-viewer-action="fit">适应</button>
+      <button type="button" data-viewer-action="actual">100%</button>
+      <button type="button" data-viewer-action="in" aria-label="放大图片">＋</button>
+      <a class="viewer-original" target="_blank" rel="noopener" href="#">原图 ↗</a>
+      <button type="button" data-viewer-action="close" aria-label="关闭图片">关闭 ×</button>
+    </div>
+  </div>
+  <div class="viewer-stage" tabindex="0" aria-label="图片查看区；可拖动或双指平移">
+    <img class="viewer-image" alt="" draggable="false" />
+  </div>
+  <p class="viewer-caption"></p>
+</dialog>
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('.figure-viewer');
+  if (dialog) {
+    const stage = dialog.querySelector<HTMLElement>('.viewer-stage')!;
+    const img = dialog.querySelector<HTMLImageElement>('.viewer-image')!;
+    const title = dialog.querySelector<HTMLElement>('.viewer-title')!;
+    const caption = dialog.querySelector<HTMLElement>('.viewer-caption')!;
+    const original = dialog.querySelector<HTMLAnchorElement>('.viewer-original')!;
+    let scale = 1;
+    let previousFocus: HTMLElement | null = null;
+    const render = () => { img.style.width = scale === 1 ? 'auto' : `${Math.round(img.naturalWidth * scale)}px`; img.style.maxWidth = scale === 1 ? '100%' : 'none'; img.style.maxHeight = scale === 1 ? '100%' : 'none'; };
+    const fit = () => { scale = 1; render(); stage.scrollTo(0, 0); };
+    document.querySelectorAll<HTMLAnchorElement>('.figure-image-link[data-figure-title]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+        event.preventDefault();
+        previousFocus = link;
+        img.src = link.href;
+        img.alt = link.querySelector('img')?.alt || '';
+        title.textContent = link.dataset.figureTitle || '';
+        caption.textContent = link.closest('figure')?.querySelector('figcaption')?.textContent?.trim() || '';
+        original.href = link.href;
+        fit();
+        dialog.showModal();
+        dialog.querySelector<HTMLButtonElement>('[data-viewer-action="close"]')?.focus();
+      });
+    });
+    dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', () => { img.removeAttribute('src'); previousFocus?.focus(); });
+    dialog.querySelectorAll<HTMLButtonElement>('[data-viewer-action]').forEach((button) => button.addEventListener('click', () => {
+      switch (button.dataset.viewerAction) {
+        case 'close': dialog.close(); break;
+        case 'fit': fit(); break;
+        case 'actual': scale = 1; img.style.maxWidth = 'none'; img.style.maxHeight = 'none'; img.style.width = `${img.naturalWidth}px`; break;
+        case 'in': scale = Math.min(4, scale * 1.25); render(); break;
+        case 'out': scale = Math.max(.25, scale / 1.25); render(); break;
+      }
+    }));
+    stage.addEventListener('keydown', (event) => {
+      if (event.key === '+') { scale = Math.min(4, scale * 1.25); render(); }
+      if (event.key === '-') { scale = Math.max(.25, scale / 1.25); render(); }
+      if (event.key === '0') fit();
+    });
+  }
+</script>

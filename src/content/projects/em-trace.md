@@ -36,6 +36,10 @@ limitations:
 figures:
 - FIG-EMT-01
 - FIG-EMT-02
+mainFigures:
+- FIG-EMT-01
+- FIG-EMT-02
+deepFigures: []
 materials:
 - overview
 - portfolio

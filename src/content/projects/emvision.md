@@ -41,6 +41,12 @@ figures:
 - FIG-EVM-02
 - FIG-EVM-03
 - FIG-EVM-04
+mainFigures:
+- FIG-EVM-03
+- FIG-EVM-01
+deepFigures:
+- FIG-EVM-02
+- FIG-EVM-04
 materials:
 - overview
 - portfolio

@@ -45,6 +45,13 @@ figures:
 - FIG-QC-04
 - FIG-QC-05
 - FIG-QC-06
+mainFigures:
+- FIG-QC-02
+- FIG-QC-03
+deepFigures:
+- FIG-QC-04
+- FIG-QC-05
+- FIG-QC-06
 materials:
 - overview
 - portfolio

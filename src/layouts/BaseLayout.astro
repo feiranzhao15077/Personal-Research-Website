@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { getCollection } from 'astro:content';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import FigureViewer from '../components/FigureViewer.astro';
 interface Props { title: string; description: string; path?: string; }
 const { title, description, path = '/' } = Astro.props;
 const profile = (await getCollection('site'))[0].data;
@@ -27,5 +28,6 @@ const canonical = new URL(path, origin).toString();
     <Header />
     <main id="main"><slot /></main>
     <Footer />
+    <FigureViewer />
   </body>
 </html>

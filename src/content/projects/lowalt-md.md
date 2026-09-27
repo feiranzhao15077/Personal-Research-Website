@@ -41,6 +41,10 @@ limitations:
 figures:
 - FIG-LOW-01
 - FIG-LOW-02
+mainFigures:
+- FIG-LOW-02
+- FIG-LOW-01
+deepFigures: []
 materials:
 - overview
 - portfolio

@@ -1,0 +1,15 @@
+---
+import type { Evidence } from '../lib/content';
+interface Props { evidence: Evidence; compact?: boolean; }
+const { evidence, compact = false } = Astro.props;
+const e = evidence.data;
+const [baseline, matched, difference] = e.metric.observations;
+---
+<div class:list={['flagship-result', { compact }]} aria-label="EMvision 配对端点证据">
+  <p class="result-label">{e.id} · Macro-F1（无量纲）</p>
+  <div class="endpoint-line"><div><span>{baseline.label.zh}</span><strong>{baseline.display}</strong></div><span class="endpoint-arrow" aria-hidden="true">→</span><div><span>{matched.label.zh}</span><strong>{matched.display}</strong></div></div>
+  <div class="difference-line"><span>配对差 Δ <strong>{difference.display}</strong></span><span>95% CI {e.uncertainty.display}</span></div>
+  <p class="result-context">{e.protocolContext.zh}</p>
+  <p class="result-boundary"><strong>不支持以下解读</strong>{e.boundary.zh}</p>
+  {!compact && <p class="result-source">底层 canonical 结果已内部核验；<a href={e.publicSource.url} target="_blank" rel="noopener noreferrer">阅读公开证据摘要 ↗</a></p>}
+</div>

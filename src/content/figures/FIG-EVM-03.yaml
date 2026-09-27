@@ -19,7 +19,12 @@ sourceSize: 1319702
 width: 1491
 height: 1055
 mime: image/png
-webDerivative: []
+webDerivative:
+- path: /evidence/derivatives/FIG-EVM-03-preview.webp
+  inputHash: 7b1fd9aacab26646325de9fd1f14b1f672a57eb24efcbd22906bc1e3752747bf
+  outputHash: 1844d5d6278160f0c94fa1a60ceed24bba9dbbc14b6605dc324bbdc4cdf4a6c9
+  transform: Resize to 900 px width, WebP quality 90; visual preview only, original available in viewer.
+  tool: sharp 0.34.5
 homepageEligible: true
 mobileSuitability:
   zh: 完整等比预览；细节可通过原图链接查看。

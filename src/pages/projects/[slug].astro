@@ -15,7 +15,8 @@ const d = project.data;
 const [allEvidence, allFigures, allMaterials] = await Promise.all([getCollection('evidence'), getCollection('figures'), getCollection('materials')]);
 const mainEvidence = ordered(d.mainEvidence, allEvidence);
 const deepEvidence = ordered(d.deepEvidence, allEvidence);
-const figures = ordered(d.figures, allFigures);
+const mainFigures = ordered(d.mainFigures, allFigures);
+const deepFigures = ordered(d.deepFigures, allFigures);
 const materials = ordered(d.materials, allMaterials).filter((item) => item.data.accessStatus !== 'PENDING');
 const { Content } = await render(project);
 const names: Record<string,string> = { 'em-trace': 'EM-Trace', 'lowalt-md': 'LowAlt-MD', emvision: 'EMvision', 'quadcontrol-lab': 'QuadControl-Lab' };
@@ -32,7 +33,7 @@ const related = (await getCollection('projects')).filter((item) => item.id !== p
     {deepEvidence.length > 0 && <details class="deep-evidence"><summary>展开审计细节与补充证据 <span aria-hidden="true">＋</span></summary><div class="evidence-grid">{deepEvidence.map((item) => <EvidenceBlock evidence={item} />)}</div></details>}
   </div></section>
 
-  <section class="section project-section figure-section" id="figures" aria-labelledby="figures-heading"><div class="shell"><div class="section-intro"><p class="eyebrow">04 / Figures</p><h2 id="figures-heading">代表图件</h2><p>图件保持公开源文件的像素与内容；点击可在新标签页查看完整原图。</p></div><div class="figures-grid">{figures.map((figure) => <FigureFrame figure={figure} />)}</div></div></section>
+  <section class="section project-section figure-section" id="figures" aria-labelledby="figures-heading"><div class="shell"><div class="section-intro"><p class="eyebrow">04 / Figures</p><h2 id="figures-heading">代表图件</h2><p>图件保留原始来源与核验信息。点击可放大、平移，也可打开完整原图。</p></div><div class:list={['figures-grid', {'figure-primary': d.slug === 'emvision'}]}>{mainFigures.map((figure) => <FigureFrame figure={figure} />)}</div>{deepFigures.length > 0 && <details class="deep-figures"><summary>查看更多研究图件（{deepFigures.length}）</summary><div class="figures-grid">{deepFigures.map((figure) => <FigureFrame figure={figure} />)}</div></details>}</div></section>
 
   <section class="section project-section learning-section" aria-labelledby="learning-heading"><div class="shell project-two-column"><div class="project-side"><p class="eyebrow">05 / Interpretation</p><h2 id="learning-heading">研究收获与限制</h2></div><div class="prose"><Content /><h3>明确的限制</h3><ul>{d.limitations.map((limit) => <li>{limit.zh}</li>)}</ul><div class="contribution-note"><h3>个人贡献</h3>{d.contributions.map((item) => <p>{item.zh}</p>)}</div></div></div></section>
 
