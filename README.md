@@ -1,48 +1,70 @@
 # Personal Research Website
 
-面向导师与科研交流的中文研究作品集静态基础版。四个项目通过研究脉络连接，所有主要数值都从证据 ID 引用，负结果、纠错和来源边界默认可见。
+赵斐然的中文科研主页；以问题、模型、实验、证据与边界组织四个项目。EMvision 是旗舰，QuadControl-Lab 为独立自主系统分支。公开入口为 Research-Portfolio，四个底层源仓库保持私有。
 
-## 本地运行
+## 安装与本地运行
 
-要求 Node.js 24（见 `.node-version`）。
+Node.js 24.20.0（`.node-version`），npm 11；锁定依赖版本。新机器：
 
-```bash
+```sh
 npm ci
+npx playwright install chromium webkit
 npm run dev
 ```
 
-静态构建与校验：
+浏览器默认矩阵包括本机 Microsoft Edge；运行完整矩阵前须安装 Edge。Firefox 在当前 Windows 主机出现 mozglue side-by-side 启动错误，不能记为通过。在可运行环境安装 `npx playwright install firefox`，设置 `PLAYWRIGHT_FIREFOX=1` 后执行测试。
 
-```bash
+## 校验与构建
+
+```sh
 npm run typecheck
-npm run validate:content
-npm run validate:public
 npm run build
-npm run test
+npm run validate:links
+npm test
 npm run test:browser
 ```
 
-`npm run build` 会先做内容交叉引用与公开内容扫描，再构建静态页，最后扫描 `dist/`。浏览器测试使用 Playwright 的 Chromium 和本机 Edge，包含 320px、393px、1366px、1440px 视口以及无 JavaScript 阅读检查。测试截图保存在 `.screenshots/`，不进入 Git。
+build 顺序为内容/引用/原图与 PDF 哈希校验 → 源码公开性扫描 → Astro SSG → dist 隐私扫描。浏览器覆盖 Chromium、Edge、WebKit，桌面/平板/手机/320px；另对五个内容页面跑 320/360/375/390/430/768/1024/1280/1440 宽度矩阵，检查无 JS、键盘、reduced-motion、查看器及失败恢复。模拟器结果不等于真机 Safari/Android 验收。截图和日志在忽略目录中。
 
-## 内容位置
+## 内容架构
 
-- `src/content/projects/`：四个项目的叙述、分层证据引用、图件与材料引用。
-- `src/content/evidence/`：24 个证据条目；每条含协议、不确定性、状态、边界和公开摘要入口。
-- `src/content/figures/`：13 张获准公开的原图元数据、SHA-256、尺寸与科学用途。
-- `src/content/materials/`：公开 PDF、GitHub 与待确认 CV 的访问状态。
-- `src/content/site/profile.yaml`：个人公开资料状态。
-- `src/data/research-map.yaml`：三节点电磁研究线与独立自主系统分支。
-- `public/evidence/originals/`：从冻结公开源逐字节复制的科研图。
-- `public/documents/research-overview.pdf`：公开研究概览 PDF，逐字节复制。
+- `src/content/projects/`：四项目 Markdown，引用证据、图件与材料 ID。
+- `src/content/evidence/`：24 个证据条目，数值、单位、条件、状态、边界与公开摘要。
+- `src/content/figures/`：13 张原图的 SHA-256、来源、用途及预览衍生记录。
+- `src/content/materials/`：研究概览、公开 GitHub 和待完成 CV。
+- `src/content/site/profile.yaml`：已批准中文姓名、学校专业和邮箱。
+- `src/data/research-map.yaml`：主题演进关系和独立分支。
+- `public/evidence/originals/`：保持原始字节的科学图件。
+- `public/documents/research-overview.pdf`：已公开两页概览原件。
 
-修改数值或状态时，应先更新对应证据条目和冻结来源；页面不另存同一指标。图件不得重绘科学内容。原图可点击打开，Phase 5 不加载动画或客户端脚本。
+只在对应证据条目维护数字；更改结论需先复核冻结来源。负结果和撤回解释不得移除。私有 canonical artifact 只保留允许公开的标识，链接指向公开摘要。精选代码不等于完整 n=20 复现包。
 
-## 当前发布状态
+## 静态发布配置
 
-本仓库是本地草稿。中文姓名、学校专业表述和公开邮箱已由用户确认；最终 CV 版本与正式站点域名仍待确定。网站没有虚构 CV 链接。默认 canonical 使用 `.invalid` 占位域名，页面包含 `noindex`，`robots.txt` 禁止抓取。
+Astro 6.4.8 + strict TypeScript + plain CSS，无 SSR、React、GSAP、WebGL、外部字体或第三方脚本。地图/导航/正文零 JS；原生 dialog 仅增强原图链接。
 
-正式发布前需完成内容审批、补齐以上资料、设定真实 `PUBLIC_SITE_URL`，并以 `RELEASE_MODE=production` 运行公开内容检查。当前没有配置 Git remote，也没有部署脚本。
+生产 URL 用两个变量定义，禁止在页面硬编码仓库路径：
 
-## 技术边界
+| 目标 | PUBLIC_SITE_URL | PUBLIC_BASE_PATH |
+|---|---|---|
+| GitHub 用户站 | https://feiranzhao15077.github.io | / |
+| GitHub 项目站 | https://feiranzhao15077.github.io | /personal-research-website/ |
+| 后续自定义域名 | 经批准的 HTTPS origin | / |
 
-Astro 6 SSG + 严格 TypeScript + CSS；无 React、GSAP、WebGL、第三方运行时脚本。Research Map 在窄屏变为纵向时间线，四旋翼控制分支保持独立。核心信息在静态 HTML 中，即使 JavaScript 不可用也可阅读。
+默认 build 为 noindex 草稿，robots 禁止抓取。正式发布前补齐批准的 CV PDF、确认 origin，使用以下 PowerShell 命令（这些命令只构建，不部署）：
+
+```powershell
+$env:PUBLIC_SITE_URL = 'https://feiranzhao15077.github.io'
+$env:PUBLIC_BASE_PATH = '/'
+npm run build:release
+```
+
+`build:release` 设置生产模式，身份/邮箱/CV/URL 未批准则失败；构建后扫描私有链接、占位信息，核对所有内部链接和锚点，并匿名检查外部材料。正式构建生成允许抓取的 robots/sitemap，自定义 404 仍 noindex。最终 CV 在 Phase 7B 接入普通“打开 CV”与“下载 CV”链接，无内嵌 PDF viewer。
+
+当前最终 CV 未完成，因此发布门禁应失败；站内保留无链接占位。未配置远端或部署工作流。下一阶段才配置受保护的 GitHub Actions 静态发布，具体平台规则在部署时复核。
+
+## 安全与资产
+
+npm audit 仍报告 Astro/Sharp/esbuild 告警；当前审核过的静态输出无服务端图片处理、上传、认证中间件、view transitions 或 hydrated islands，不将依赖带入生产服务器。构建仅处理可信本地图件，dev/preview 只绑定本机；若引入新运行时能力或不可信图片，必须重新审计并升级。禁止 `npm audit fix --force`。
+
+13 张科研图的再次公开已获所有者确认；原图与 PDF 保留来源。系统字体没有随站分发；站点无模板图片、外部图标包或技能仓库资产。该授权不自动授予访问者再许可权。dist、node_modules、测试产物、.env 与规划资料不提交。

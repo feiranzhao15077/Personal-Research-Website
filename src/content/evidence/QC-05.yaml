@@ -6,7 +6,7 @@ metric:
   name:
     zh: R_C
   display:
-    zh: R_C=0.9994896743377543；S_P、S_C 与最终 error 见 claim。
+    zh: R_C=0.9994896743377543。
   unit: rad；R_C 无量纲。
   observations: []
 protocolContext:

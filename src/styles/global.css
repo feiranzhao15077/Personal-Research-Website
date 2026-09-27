@@ -11,7 +11,7 @@
 @layer tokens {
   :root {
     --paper: #f7f7f2; --paper-deep: #efefea; --white: #fffefa;
-    --ink: #202c35; --ink-soft: #4b5b64; --ink-faint: #63727a;
+    --ink: #202c35; --ink-soft: #4b5b64; --ink-faint: #596870;
     --blue: #214f73; --blue-deep: #153b58; --blue-pale: #e7eef1;
     --line: #ccd5d6; --line-soft: #dce3e2;
     --warm: #795c2c; --warm-pale: #f4f0e8; --green: #38635c; --focus: #075fad;
@@ -288,3 +288,11 @@
   }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 }
+
+/* Release accessibility: predictable touch targets and viewer feedback. */
+.site-nav a, .breadcrumb a, .text-link, .hero-github, .footer-inner a { min-height: 44px; display: inline-flex; align-items: center; }
+.viewer-status { padding: .3rem 1rem; font-size: .85rem; }
+.viewer-controls button:disabled { opacity: .5; cursor: wait; }
+.viewer-stage { overscroll-behavior: contain; }
+
+.site-nav a { min-width: 44px; }

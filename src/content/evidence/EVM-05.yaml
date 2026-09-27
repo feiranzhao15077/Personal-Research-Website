@@ -6,7 +6,7 @@ metric:
   name:
     zh: 17/20 seeds；Macro-F1
   display:
-    zh: 17/20 seeds；Macro-F1=0.1667。
+    zh: 17/20 种子为单类预测；这些种子的 Macro-F1=0.1667。
   unit: seed count；Macro-F1 无量纲。
   observations: []
 protocolContext:

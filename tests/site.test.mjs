@@ -59,6 +59,6 @@ test('first-party CSS and interaction JavaScript stay within budget', () => {
   const bundledJs = jsFiles.reduce((n, file) => n + gzipSync(fs.readFileSync(path.join(cssDir,file))).length, 0);
   const inlineJs = [...read('index.html').matchAll(/<script[^>]*>([\s\S]*?)<\/script>/gi)].reduce((n, match) => n + gzipSync(match[1]).length, 0);
   const jsBytes = bundledJs + inlineJs;
-  assert.ok(jsBytes < 80 * 1024, `JS gzip ${jsBytes} > 80KB`);
+  assert.ok(jsBytes < 50 * 1024, `JS gzip ${jsBytes} > 50KB`);
   for (const file of files) assert.doesNotMatch(read(file), /<script[^>]+src="https?:/i, `${file}: third-party script`);
 });

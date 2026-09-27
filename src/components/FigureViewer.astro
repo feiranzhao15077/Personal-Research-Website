@@ -10,7 +10,8 @@
       <button type="button" data-viewer-action="close" aria-label="关闭图片">关闭 ×</button>
     </div>
   </div>
-  <div class="viewer-stage" tabindex="0" aria-label="图片查看区；可拖动或双指平移">
+  <p class="viewer-status" role="status" aria-live="polite"></p>
+  <div class="viewer-stage" tabindex="0" aria-label="图片查看区；放大后可触摸滑动、使用滚动条或方向键平移">
     <img class="viewer-image" alt="" draggable="false" />
   </div>
   <p class="viewer-caption"></p>
@@ -23,15 +24,26 @@
     const title = dialog.querySelector<HTMLElement>('.viewer-title')!;
     const caption = dialog.querySelector<HTMLElement>('.viewer-caption')!;
     const original = dialog.querySelector<HTMLAnchorElement>('.viewer-original')!;
+    const status = dialog.querySelector<HTMLElement>('.viewer-status')!;
+    const zoomButtons = dialog.querySelectorAll<HTMLButtonElement>('[data-viewer-action]:not([data-viewer-action="close"])');
     let scale = 1;
+    let fitted = true;
+    let ready = false;
+    let previousOverflow = '';
     let previousFocus: HTMLElement | null = null;
-    const render = () => { img.style.width = scale === 1 ? 'auto' : `${Math.round(img.naturalWidth * scale)}px`; img.style.maxWidth = scale === 1 ? '100%' : 'none'; img.style.maxHeight = scale === 1 ? '100%' : 'none'; };
-    const fit = () => { scale = 1; render(); stage.scrollTo(0, 0); };
+    const render = () => { img.style.width = fitted ? 'auto' : `${Math.round(img.naturalWidth * scale)}px`; img.style.maxWidth = fitted ? '100%' : 'none'; img.style.maxHeight = fitted ? '100%' : 'none'; };
+    const fit = () => { fitted = true; scale = 1; render(); stage.scrollTo(0, 0); };
+    const zoom = (factor: number) => { if (!ready) return; fitted = false; scale = Math.max(.25, Math.min(4, scale * factor)); render(); };
+    img.addEventListener('load', () => { ready = img.naturalWidth > 0; zoomButtons.forEach((button) => button.disabled = !ready); status.textContent = '放大后可滑动、滚动或使用方向键平移。'; });
+    img.addEventListener('error', () => { ready = false; zoomButtons.forEach((button) => button.disabled = true); status.textContent = '图片加载失败。可打开原图重试，或关闭查看器继续阅读。'; });
     document.querySelectorAll<HTMLAnchorElement>('.figure-image-link[data-figure-title]').forEach((link) => {
       link.addEventListener('click', (event) => {
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
         event.preventDefault();
         previousFocus = link;
+        ready = false;
+        zoomButtons.forEach((button) => button.disabled = true);
+        status.textContent = '正在加载原图…';
         img.src = link.href;
         img.alt = link.querySelector('img')?.alt || '';
         title.textContent = link.dataset.figureTitle || '';
@@ -39,23 +51,25 @@
         original.href = link.href;
         fit();
         dialog.showModal();
+        previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
         dialog.querySelector<HTMLButtonElement>('[data-viewer-action="close"]')?.focus();
       });
     });
     dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
-    dialog.addEventListener('close', () => { img.removeAttribute('src'); previousFocus?.focus(); });
+    dialog.addEventListener('close', () => { img.removeAttribute('src'); document.body.style.overflow = previousOverflow; previousFocus?.focus(); });
     dialog.querySelectorAll<HTMLButtonElement>('[data-viewer-action]').forEach((button) => button.addEventListener('click', () => {
       switch (button.dataset.viewerAction) {
         case 'close': dialog.close(); break;
         case 'fit': fit(); break;
-        case 'actual': scale = 1; img.style.maxWidth = 'none'; img.style.maxHeight = 'none'; img.style.width = `${img.naturalWidth}px`; break;
-        case 'in': scale = Math.min(4, scale * 1.25); render(); break;
-        case 'out': scale = Math.max(.25, scale / 1.25); render(); break;
+        case 'actual': fitted = false; scale = 1; render(); break;
+        case 'in': zoom(1.25); break;
+        case 'out': zoom(1 / 1.25); break;
       }
     }));
     stage.addEventListener('keydown', (event) => {
-      if (event.key === '+') { scale = Math.min(4, scale * 1.25); render(); }
-      if (event.key === '-') { scale = Math.max(.25, scale / 1.25); render(); }
+      if (event.key === '+') zoom(1.25);
+      if (event.key === '-') zoom(1 / 1.25);
       if (event.key === '0') fit();
     });
   }

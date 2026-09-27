@@ -1,4 +1,5 @@
 ---
+import { sitePath } from '../../lib/urls';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import EvidenceBlock from '../../components/EvidenceBlock.astro';
@@ -22,8 +23,8 @@ const { Content } = await render(project);
 const names: Record<string,string> = { 'em-trace': 'EM-Trace', 'lowalt-md': 'LowAlt-MD', emvision: 'EMvision', 'quadcontrol-lab': 'QuadControl-Lab' };
 const related = (await getCollection('projects')).filter((item) => item.id !== project.id);
 ---
-<BaseLayout title={d.title.zh} description={d.summary.zh} path={projectUrl(d.slug)}>
-  <div class="project-hero"><div class="shell"><nav class="breadcrumb" aria-label="面包屑"><a href="/">首页</a><span aria-hidden="true">/</span><span>{d.title.zh}</span></nav><p class="eyebrow">Research Project / {d.role.replaceAll('_', ' ')}</p><h1>{d.title.zh}</h1><p class="project-subtitle">{d.subtitle.zh}</p><p class="lead">{d.summary.zh}</p><div class="project-meta"><div><span>研究方向</span><strong>{d.researchTrack.zh}</strong></div><div><span>证据状态</span><strong>{d.status.zh}</strong></div></div></div></div>
+<BaseLayout title={`${d.title.zh} · ${d.subtitle.zh}`} description={d.summary.zh} path={projectUrl(d.slug)}>
+  <div class="project-hero"><div class="shell"><nav class="breadcrumb" aria-label="面包屑"><a href={sitePath('/')}>首页</a><span aria-hidden="true">/</span><span>{d.title.zh}</span></nav><p class="eyebrow">Research Project / {d.role.replaceAll('_', ' ')}</p><h1>{d.title.zh}</h1><p class="project-subtitle">{d.subtitle.zh}</p><p class="lead">{d.summary.zh}</p><div class="project-meta"><div><span>研究方向</span><strong>{d.researchTrack.zh}</strong></div><div><span>证据状态</span><strong>{d.status.zh}</strong></div></div></div></div>
 
   <section class="section project-section" aria-labelledby="question-heading"><div class="shell project-two-column"><div class="project-side"><p class="eyebrow">01 / Question</p><h2 id="question-heading">研究问题</h2></div><div><p class="large-question">{d.researchQuestion.zh}</p><p>{d.whyItMatters.zh}</p></div></div></section>
 
@@ -37,7 +38,7 @@ const related = (await getCollection('projects')).filter((item) => item.id !== p
 
   <section class="section project-section learning-section" aria-labelledby="learning-heading"><div class="shell project-two-column"><div class="project-side"><p class="eyebrow">05 / Interpretation</p><h2 id="learning-heading">研究收获与限制</h2></div><div class="prose"><Content /><h3>明确的限制</h3><ul>{d.limitations.map((limit) => <li>{limit.zh}</li>)}</ul><div class="contribution-note"><h3>个人贡献</h3>{d.contributions.map((item) => <p>{item.zh}</p>)}</div></div></div></section>
 
-  <section class="section project-section project-materials" id="materials" aria-labelledby="project-materials-heading"><div class="shell"><div class="section-intro"><p class="eyebrow">06 / Sources</p><h2 id="project-materials-heading">公开资料</h2></div><div class="source-list">{materials.map((material) => <a href={material.data.publicUrl} target="_blank" rel="noopener noreferrer"><span>{material.data.type.replaceAll('_', ' ')}</span><strong>{material.data.label.zh}</strong><span aria-hidden="true">↗</span></a>)}</div></div></section>
+  <section class="section project-section project-materials" id="materials" aria-labelledby="project-materials-heading"><div class="shell"><div class="section-intro"><p class="eyebrow">06 / Sources</p><h2 id="project-materials-heading">公开资料</h2></div><div class="source-list">{materials.map((material) => <a href={sitePath(material.data.publicUrl)} target="_blank" rel="noopener noreferrer"><span>{material.data.type.replaceAll('_', ' ')}</span><strong>{material.data.label.zh}</strong><span aria-hidden="true">↗</span></a>)}</div></div></section>
 
   <section class="section related-section" aria-labelledby="related-heading"><div class="shell"><p class="eyebrow">Next / Explore</p><h2 id="related-heading">继续浏览研究</h2><div class="related-links">{related.map((item) => <a href={projectUrl(item.data.slug)}>{names[item.data.slug]} <span aria-hidden="true">↗</span></a>)}</div></div></section>
 </BaseLayout>

@@ -5,10 +5,13 @@ import YAML from 'yaml';
 const root = path.resolve(import.meta.dirname, '..');
 const release = process.env.RELEASE_MODE === 'production';
 const scanDist = process.argv.includes('--dist');
-const directories = scanDist ? ['dist'] : ['src/content', 'src/data', 'public'];
+const directories = scanDist ? ['dist'] : ['src', 'public'];
 const problems = [];
+const approvedEmail = YAML.parse(fs.readFileSync(path.join(root, 'src/content/site/profile.yaml'), 'utf8')).publicEmail;
 const patterns = [
-  [/(?:[A-Za-z]:\\(?:Users|Documents|Desktop|不如自成宇宙)|file:\/\/)/i, 'local filesystem path'],
+  [/raw\.githubusercontent\.com\/feiranzhao15077\/(?:EMvision|LowAlt-MD|EM-Trace|QuadControl-Lab)(?:\/|\b)/i, 'private raw artifact URL'],
+  [/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bgh[pousr]_[A-Za-z0-9]{20,}|\bgithub_pat_[A-Za-z0-9_]{20,}/, 'credential material'],
+  [/(?:\b[A-Za-z]:[\\/]|file:\/\/)/i, 'local filesystem path'],
   [/(?:localhost|127\.0\.0\.1)(?::\d+)?/i, 'local host'],
   [/github\.com\/feiranzhao15077\/(?:EMvision|LowAlt-MD|EM-Trace|QuadControl-Lab)(?:\/|\b)/i, 'unapproved project repository URL'],
   [/(?:api[_-]?key|access[_-]?token|password|secret)\s*[:=]\s*['"]?[A-Za-z0-9_\-]{12,}/i, 'credential pattern'],
@@ -19,6 +22,8 @@ function walk(directory) {
     if (item.isDirectory()) walk(relative);
     else if (/\.(?:md|yaml|yml|html|xml|txt|svg|json|js|css)$/i.test(item.name)) {
       const text = fs.readFileSync(path.join(root, relative), 'utf8');
+      if (release && scanDist && /\bTBD\b|\.invalid|PLACEHOLDER/.test(text)) problems.push(`${relative}: unresolved release placeholder`);
+      for (const email of text.matchAll(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g)) if (email[0] !== approvedEmail) problems.push(`${relative}: unapproved email`);
       for (const [regex, label] of patterns) if (regex.test(text)) problems.push(`${relative}: ${label}`);
     }
   }
@@ -27,7 +32,10 @@ for (const directory of directories) if (fs.existsSync(path.join(root, directory
 if (release) {
   const profile = YAML.parse(fs.readFileSync(path.join(root, 'src/content/site/profile.yaml'), 'utf8'));
   const origin = process.env.PUBLIC_SITE_URL || '';
-  if (!/^https:\/\/[^/]+\.[^/]+/.test(origin) || origin.endsWith('.invalid')) problems.push('PUBLIC_SITE_URL requires an approved production origin');
+  try {
+    const url = new URL(origin);
+    if (url.protocol !== 'https:' || !url.hostname.includes('.') || /(?:\.invalid|\.localhost|\.test|\.example)$/.test(url.hostname) || /^(?:localhost|127\.|0\.|192\.168\.|10\.)/.test(url.hostname) || url.pathname !== '/' || url.search || url.hash || url.username || url.password) throw new Error();
+  } catch { problems.push('PUBLIC_SITE_URL requires an approved HTTPS production origin; configure paths with PUBLIC_BASE_PATH'); }
   for (const [key, status] of [['publicName','nameStatus'], ['schoolWording','schoolStatus'], ['publicEmail','emailStatus']]) {
     if (profile[status] !== 'APPROVED' || (typeof profile[key] === 'string' ? profile[key] === 'TBD' : profile[key]?.zh === 'TBD')) problems.push(`${key} remains unapproved`);
   }
@@ -36,6 +44,8 @@ if (release) {
   if (scanDist) {
     const index = fs.readFileSync(path.join(root, 'dist/index.html'), 'utf8');
     if (/noindex|\.invalid/.test(index)) problems.push('dist contains draft indexing metadata');
+    const robots = fs.readFileSync(path.join(root, 'dist/robots.txt'), 'utf8');
+    if (!robots.includes('Sitemap: ') || /Disallow: \/(?:\s|$)/.test(robots)) problems.push('production robots configuration is invalid');
   }
 }
 if (problems.length) { console.error(problems.map((x) => `FAIL ${x}`).join('\n')); process.exit(1); }

@@ -1,11 +1,12 @@
 import type { CollectionEntry } from 'astro:content';
+import { sitePath } from './urls';
 
 export type Evidence = CollectionEntry<'evidence'>;
 export type Figure = CollectionEntry<'figures'>;
 export type Material = CollectionEntry<'materials'>;
 export type Project = CollectionEntry<'projects'>;
 
-export const projectUrl = (slug: string) => `/projects/${slug}/`;
+export const projectUrl = (slug: string) => sitePath(`/projects/${slug}/`);
 export const byId = <T extends { id: string; data?: { id?: string } }>(items: T[]) => new Map(items.map((item) => [item.data?.id ?? item.id, item]));
 export const ordered = <T extends { id: string; data?: { id?: string } }>(ids: string[], items: T[]) => {
   const map = byId(items);
