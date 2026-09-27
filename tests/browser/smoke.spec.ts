@@ -15,6 +15,9 @@ async function loadFigures(page: import('@playwright/test').Page) {
 test('research routes, figures, boundaries, materials and width stay available', async ({ page }, testInfo) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /从物理模型/ })).toBeVisible();
+  await expect(page.locator('.hero-note')).toContainText('本科生');
+  await expect(page.locator('.map-qualifier')).toContainText('不表示数据、代码依赖或因果链');
+  await expect(page.locator('.site-footer')).toContainText('Built with Astro');
   for (const id of projects) await expect(page.locator(`a[href="/projects/${id}/"]`).first()).toBeVisible();
   await expect(page.locator('#research-map')).toBeVisible();
   await expect(page.locator('a[href="/documents/research-overview.pdf"]').first()).toBeVisible();
@@ -37,6 +40,7 @@ test('research routes, figures, boundaries, materials and width stay available',
     await expect(page.locator('.boundary').first()).toBeVisible();
     await expect(page.locator('.figure-frame').first()).toBeVisible();
     await expect(page.locator('.source-list a').first()).toBeVisible();
+    if (slug === 'emvision') await expect(page.locator('.highlight-grid > div')).toHaveCount(4);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
     if (slug === 'emvision' && (testInfo.project.name === 'chromium-desktop' || testInfo.project.name === 'chromium-mobile')) {
       await loadFigures(page);
