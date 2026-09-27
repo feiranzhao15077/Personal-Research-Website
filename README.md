@@ -39,7 +39,7 @@ npm run test:browser
 
 ## 当前发布状态
 
-本仓库是本地草稿。公开姓名、学校表述、CV 版本、电子邮件和正式站点域名未获最终确认，分别以 `PENDING` 或 `TBD` 显式记录。网站没有虚构 `mailto:` 或 CV 链接。默认 canonical 使用 `.invalid` 占位域名，页面包含 `noindex`，`robots.txt` 禁止抓取。
+本仓库是本地草稿。中文姓名、学校专业表述和公开邮箱已由用户确认；最终 CV 版本与正式站点域名仍待确定。网站没有虚构 CV 链接。默认 canonical 使用 `.invalid` 占位域名，页面包含 `noindex`，`robots.txt` 禁止抓取。
 
 正式发布前需完成内容审批、补齐以上资料、设定真实 `PUBLIC_SITE_URL`，并以 `RELEASE_MODE=production` 运行公开内容检查。当前没有配置 Git remote，也没有部署脚本。
 

@@ -76,9 +76,9 @@ for (const m of materials) {
   check(m.accessStatus === 'PENDING' ? !m.publicUrl : Boolean(m.publicUrl), `${m.id}: access / URL mismatch`);
   if (m.publicUrl?.startsWith('/')) check(fs.existsSync(path.join(root, 'public', m.publicUrl.slice(1))), `${m.id}: local public asset missing`);
 }
-check(profile.publicName?.zh === 'TBD' && profile.nameStatus === 'PENDING', 'Name placeholder not explicit');
-check(profile.emailStatus === 'PENDING' && profile.publicEmail === 'TBD', 'Email placeholder not explicit');
-check(profile.schoolStatus === 'PENDING', 'School placeholder not explicit');
+check(profile.nameStatus === 'APPROVED' && profile.publicName?.zh && profile.publicName.zh !== 'TBD', 'Approved public name missing');
+check(profile.emailStatus === 'APPROVED' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profile.publicEmail), 'Approved email missing');
+check(profile.schoolStatus === 'APPROVED' && profile.schoolWording?.zh && profile.schoolWording.zh !== 'TBD', 'Approved school wording missing');
 check(map.nodes.length === 4 && map.relationships.length === 2, 'Research Map topology');
 check(map.nodes.filter((n) => n.trackId === 'electromagnetic').length === 3, 'Main research track');
 check(map.nodes.filter((n) => n.trackId === 'autonomous').length === 1, 'Autonomous branch');

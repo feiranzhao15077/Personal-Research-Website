@@ -1,18 +1,16 @@
 id: profile
 publicName:
-  zh: TBD
-  en: TBD
-nameStatus: PENDING
+  zh: 赵斐然
+nameStatus: APPROVED
 schoolWording:
-  zh: TBD
-  en: TBD
-schoolStatus: PENDING
+  zh: 西安邮电大学理学院应用物理学
+schoolStatus: APPROVED
 researchIdentity:
   zh: 应用物理 · 计算电磁 · 智能感知
 statement:
   zh: 围绕电磁感知与无人系统，将物理模型转化为可审计的数值实验。
-publicEmail: TBD
-emailStatus: PENDING
+publicEmail: zhaofeiran0724@outlook.com
+emailStatus: APPROVED
 githubUrl: https://github.com/feiranzhao15077/Research-Portfolio
 cvMaterialId: cv
 overviewMaterialId: overview

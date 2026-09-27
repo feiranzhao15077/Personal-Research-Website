@@ -1,9 +1,11 @@
 ---
 import '../styles/global.css';
+import { getCollection } from 'astro:content';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 interface Props { title: string; description: string; path?: string; }
 const { title, description, path = '/' } = Astro.props;
+const profile = (await getCollection('site'))[0].data;
 const origin = import.meta.env.PUBLIC_SITE_URL || 'https://research.example.invalid';
 const isPlaceholder = origin.includes('.invalid');
 const canonical = new URL(path, origin).toString();
@@ -18,7 +20,7 @@ const canonical = new URL(path, origin).toString();
     {isPlaceholder && <meta name="robots" content="noindex,nofollow" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <title>{title} · Research Portfolio</title>
+    <title>{title} · {profile.publicName.zh}</title>
   </head>
   <body>
     <a class="skip-link" href="#main">跳转到正文</a>
