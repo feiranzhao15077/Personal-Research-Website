@@ -1,0 +1,31 @@
+id: EMT-03
+project: em-trace
+claim:
+  zh: 不同 actual calculation box 会显著改变整体响应。
+metric:
+  name:
+    zh: body-only
+  display:
+    zh: body-only：85.807734%、16.809791 dB；body+arms：33.134155%、1.371822 dB。
+  unit: complex-field relative change %；RCS change dB。
+  observations: []
+protocolContext:
+  zh: 统一几何、材料、激励、solver 与观察方向，只改变原历史自动域与 full-quadrotor 统一域。
+uncertainty:
+  kind: CONTEXT
+  detail:
+    zh: 按冻结控制定义；不应与 mesh effect 分离归因。
+status: SUPPORTED
+boundary:
+  zh: 单独归因于边界反射；把差值解释成 body/arms 独立贡献；将 OpenAddSpaceFactor=0.5 说成 0.5λ 物理留白。
+source:
+  ref: emtrace-v2-freeze
+  revision: '2026-09-13'
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/em-trace/evidence/engineering_audit.md
+websiteUsage:
+- PROJECT_L3

@@ -1,0 +1,28 @@
+id: FIG-EVM-02
+project: emvision
+path: /evidence/originals/FIG-EVM-02-476ff5ab.png
+title:
+  zh: 路径与交互审计
+caption:
+  zh: 协议路径与条件交互审计图；路径顺序摘要不等于物理因果贡献。
+alt:
+  zh: 路径与交互审计；协议路径与条件交互审计图；路径顺序摘要不等于物理因果贡献。
+type: DATA
+assetClass: DATA
+scientificPurpose:
+  zh: 协议路径与条件交互审计图；路径顺序摘要不等于物理因果贡献。
+sourceRef: research-portfolio-public-copy
+sourceProject: Research-Portfolio
+sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceHash: 476ff5ab866c559db1323b792dc16e5f3ecb36591a2c9b965a4d6aa0203ec96d
+sourceSize: 251328
+width: 3231
+height: 3199
+mime: image/png
+webDerivative: []
+homepageEligible: false
+mobileSuitability:
+  zh: 完整等比预览；细节可通过原图链接查看。
+evidenceIds:
+- EVM-03
+- EVM-04

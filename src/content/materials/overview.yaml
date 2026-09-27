@@ -1,0 +1,14 @@
+id: overview
+label:
+  zh: 两页研究概览 PDF
+type: RESEARCH_OVERVIEW
+publicUrl: /documents/research-overview.pdf
+accessStatus: PUBLIC
+sourceProject: Research-Portfolio
+sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceHash: 596a059bbb2d803c3e43aed231369784eeb7d46a79eb457ac86e3c2dfaa7d3d0
+sourceSize: 2313038
+recommendedPlacement:
+- HERO
+- MATERIALS
+- PROJECT

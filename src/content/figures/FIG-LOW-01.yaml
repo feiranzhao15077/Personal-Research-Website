@@ -1,0 +1,28 @@
+id: FIG-LOW-01
+project: lowalt-md
+path: /evidence/originals/FIG-LOW-01-e10caa37.png
+title:
+  zh: 相干与非相干功率
+caption:
+  zh: 当前模型的两个距离工况对照；图中变化不能推广为普适距离规律。
+alt:
+  zh: 相干与非相干功率；当前模型的两个距离工况对照；图中变化不能推广为普适距离规律。
+type: DATA
+assetClass: DATA
+scientificPurpose:
+  zh: 当前模型的两个距离工况对照；图中变化不能推广为普适距离规律。
+sourceRef: research-portfolio-public-copy
+sourceProject: Research-Portfolio
+sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceHash: e10caa37d86198eaabbe8e0974577efe4ff825b939f0f684d6aa1ebd920424a3
+sourceSize: 276214
+width: 1460
+height: 1100
+mime: image/png
+webDerivative: []
+homepageEligible: false
+mobileSuitability:
+  zh: 完整等比预览；细节可通过原图链接查看。
+evidenceIds:
+- LOW-04
+- LOW-05

@@ -1,0 +1,31 @@
+id: LOW-05
+project: lowalt-md
+claim:
+  zh: 当前配置呈相长倾向。
+metric:
+  name:
+    zh: 2.4181。
+  display:
+    zh: 2.4181。
+  unit: 功率比，无量纲。
+  observations: []
+protocolContext:
+  zh: 400 m；与 LOW-04 相同的模型边界。
+uncertainty:
+  kind: INTERVAL
+  detail:
+    zh: 单一冻结工况；无统计 CI。
+status: SUPPORTED
+boundary:
+  zh: 距离增加必然从相消转为相长。
+source:
+  ref: lowalt-physics-v2-freeze
+  revision: 8268caa
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/lowalt-md/evidence/validation_summary.md
+websiteUsage:
+- PROJECT_L2

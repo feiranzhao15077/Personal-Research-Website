@@ -1,0 +1,31 @@
+id: LOW-07
+project: lowalt-md
+claim:
+  zh: 指出 Track A 有类别能量 shortcut 风险。
+metric:
+  name:
+    zh: 定性证据；本内容包不复制单一高分数字。
+  display:
+    zh: 定性证据；本内容包不复制单一高分数字。
+  unit: 不适用。
+  observations: []
+protocolContext:
+  zh: synthetic generator；Track A 保留原散射幅度/envelope。
+uncertainty:
+  kind: CONTEXT
+  detail:
+    zh: 按当前合成数据与协议解释。
+status: SUPPORTED
+boundary:
+  zh: 真实 RCS、真实接收功率或真实目标识别能力。
+source:
+  ref: lowalt-physics-v2-freeze
+  revision: 8268caa
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/lowalt-md/evidence/validation_summary.md
+websiteUsage:
+- PROJECT_L3

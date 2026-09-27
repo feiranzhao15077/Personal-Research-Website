@@ -1,0 +1,28 @@
+id: FIG-QC-05
+project: quadcontrol-lab
+path: /evidence/originals/FIG-QC-05-abee3245.svg
+title:
+  zh: Layer A 输入机制
+caption:
+  zh: 输入层机制检查示意；只支持当前合成输入合同下的解释。
+alt:
+  zh: Layer A 输入机制；输入层机制检查示意；只支持当前合成输入合同下的解释。
+type: SCHEMATIC
+assetClass: SCHEMATIC
+scientificPurpose:
+  zh: 输入层机制检查示意；只支持当前合成输入合同下的解释。
+sourceRef: research-portfolio-public-copy
+sourceProject: Research-Portfolio
+sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceHash: abee3245bca365d97f9da4325341fef844fd2d6baa72e3a7d48ffe39f7da5961
+sourceSize: 16343
+width: 894
+height: 332
+mime: image/svg+xml
+webDerivative: []
+homepageEligible: false
+mobileSuitability:
+  zh: 完整等比预览；细节可通过原图链接查看。
+evidenceIds:
+- QC-02
+originCommit: 123ab8a57f355e7c615a9c841fcd94b84b5ddd91

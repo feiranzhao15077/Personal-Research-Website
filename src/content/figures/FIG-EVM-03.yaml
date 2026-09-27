@@ -1,0 +1,27 @@
+id: FIG-EVM-03
+project: emvision
+path: /evidence/originals/FIG-EVM-03-7b1fd9aa.png
+title:
+  zh: C/G/P 全因子协议
+caption:
+  zh: 训练端 C/G/P 全因子设计示意；这是协议图，不是结果证明。
+alt:
+  zh: C/G/P 全因子协议；训练端 C/G/P 全因子设计示意；这是协议图，不是结果证明。
+type: SCHEMATIC
+assetClass: SCHEMATIC
+scientificPurpose:
+  zh: 训练端 C/G/P 全因子设计示意；这是协议图，不是结果证明。
+sourceRef: research-portfolio-public-copy
+sourceProject: Research-Portfolio
+sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceHash: 7b1fd9aacab26646325de9fd1f14b1f672a57eb24efcbd22906bc1e3752747bf
+sourceSize: 1319702
+width: 1491
+height: 1055
+mime: image/png
+webDerivative: []
+homepageEligible: true
+mobileSuitability:
+  zh: 完整等比预览；细节可通过原图链接查看。
+evidenceIds:
+- EVM-01

@@ -1,0 +1,33 @@
+id: EMT-01
+project: em-trace
+claim:
+  zh: 当前保存工程中方向与极化的正确读法，以及方法链校正。
+metric:
+  name:
+    zh: 方向/坐标合同，无性能指标。
+  display:
+    zh: 方向/坐标合同，无性能指标。
+  unit: degree；场分量为复电场。
+  observations: []
+protocolContext:
+  zh: PlaneWave.Normal=(+1,0,0)；10 GHz、HH、E 沿全局 +Y；CST 局部球坐标基换算。
+uncertainty:
+  kind: CONTEXT
+  detail:
+    zh: 方向语义与基矢合同经工程设置和脚本核查；不代表所有历史 CSV 已重新求解或提取。
+status: CORRECTED
+boundary:
+  zh: 历史 φ=0° 数据是后向结果；所有旧数据已重算。
+source:
+  ref: emtrace-v2-freeze
+  revision: '2026-09-13'
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/em-trace/evidence/engineering_audit.md
+websiteUsage:
+- HOME
+- PROJECT_L1
+- PROJECT_L2

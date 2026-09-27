@@ -1,0 +1,28 @@
+id: FIG-QC-04
+project: quadcontrol-lab
+path: /evidence/originals/FIG-QC-04-acec4f32.svg
+title:
+  zh: 估计器发散时间线
+caption:
+  zh: 当前确定性协议中的估计器偏差和发散记录。
+alt:
+  zh: 估计器发散时间线；当前确定性协议中的估计器偏差和发散记录。
+type: DATA
+assetClass: DATA
+scientificPurpose:
+  zh: 当前确定性协议中的估计器偏差和发散记录。
+sourceRef: research-portfolio-public-copy
+sourceProject: Research-Portfolio
+sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceHash: acec4f3211bed2ab2c1232f10df97cdd146b02089306b03833f0ad41e59f557a
+sourceSize: 31711
+width: 743
+height: 671
+mime: image/svg+xml
+webDerivative: []
+homepageEligible: false
+mobileSuitability:
+  zh: 完整等比预览；细节可通过原图链接查看。
+evidenceIds:
+- QC-03
+originCommit: 123ab8a57f355e7c615a9c841fcd94b84b5ddd91

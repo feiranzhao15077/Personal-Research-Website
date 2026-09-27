@@ -1,0 +1,33 @@
+id: EVM-04
+project: emvision
+claim:
+  zh: frozen protocol 下的 path-order summary。
+metric:
+  name:
+    zh: C
+  display:
+    zh: C=0.39550642504774985；G=0.2955653776540127；P=0.11222440824215636。
+  unit: 冻结协议定义下的路径顺序摘要；不解释为物理因果贡献。
+  observations: []
+protocolContext:
+  zh: protocol_version 2026-08-29-factorial-attribution-v1；20 paired seeds；50,000 次 paired bootstrap。
+uncertainty:
+  kind: INTERVAL
+  detail:
+    zh: C 95% CI [0.3735252347403782, 0.4169834679690903]；G [0.2707325511772111, 0.32053561529972135]；P
+      [0.08756179353349226, 0.13899327205946163]。
+status: INTERNALLY_VERIFIED
+boundary:
+  zh: causal attribution、物理因果贡献、跨协议重要性排序。
+source:
+  ref: emvision-n20-frozen
+  revision: 4097697972eec67d67206d534e482b038fa5989a
+  hash: e242719ef15050df1966676939da87c20eb6d9a96a4e4bb154b4d5e0f67a3b87
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/emvision/evidence/key_results.md
+websiteUsage:
+- PROJECT_L3

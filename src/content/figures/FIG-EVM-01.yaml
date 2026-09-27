@@ -1,0 +1,27 @@
+id: FIG-EVM-01
+project: emvision
+path: /evidence/originals/FIG-EVM-01-5f4c7521.png
+title:
+  zh: 全因子角点表现
+caption:
+  zh: 冻结合成协议的角点表现；结果与统计区间以 EVM-02 为准。
+alt:
+  zh: 全因子角点表现；冻结合成协议的角点表现；结果与统计区间以 EVM-02 为准。
+type: DATA
+assetClass: DATA
+scientificPurpose:
+  zh: 冻结合成协议的角点表现；结果与统计区间以 EVM-02 为准。
+sourceRef: research-portfolio-public-copy
+sourceProject: Research-Portfolio
+sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceHash: 5f4c7521a116f2a3f396bed964542f1e372076ecc1974eb0c6f5cc4c923ce564
+sourceSize: 125158
+width: 2670
+height: 1679
+mime: image/png
+webDerivative: []
+homepageEligible: false
+mobileSuitability:
+  zh: 完整等比预览；细节可通过原图链接查看。
+evidenceIds:
+- EVM-02

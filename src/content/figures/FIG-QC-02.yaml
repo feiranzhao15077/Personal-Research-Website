@@ -1,0 +1,28 @@
+id: FIG-QC-02
+project: quadcontrol-lab
+path: /evidence/originals/FIG-QC-02-d56acb62.svg
+title:
+  zh: 观测来源配对架构
+caption:
+  zh: 配对实验只改变控制器消费的观测来源；其余冻结条件保持一致。
+alt:
+  zh: 观测来源配对架构；配对实验只改变控制器消费的观测来源；其余冻结条件保持一致。
+type: SCHEMATIC
+assetClass: SCHEMATIC
+scientificPurpose:
+  zh: 配对实验只改变控制器消费的观测来源；其余冻结条件保持一致。
+sourceRef: research-portfolio-public-copy
+sourceProject: Research-Portfolio
+sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceHash: d56acb62397de943595d9277d21f280153eb15ad819018759cc1cdf18f63c13f
+sourceSize: 11056
+width: 786
+height: 448
+mime: image/svg+xml
+webDerivative: []
+homepageEligible: true
+mobileSuitability:
+  zh: 完整等比预览；细节可通过原图链接查看。
+evidenceIds:
+- QC-01
+originCommit: 123ab8a57f355e7c615a9c841fcd94b84b5ddd91

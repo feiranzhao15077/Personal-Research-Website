@@ -1,0 +1,33 @@
+id: LOW-06
+project: lowalt-md
+claim:
+  zh: 当前冻结协议没有支持稳定多环境增益；负结果保留在 What We Learned。
+metric:
+  name:
+    zh: 200 m Track B multi−best-single
+  display:
+    zh: 200 m Track B multi−best-single：Logistic −0.0322 [−0.0676, 0.0033]；MLP −0.0434 [−0.0833, −0.0035]。400
+      m：Logistic −0.0158 [−0.0295, −0.0022]；MLP −0.0222 [−0.0511, 0.0068]。
+  unit: Macro-F1 绝对差；区间为配对 CI。
+  observations: []
+protocolContext:
+  zh: 20/40 m 训练 → 未见 80 m 测试；同时匹配 unique latent-state 与 waveform budget；Physics Model v2、Track B、当前简单联合训练。
+uncertainty:
+  kind: INTERVAL
+  detail:
+    zh: 上述配对 CI。
+status: NEGATIVE_RESULT
+boundary:
+  zh: 多环境训练无效或域泛化普遍失败。
+source:
+  ref: lowalt-physics-v2-freeze
+  revision: 8268caa
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/lowalt-md/evidence/validation_summary.md
+websiteUsage:
+- PROJECT_L2
+- PROJECT_L3

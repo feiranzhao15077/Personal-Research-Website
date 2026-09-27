@@ -1,0 +1,32 @@
+id: EVM-01
+project: emvision
+claim:
+  zh: 冻结合成协议内的训练因素比较。
+metric:
+  name:
+    zh: 2×2×2；n
+  display:
+    zh: 2×2×2；n=20 paired seeds。
+  unit: 无量纲设计参数。
+  observations: []
+protocolContext:
+  zh: 稀疏生成器；fp=9.5 GHz、f0=10 GHz 联合外推测试域；角点共享测试目标，测试数据不用于拟合或选择。
+uncertainty:
+  kind: INTERVAL
+  detail:
+    zh: 设计信息，无区间。
+status: SUPPORTED
+boundary:
+  zh: 真实雷达性能、真实电磁环境泛化、物理机制因果证明。
+source:
+  ref: emvision-n20-frozen
+  revision: 4097697972eec67d67206d534e482b038fa5989a
+  hash: e242719ef15050df1966676939da87c20eb6d9a96a4e4bb154b4d5e0f67a3b87
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/emvision/evidence/key_results.md
+websiteUsage:
+- PROJECT_L2

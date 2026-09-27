@@ -1,0 +1,31 @@
+id: QC-03
+project: quadcontrol-lab
+claim:
+  zh: 当前 parent artifact 可重放且检查通过。
+metric:
+  name:
+    zh: 10,000 rows；328,049 fields；0 mismatches；B-1 993/993。
+  display:
+    zh: 10,000 rows；328,049 fields；0 mismatches；B-1 993/993。
+  unit: rows、recursive fields、checks。
+  observations: []
+protocolContext:
+  zh: 确定性 parent replay；B-1 为冻结检查集。
+uncertainty:
+  kind: CONTEXT
+  detail:
+    zh: 审计覆盖数量；不代表统计不确定性。
+status: SUPPORTED
+boundary:
+  zh: 现实系统重现性或未列出的随机性条件已验证。
+source:
+  ref: quadcontrol-final-result-freeze
+  revision: 427ed6a0ef3c45805b565f09369c2deb34888c7c
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/QuadControl-Lab/evidence/validation_summary.md
+websiteUsage:
+- PROJECT_L3

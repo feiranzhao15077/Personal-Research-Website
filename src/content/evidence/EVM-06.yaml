@@ -1,0 +1,32 @@
+id: EVM-06
+project: emvision
+claim:
+  zh: 说明存在负对照检查。
+metric:
+  name:
+    zh: 接近三分类 chance；不补具体数值。
+  display:
+    zh: 接近三分类 chance；不补具体数值。
+  unit: Macro-F1 / 三分类基线，具体字段须等 raw JSON。
+  observations: []
+protocolContext:
+  zh: EVM-01 合成协议。
+uncertainty:
+  kind: CONTEXT
+  detail:
+    zh: 未明确。
+status: SUPPORTED
+boundary:
+  zh: 据此宣称无数据泄漏、无 shortcut 或因果唯一性。
+source:
+  ref: emvision-public-audit-summary
+  revision: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceVisibility: PUBLIC_SUMMARY_ONLY
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/emvision/evidence/key_results.md
+websiteUsage:
+- PROJECT_L2
+- PROJECT_L3

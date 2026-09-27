@@ -1,0 +1,31 @@
+id: LOW-03
+project: lowalt-md
+claim:
+  zh: 当前参数范围下，几何传播相位异质性更突出。
+metric:
+  name:
+    zh: 0.776588 rad；3.23×10^-7 rad。
+  display:
+    zh: 0.776588 rad；3.23×10^-7 rad。
+  unit: rad。
+  observations: []
+protocolContext:
+  zh: 200 m 当前主工况；两个标准差针对不同来源/对象，不能视为同一量的重复测量。
+uncertainty:
+  kind: INTERVAL
+  detail:
+    zh: 模型诊断量；未提供统计 CI。
+status: SUPPORTED
+boundary:
+  zh: 严格隔离单一因素的普适因果证明。
+source:
+  ref: lowalt-physics-v2-freeze
+  revision: 8268caa
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/lowalt-md/evidence/validation_summary.md
+websiteUsage:
+- PROJECT_L3

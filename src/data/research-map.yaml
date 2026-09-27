@@ -1,0 +1,78 @@
+id: research-map
+tracks:
+- id: electromagnetic
+  label:
+    zh: Electromagnetic Sensing · 电磁感知
+  role: MAIN
+- id: autonomous
+  label:
+    zh: Autonomous Systems · 自主系统
+  role: SEPARATE_BRANCH
+nodes:
+- id: em-trace
+  projectId: em-trace
+  trackId: electromagnetic
+  role:
+    zh: 计算电磁工程基础
+  question:
+    zh: 几何、坐标、传播方向与极化约定如何保持一致并可审计？
+  method:
+    zh: 参数化 CAD → CST → 复场审计 → Python 信号链。
+  evidenceTeaser:
+    zh: 方向与极化约定已经更正，数值收敛仍有边界。
+  evidenceTeaserId: EMT-01
+  sequence: 1
+  relationship: THEME_EVOLUTION
+- id: lowalt-md
+  projectId: lowalt-md
+  trackId: electromagnetic
+  role:
+    zh: 物理机制研究
+  question:
+    zh: 低空传播路径相位与逐单元复权重如何改变微多普勒？
+  method:
+    zh: Physics Model v2，分层比较共同增益与逐单元权重。
+  evidenceTeaser:
+    zh: 共同增益与非共同复权重对应不同的谱形变化。
+  evidenceTeaserId: LOW-01
+  sequence: 2
+  relationship: THEME_EVOLUTION
+- id: emvision
+  projectId: emvision
+  trackId: electromagnetic
+  role:
+    zh: 旗舰 · 受控实验
+  question:
+    zh: 固定合成测试域中，训练端匹配因素如何影响识别与协议内归因？
+  method:
+    zh: 全因子配对实验、交互分析与负对照。
+  evidenceTeaser:
+    zh: 端点对比有公开摘要；冻结原始结果为私有 canonical source。
+  evidenceTeaserId: EVM-02
+  sequence: 3
+  relationship: THEME_EVOLUTION
+- id: quadcontrol-lab
+  projectId: quadcontrol-lab
+  trackId: autonomous
+  role:
+    zh: 独立自主系统分支
+  question:
+    zh: 只改变控制器消费的观测来源，闭环姿态行为如何变化？
+  method:
+    zh: 确定性配对实验与 Layer A/B 审计。
+  evidenceTeaser:
+    zh: 观察来源差异对应固定合成协议中的配对轨迹差异。
+  evidenceTeaserId: QC-01
+  sequence: 1
+  relationship: SEPARATE_BRANCH
+relationships:
+- from: em-trace
+  to: lowalt-md
+  kind: THEME_EVOLUTION
+  label:
+    zh: 研究主题与方法关注点演进，并非数据或代码依赖
+- from: lowalt-md
+  to: emvision
+  kind: THEME_EVOLUTION
+  label:
+    zh: 研究主题与方法关注点演进，并非数据或代码依赖

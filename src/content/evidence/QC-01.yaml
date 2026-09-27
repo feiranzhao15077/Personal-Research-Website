@@ -1,0 +1,42 @@
+id: QC-01
+project: quadcontrol-lab
+claim:
+  zh: 当前确定性协议中的两条闭环轨迹差异。
+metric:
+  name:
+    zh: true-attitude RMS paired angular distance 1.096029 rad；true-body-rate RMS paired difference 0.201693
+      rad/s；最大姿态距离 1.969332 rad；最大角速度差 0.212150 rad/s；torque-command RMS paired difference 0.000441743
+      N·m；IDEAL observation-to-truth RMS 0 rad，ESTIMATED 1.184857 rad。
+  display:
+    zh: true-attitude RMS paired angular distance 1.096029 rad；true-body-rate RMS paired difference 0.201693
+      rad/s；最大姿态距离 1.969332 rad；最大角速度差 0.212150 rad/s；torque-command RMS paired difference 0.000441743
+      N·m；IDEAL observation-to-truth RMS 0 rad，ESTIMATED 1.184857 rad。
+  unit: rad、rad/s、N·m。
+  observations:
+  - label:
+      zh: 真实姿态 RMS 配对角距离
+    value: '1.096029'
+    display: '1.096029'
+protocolContext:
+  zh: 13D plant；IdealImu 与 MinimalAttitudeEstimator；+10° roll ATTITUDE_STEP；seed 0，10 s；两臂除 observation
+    source 外一致。
+uncertainty:
+  kind: INTERVAL
+  detail:
+    zh: 确定性单 seed 配对协议；非总体统计区间。
+status: SUPPORTED
+boundary:
+  zh: 真实飞行表现、稳定性、估计器泛化或实机性能。
+source:
+  ref: quadcontrol-final-result-freeze
+  revision: 427ed6a0ef3c45805b565f09369c2deb34888c7c
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/QuadControl-Lab/evidence/validation_summary.md
+websiteUsage:
+- HOME
+- PROJECT_L1
+- PROJECT_L2

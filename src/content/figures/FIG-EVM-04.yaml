@@ -1,0 +1,27 @@
+id: FIG-EVM-04
+project: emvision
+path: /evidence/originals/FIG-EVM-04-3c005959.png
+title:
+  zh: v011 角点塌缩审计
+caption:
+  zh: 保留中间角点的塌缩现象与协议条件，不代表所有中间配置失败。
+alt:
+  zh: v011 角点塌缩审计；保留中间角点的塌缩现象与协议条件，不代表所有中间配置失败。
+type: DATA
+assetClass: DATA
+scientificPurpose:
+  zh: 保留中间角点的塌缩现象与协议条件，不代表所有中间配置失败。
+sourceRef: research-portfolio-public-copy
+sourceProject: Research-Portfolio
+sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceHash: 3c0059598784e36d40f73b3acb08c96e5e09668513e0f0e03a8626be85da00c1
+sourceSize: 182542
+width: 2935
+height: 1680
+mime: image/png
+webDerivative: []
+homepageEligible: false
+mobileSuitability:
+  zh: 完整等比预览；细节可通过原图链接查看。
+evidenceIds:
+- EVM-05

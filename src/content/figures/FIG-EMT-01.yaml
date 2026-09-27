@@ -1,0 +1,27 @@
+id: FIG-EMT-01
+project: em-trace
+path: /evidence/originals/FIG-EMT-01-eddc26ca.png
+title:
+  zh: 软件信号处理链
+caption:
+  zh: 角度快照到慢时间与 STFT 的流程示意；历史输入为前向观测，不是正确后向定量微动验证。
+alt:
+  zh: 软件信号处理链；角度快照到慢时间与 STFT 的流程示意；历史输入为前向观测，不是正确后向定量微动验证。
+type: DATA
+assetClass: DATA
+scientificPurpose:
+  zh: 角度快照到慢时间与 STFT 的流程示意；历史输入为前向观测，不是正确后向定量微动验证。
+sourceRef: research-portfolio-public-copy
+sourceProject: Research-Portfolio
+sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceHash: eddc26ca61af9f2140fe79b617362c299aee172a686a37edf6a04ec55b8186fc
+sourceSize: 323875
+width: 2434
+height: 2494
+mime: image/png
+webDerivative: []
+homepageEligible: false
+mobileSuitability:
+  zh: 完整等比预览；细节可通过原图链接查看。
+evidenceIds:
+- EMT-04

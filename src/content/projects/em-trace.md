@@ -1,0 +1,69 @@
+---
+id: em-trace
+slug: em-trace
+title:
+  zh: EM-Trace
+subtitle:
+  zh: 参数化旋翼建模、全波求解与可审计信号链
+role: ENGINEERING_FOUNDATION
+researchTrack:
+  zh: 计算电磁工程 / 坐标与极化合同 / 数值敏感性 / 可追溯处理
+status:
+  zh: 工程流程、方向合同与敏感性审计已冻结；数值结果仅作 engineering baseline，不主张高精度收敛或正确后向完整微动验证。
+summary:
+  zh: 沿参数化 CAD、CST、复场提取与 Python 处理链审计坐标、方向、极化和结果来源的一致性。
+researchQuestion:
+  zh: 如何让 geometry → coordinate system → incidence / observation direction → polarization → complex-field
+    extraction → signal processing 保持一致、可追溯、可审计？
+whyItMatters:
+  zh: 工程链中的方向、极化、网格与计算域约定会直接决定结果是否可解释。项目展示的不只是完成软件操作，而是在发现方向、数值稳定性或计算域问题后，建立可复核的诊断并据此缩小结论范围。
+methods:
+- zh: Parameterized CAD → STEP AP214 → CST frequency-domain solve → complex far-field extraction → coordinate/polarization
+    audit → Python slow-time/STFT processing。 审计项包括 coordinate audit、polarization audit、mesh sensitivity、calculation-domain
+    sensitivity、signal-chain pipeline。
+contributions:
+- zh: 冻结项目总结记录了参数化 CAD、STEP 至 CST 接口、复场提取、Python 信号处理链和方向及数值敏感性审计；个人分工措辞待最终 CV 核对。
+representativeResults: &id001
+- EMT-01
+- EMT-04
+- EMT-05
+limitations:
+- zh: No measured radar；没有稳定的、完整且正确后向的定量微动链。
+- zh: No high-precision RCS convergence claim；M1 单旋翼姿态网格稳定性未达门限。
+- zh: A3 显示计算域敏感性；不同 calculation domain 之间的结构增量解释已撤回。
+- zh: Stage 7 仅作流程展示；不能将历史前向快照解释为后向微多普勒。
+- zh: 不把预置周期产生的频率峰值当作独立物理验证。
+figures:
+- FIG-EMT-01
+- FIG-EMT-02
+materials:
+- overview
+- portfolio
+- evidence-em-trace
+- selected-code
+evidenceRefs:
+- EMT-01
+- EMT-02
+- EMT-03
+- EMT-04
+- EMT-05
+sourceOfTruth: Phase 2 reviewed project pack and evidence registry; numerical claims are keyed by evidence
+  ID
+heroEvidence: EMT-01
+mainEvidence: *id001
+deepEvidence:
+- EMT-02
+- EMT-03
+homeEvidence: EMT-01
+localeState:
+  zh: READY
+  en: PENDING
+---
+
+## 研究收获
+
+坐标、传播方向、极化和 calculation-domain contract 直接决定电磁结果能否解释。审计后修正方向并降低数值主张，是工程证据链的一部分。
+
+## 证据阅读说明
+
+本页的数值、状态与解释边界由下方证据条目提供；请连同实验协议阅读。

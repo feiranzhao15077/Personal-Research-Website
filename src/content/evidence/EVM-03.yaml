@@ -1,0 +1,32 @@
+id: EVM-03
+project: emvision
+claim:
+  zh: 说明当前协议中存在条件依赖与交互。
+metric:
+  name:
+    zh: CP|G
+  display:
+    zh: CP|G=0 = −0.17128515971171093；CP|G=1 = 0.4212459318570664；C×G×P = 0.5925310915687774。
+  unit: Macro-F1 差值，无量纲。
+  observations: []
+protocolContext:
+  zh: EVM-01；解释只针对冻结因子编码和路径协议。
+uncertainty:
+  kind: INTERVAL
+  detail:
+    zh: C×G×P 的 paired bootstrap 95% CI [0.5260405821940503, 0.6619881113621384]；公开展示四舍五入为 [0.5260, 0.6620]。
+status: SUPPORTED
+boundary:
+  zh: 物理因果分解、普适因素重要性排序。
+source:
+  ref: emvision-n20-frozen
+  revision: 4097697972eec67d67206d534e482b038fa5989a
+  hash: e242719ef15050df1966676939da87c20eb6d9a96a4e4bb154b4d5e0f67a3b87
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/emvision/evidence/key_results.md
+websiteUsage:
+- PROJECT_L2

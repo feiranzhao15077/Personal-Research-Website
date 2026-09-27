@@ -1,0 +1,31 @@
+id: EMT-05
+project: em-trace
+claim:
+  zh: 解释纠错如何改变可支持结论。
+metric:
+  name:
+    zh: 无。
+  display:
+    zh: 无。
+  unit: 不适用。
+  observations: []
+protocolContext:
+  zh: 涉及方向定义、数值收敛、calculation domain 与历史前向 Stage 7 数据。
+uncertainty:
+  kind: CONTEXT
+  detail:
+    zh: 旧解释已被当前冻结口径替换或撤回。
+status: WITHDRAWN
+boundary:
+  zh: 旧数字作为有效后向结果重新出现。
+source:
+  ref: emtrace-v2-freeze
+  revision: '2026-09-13'
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/em-trace/evidence/engineering_audit.md
+websiteUsage:
+- PROJECT_L2

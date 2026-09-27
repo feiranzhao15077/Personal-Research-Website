@@ -1,0 +1,32 @@
+id: LOW-08
+project: lowalt-md
+claim:
+  zh: 当前控制流程削弱明显能量捷径后仍有可识别结构信息。
+metric:
+  name:
+    zh: 定性主张；不新增或复制 F1 数值。
+  display:
+    zh: 定性主张；不新增或复制 F1 数值。
+  unit: 不适用。
+  observations: []
+protocolContext:
+  zh: alpha_k=1/√N、RMS normalization、谱宽/谱熵/DC ratio 等结构特征；20/40 m 当前合成条件。
+uncertainty:
+  kind: CONTEXT
+  detail:
+    zh: 由 R2/R2.1 特定冻结 split 与 controls 限定。
+status: SUPPORTED
+boundary:
+  zh: 所有 shortcut 已消除、无泄漏或唯一物理机制得到证明。
+source:
+  ref: lowalt-physics-v2-freeze
+  revision: 8268caa
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/lowalt-md/evidence/validation_summary.md
+websiteUsage:
+- PROJECT_L2
+- PROJECT_L3

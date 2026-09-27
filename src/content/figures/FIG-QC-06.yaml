@@ -1,0 +1,29 @@
+id: FIG-QC-06
+project: quadcontrol-lab
+path: /evidence/originals/FIG-QC-06-7db2c1a2.svg
+title:
+  zh: Layer B 误差预算
+caption:
+  zh: 估计器 roll-error 两项预算图；R_C 不是车辆轨迹差异的因果占比。
+alt:
+  zh: Layer B 误差预算；估计器 roll-error 两项预算图；R_C 不是车辆轨迹差异的因果占比。
+type: DATA
+assetClass: DATA
+scientificPurpose:
+  zh: 估计器 roll-error 两项预算图；R_C 不是车辆轨迹差异的因果占比。
+sourceRef: research-portfolio-public-copy
+sourceProject: Research-Portfolio
+sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceHash: 7db2c1a2281c0356c7c3d21a74db3ea47206f846c08f5d9bbdcebe6740e03fed
+sourceSize: 10592
+width: 829
+height: 354
+mime: image/svg+xml
+webDerivative: []
+homepageEligible: false
+mobileSuitability:
+  zh: 完整等比预览；细节可通过原图链接查看。
+evidenceIds:
+- QC-04
+- QC-05
+originCommit: 123ab8a57f355e7c615a9c841fcd94b84b5ddd91

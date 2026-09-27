@@ -1,0 +1,19 @@
+id: profile
+publicName:
+  zh: TBD
+  en: TBD
+nameStatus: PENDING
+schoolWording:
+  zh: TBD
+  en: TBD
+schoolStatus: PENDING
+researchIdentity:
+  zh: 应用物理 · 计算电磁 · 智能感知
+statement:
+  zh: 围绕电磁感知与无人系统，将物理模型转化为可审计的数值实验。
+publicEmail: TBD
+emailStatus: PENDING
+githubUrl: https://github.com/feiranzhao15077/Research-Portfolio
+cvMaterialId: cv
+overviewMaterialId: overview
+defaultLocale: zh

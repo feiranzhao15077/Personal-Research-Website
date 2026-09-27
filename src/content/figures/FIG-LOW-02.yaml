@@ -1,0 +1,28 @@
+id: FIG-LOW-02
+project: lowalt-md
+path: /evidence/originals/FIG-LOW-02-1a052628.png
+title:
+  zh: M1 与 M2 归一化谱
+caption:
+  zh: 两条谱线接近，机制差异应结合 LOW-01 与 LOW-02 的定义和指标阅读。
+alt:
+  zh: M1 与 M2 归一化谱；两条谱线接近，机制差异应结合 LOW-01 与 LOW-02 的定义和指标阅读。
+type: DATA
+assetClass: DATA
+scientificPurpose:
+  zh: 两条谱线接近，机制差异应结合 LOW-01 与 LOW-02 的定义和指标阅读。
+sourceRef: research-portfolio-public-copy
+sourceProject: Research-Portfolio
+sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceHash: 1a0526288d2ef9ea5d69bd7fc3446101638874710549a1f57a44dfaef1c8925b
+sourceSize: 65449
+width: 1401
+height: 784
+mime: image/png
+webDerivative: []
+homepageEligible: true
+mobileSuitability:
+  zh: 完整等比预览；细节可通过原图链接查看。
+evidenceIds:
+- LOW-01
+- LOW-02

@@ -1,0 +1,37 @@
+id: LOW-02
+project: lowalt-md
+claim:
+  zh: 当前 proxy 下，element-wise 非共同复权重可以改变归一化谱形。
+metric:
+  name:
+    zh: 0.025246。
+  display:
+    zh: 0.025246。
+  unit: 无量纲 normalized-spectrum L2。
+  observations:
+  - label:
+      zh: M2 归一化谱 L2 差
+    value: '0.025246'
+    display: '0.025246'
+protocolContext:
+  zh: 200 m、beta=0.15；M2 是逐单元有效两项 proxy，不是 DD/DR/RD/RR 完整四路径全波场。
+uncertainty:
+  kind: INTERVAL
+  detail:
+    zh: 单一冻结算例，无统计 CI。
+status: SUPPORTED
+boundary:
+  zh: 真实叶片 RCS 或完整目标—地面全波耦合已得到验证。
+source:
+  ref: lowalt-physics-v2-freeze
+  revision: 8268caa
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/lowalt-md/evidence/validation_summary.md
+websiteUsage:
+- HOME
+- PROJECT_L1
+- PROJECT_L2

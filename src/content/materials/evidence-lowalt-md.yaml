@@ -1,0 +1,9 @@
+id: evidence-lowalt-md
+label:
+  zh: 公开证据摘要
+type: EVIDENCE_PAGE
+publicUrl: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/lowalt-md/evidence/validation_summary.md
+accessStatus: PUBLIC_SUMMARY_ONLY
+project: lowalt-md
+recommendedPlacement:
+- PROJECT

@@ -1,0 +1,32 @@
+id: EVM-05
+project: emvision
+claim:
+  zh: 当前协议中一个角点出现严重退化。
+metric:
+  name:
+    zh: 17/20 seeds；Macro-F1
+  display:
+    zh: 17/20 seeds；Macro-F1=0.1667。
+  unit: seed count；Macro-F1 无量纲。
+  observations: []
+protocolContext:
+  zh: EVM-01 synthetic fixed test protocol；中间角点 v011。
+uncertainty:
+  kind: INTERVAL
+  detail:
+    zh: 未报告区间。
+status: SUPPORTED
+boundary:
+  zh: 宣称所有中间配置失败或模型通常不稳定。
+source:
+  ref: emvision-public-audit-summary
+  revision: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceVisibility: PUBLIC_SUMMARY_ONLY
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/emvision/evidence/key_results.md
+websiteUsage:
+- PROJECT_L2
+- PROJECT_L3

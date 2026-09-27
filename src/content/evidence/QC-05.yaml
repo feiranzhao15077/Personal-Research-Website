@@ -1,0 +1,31 @@
+id: QC-05
+project: quadcontrol-lab
+claim:
+  zh: 两项净累计 estimator roll-error budget 的相对比较。
+metric:
+  name:
+    zh: R_C
+  display:
+    zh: R_C=0.9994896743377543；S_P、S_C 与最终 error 见 claim。
+  unit: rad；R_C 无量纲。
+  observations: []
+protocolContext:
+  zh: 特定两项净累计 estimator roll-error budget；Layer B synthetic deterministic setup。
+uncertainty:
+  kind: CONTEXT
+  detail:
+    zh: 单一冻结协议的相对预算量。
+status: SUPPORTED
+boundary:
+  zh: IDEAL/ESTIMATED vehicle trajectory 的 causal fraction；关闭 correction 可恢复 IDEAL trajectory。
+source:
+  ref: quadcontrol-final-result-freeze
+  revision: 427ed6a0ef3c45805b565f09369c2deb34888c7c
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/QuadControl-Lab/evidence/validation_summary.md
+websiteUsage:
+- PROJECT_L3

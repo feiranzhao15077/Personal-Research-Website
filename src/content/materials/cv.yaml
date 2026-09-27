@@ -1,0 +1,9 @@
+id: cv
+label:
+  zh: CV（待确认）
+type: CV
+accessStatus: PENDING
+recommendedPlacement:
+- HERO
+- MATERIALS
+- CONTACT

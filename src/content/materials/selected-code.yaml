@@ -1,0 +1,9 @@
+id: selected-code
+label:
+  zh: 精选代码快照（非完整复现包）
+type: SELECTED_CODE
+publicUrl: https://github.com/feiranzhao15077/Research-Portfolio/tree/main/selected-code
+accessStatus: PUBLIC
+recommendedPlacement:
+- PROJECT
+- MATERIALS

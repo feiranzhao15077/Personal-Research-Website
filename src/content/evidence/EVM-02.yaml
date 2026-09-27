@@ -1,0 +1,54 @@
+id: EVM-02
+project: emvision
+claim:
+  zh: 当前冻结协议内的合成识别端点对比。
+metric:
+  name:
+    zh: Macro-F1 端点与配对差
+  display:
+    zh: Macro-F1：0.1864 → 0.9897；paired Δ=0.8033。
+  unit: Macro-F1 无量纲；差值为 Macro-F1 绝对差。
+  observations:
+  - label:
+      zh: v000 Macro-F1
+    value: '0.18636504445114288'
+    display: '0.1864'
+  - label:
+      zh: v111 Macro-F1
+    value: '0.9896612553950618'
+    display: '0.9897'
+  - label:
+      zh: 配对差 Δ
+    value: '0.803296210943919'
+    display: '0.8033'
+protocolContext:
+  zh: EVM-01 固定 synthetic test domain、2×2×2 factorial、20 paired seeds。
+uncertainty:
+  kind: INTERVAL
+  detail:
+    zh: paired bootstrap，50,000 repetitions；精确 95% CI [0.7729484234878651, 0.8298827006172669]；展示值 [0.7729,
+      0.8299]。
+  lower: '0.7729484234878651'
+  upper: '0.8298827006172669'
+  display: '[0.7729, 0.8299]'
+status: SUPPORTED
+boundary:
+  zh: 实测识别率、跨域真实性能、方法普适提升。
+source:
+  ref: emvision-n20-frozen
+  revision: 4097697972eec67d67206d534e482b038fa5989a
+  hash: e242719ef15050df1966676939da87c20eb6d9a96a4e4bb154b4d5e0f67a3b87
+sourceVisibility: PRIVATE_CANONICAL_SOURCE
+publicSource:
+  visibility: PUBLIC_SUMMARY_ONLY
+  label:
+    zh: Research-Portfolio 公开证据摘要
+  url: https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/emvision/evidence/key_results.md
+websiteUsage:
+- HOME
+- PROJECT_L1
+- PROJECT_L2
+comparison:
+  kind: PAIRED_ENDPOINT
+  delta: '0.803296210943919'
+  display: '0.8033'

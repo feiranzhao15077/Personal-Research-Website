@@ -1,0 +1,27 @@
+id: FIG-EMT-02
+project: em-trace
+path: /evidence/originals/FIG-EMT-02-b23b476f.png
+title:
+  zh: 参数化 CAD 装配
+caption:
+  zh: 四旋翼参数化 CAD 装配示意；不代表真实机型或实测电磁结果。
+alt:
+  zh: 参数化 CAD 装配；四旋翼参数化 CAD 装配示意；不代表真实机型或实测电磁结果。
+type: SCHEMATIC
+assetClass: SCHEMATIC
+scientificPurpose:
+  zh: 四旋翼参数化 CAD 装配示意；不代表真实机型或实测电磁结果。
+sourceRef: research-portfolio-public-copy
+sourceProject: Research-Portfolio
+sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472
+sourceHash: b23b476f1e39f028bf9dd76eff0b5fc07d43e3d2929b4ac6f61f539acaef9666
+sourceSize: 287099
+width: 1400
+height: 900
+mime: image/png
+webDerivative: []
+homepageEligible: false
+mobileSuitability:
+  zh: 完整等比预览；细节可通过原图链接查看。
+evidenceIds:
+- EMT-01
