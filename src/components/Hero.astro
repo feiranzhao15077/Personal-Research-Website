@@ -639,6 +639,31 @@ const { profile } = Astro.props;
   import gsap from 'gsap';
 
   const initIntro = () => {
+    const hasSeenIntro = sessionStorage.getItem('hasSeenHeroIntro');
+    
+    if (hasSeenIntro) {
+      // Skip animation, just set everything to visible
+      gsap.set([
+        ".simple-portrait-wrapper", 
+        ".hero-titles > *", 
+        ".hero-deck", 
+        ".hero-note", 
+        ".cta-row", 
+        ".hero-links",
+        ".hero-em-field",
+        ".intro-sys-boot",
+        ".drone-display",
+        ".intro-char"
+      ], { opacity: 1 });
+      
+      gsap.set(".intro-cursor", { opacity: 0 });
+      gsap.set(".hero-welcome", { clearProps: "all" });
+      document.body.style.overflow = 'auto';
+      return;
+    }
+
+    sessionStorage.setItem('hasSeenHeroIntro', 'true');
+
     // 1. Initial State Setup
     // Explicitly hide only the elements we will animate so parent containers don't trap them
     gsap.set([
