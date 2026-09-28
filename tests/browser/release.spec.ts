@@ -25,16 +25,17 @@ test('release: nine widths, five routes, text reflow and semantic content', asyn
           for (const link of await page.locator('#research-map .map-node-link').all()) {
             expect((await link.boundingBox())?.height).toBeGreaterThanOrEqual(44);
           }
-          await page.locator('#research-map').screenshot({ path: `.screenshots/phase8b2-map-${width}.png` });
+          await page.locator('#research-map').screenshot({ path: `.screenshots/phase8b21-map-${width}.png` });
           if (width === 1440) {
             const connector = page.locator('.map-connector').first();
             const idleColor = await connector.evaluate((el) => getComputedStyle(el).color);
             await page.locator('.map-node-link').first().hover();
             await expect.poll(() => connector.evaluate((el) => getComputedStyle(el).color)).not.toBe(idleColor);
+            await expect(page.locator('.map-node-link').nth(1).locator('.map-node-title')).toHaveCSS('color', 'rgb(75, 91, 100)');
             await page.mouse.move(0, 0);
             await page.locator('.map-node-link').nth(2).focus();
             await expect.poll(() => connector.evaluate((el) => getComputedStyle(el).color)).not.toBe(idleColor);
-            await page.locator('#research-map').screenshot({ path: '.screenshots/phase8b2-map-focus-1440.png' });
+            await page.locator('#research-map').screenshot({ path: '.screenshots/phase8b21-map-focus-1440.png' });
           }
         }
       }
