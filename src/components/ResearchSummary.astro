@@ -1,0 +1,18 @@
+---
+import { projectNarratives } from '../lib/projectNarratives';
+interface Props { projectId: string; compact?: boolean; showTitle?: boolean; }
+const { projectId, compact = false, showTitle = true } = Astro.props;
+const narrative = projectNarratives[projectId];
+---
+{narrative && <div class:list={['research-summary', { compact }]} data-project={projectId}>
+  {showTitle && <p class="narrative-title">{narrative.title}</p>}
+  <p class="narrative-copy">{compact ? narrative.compact : narrative.summary}</p>
+</div>}
+<style>
+  .research-summary { margin-block: .75rem 1.25rem; max-width: 76ch; }
+  .narrative-title { margin: 0 0 .5rem; font: 600 1rem/1.6 var(--serif); color: var(--ink); }
+  .narrative-copy { margin: 0; font: 400 1rem/1.7 var(--sans); color: var(--ink-soft); }
+  .compact { margin-block: .65rem 1rem; }
+  .compact .narrative-title { font-size: .95rem; }
+  .compact .narrative-copy { font-size: .95rem; }
+</style>

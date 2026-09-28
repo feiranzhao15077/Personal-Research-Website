@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { projectUrl } from '../lib/content';
+import ResearchSummary from './ResearchSummary.astro';
 
 interface Props {
   map: CollectionEntry<'maps'>;
@@ -67,7 +68,7 @@ const phaseLabels: Record<string, { step: string; phase: string }> = {
                     <span class="phase-step">{pInfo.step}</span>
                     {isFlagship && <span class="flagship-mark">★ FLAGSHIP</span>}
                   </header>
-                  <h5 class="project-title">{names[node.projectId]}</h5>
+                  <h5 class="project-title">{names[node.projectId]}</h5><ResearchSummary projectId={node.projectId} compact />
                   <p class="project-phase">{pInfo.phase}</p>
                   <p class="q-text">{node.question.zh}</p>
                 </a>
@@ -88,7 +89,7 @@ const phaseLabels: Record<string, { step: string; phase: string }> = {
                   <span class="phase-step auto-step">{phaseLabels[branchNode.projectId].step}</span>
                   <span class="branch-stamp">独立沙盒</span>
                 </header>
-                <h5 class="project-title">{names[branchNode.projectId]}</h5>
+                <h5 class="project-title">{names[branchNode.projectId]}</h5><ResearchSummary projectId={branchNode.projectId} compact />
                 <p class="project-phase">{phaseLabels[branchNode.projectId].phase}</p>
                 <p class="q-text">{branchNode.question.zh}</p>
               </a>
