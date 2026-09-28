@@ -37,6 +37,7 @@ const names: Record<string,string> = { 'em-trace': 'EM-Trace', 'lowalt-md': 'Low
             <svg class="map-point" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="5" /></svg>
             <div class="map-node-title">{node.projectId === 'emvision' && <span class="map-flagship-label">Flagship</span>}<h5 id={`map-title-${node.id}`}>{names[node.projectId]}</h5><svg class="map-entry-arrow" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 16 L15 5 M5 5 H15 V15" /></svg></div>
             <p class="node-role" id={`map-role-${node.id}`}>{positioning[node.projectId]}</p>
+            <span class="map-detail-hint" aria-hidden="true">点击查看详情</span>
           </a>
         </li>)}</ol>
       </div>
@@ -46,6 +47,7 @@ const names: Record<string,string> = { 'em-trace': 'EM-Trace', 'lowalt-md': 'Low
           <a class="map-node-link" tabindex="0" href={projectUrl(node.projectId)} aria-labelledby={`map-title-${node.id}`} aria-describedby={`map-role-${node.id}`}>
             <div class="map-node-title"><h5 id={`map-title-${node.id}`}>{names[node.projectId]}</h5><svg class="map-entry-arrow" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 16 L15 5 M5 5 H15 V15" /></svg></div>
             <p class="node-role" id={`map-role-${node.id}`}>{positioning[node.projectId]}</p>
+            <span class="map-detail-hint" aria-hidden="true">点击查看详情</span>
           </a>
         </div>)}
       </div>
