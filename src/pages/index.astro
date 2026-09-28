@@ -55,6 +55,18 @@ const emvision = p.get('emvision')!, lowalt = p.get('lowalt-md')!, emtrace = p.g
 </BaseLayout>
 
 <style>
+  @media (min-width: 1024px) {
+    .materials-section > .shell {
+      display: grid;
+      grid-template-columns: minmax(14rem, .85fr) minmax(0, 2.15fr);
+      align-items: start;
+      gap: clamp(2rem, 4vw, 3.5rem);
+    }
+    .materials-section .section-intro { margin-bottom: 0; }
+    .materials-section .material-grid { min-width: 0; }
+    .materials-section .material-item { min-height: 168px; padding: 1rem; }
+    .materials-section .material-item strong { font-size: 1.15rem; }
+  }
   .research-motto {
     position: relative;
     width: fit-content;

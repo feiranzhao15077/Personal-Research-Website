@@ -644,10 +644,14 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
   import gsap from 'gsap';
 
   const initIntro = () => {
-    // A plain homepage visit starts at the Hero; explicit section links and
-    // browser Back navigation retain their intended destination.
+    const hasSeenIntro = sessionStorage.getItem('hasSeenHeroIntro');
+    // A played intro always ends at the Hero, including bookmarked section URLs.
+    // Once the intro has been seen, section links keep their normal behavior.
     const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
-    const startAtHero = !window.location.hash && navigation?.type !== 'back_forward';
+    const startAtHero = !hasSeenIntro || (!window.location.hash && navigation?.type !== 'back_forward');
+    if (!hasSeenIntro && window.location.hash) {
+      history.replaceState(history.state, '', window.location.pathname + window.location.search);
+    }
     const showHeroTop = () => {
       if (startAtHero) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     };
@@ -663,7 +667,6 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
       }, { once: true });
     }
     const previousOverflow = document.body.style.overflow;
-    const hasSeenIntro = sessionStorage.getItem('hasSeenHeroIntro');
     
     if (hasSeenIntro) {
       // Skip animation, just set everything to visible
@@ -717,6 +720,7 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
       onComplete: () => {
         document.body.style.overflow = previousOverflow;
         showHeroTop();
+        requestAnimationFrame(showHeroTop);
       }
     });
 
