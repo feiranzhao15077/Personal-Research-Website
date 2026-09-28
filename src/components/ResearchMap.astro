@@ -15,7 +15,7 @@ const names: Record<string,string> = { 'em-trace': 'EM-Trace', 'lowalt-md': 'Low
 ---
 <section class="section map-section" id="research-map" aria-labelledby="map-heading">
   <div class="shell">
-    <div class="section-intro"><p class="eyebrow">01 / Research Map</p><h2 id="map-heading">研究脉络</h2><p>两个研究方向，共同关注物理建模与可审计的研究方法。</p></div>
+    <div class="section-intro"><p class="eyebrow">01 / Research Map</p><h2 id="map-heading">研究脉络</h2><p>我以物理建模与可审计实验为共同方法，在电磁感知与自主系统两个方向展开研究。</p></div>
     <div class="map-universe">
       <div class="map-theme">
         <h3>物理驱动智能系统</h3>
@@ -28,23 +28,30 @@ const names: Record<string,string> = { 'em-trace': 'EM-Trace', 'lowalt-md': 'Low
       </svg>
     <div class="map-tracks">
       <div class="map-main" aria-label="电磁感知研究线">
-        <h4 class="track-label">Electromagnetic Sensing <span>电磁感知</span></h4>
+        <div class="map-track-intro">
+          <h4 class="track-label">Electromagnetic Sensing <span>电磁感知</span></h4>
+          <p>从模型约定、传播机制，到受控识别与归因。</p>
+        </div>
         <ol class="map-nodes">{main.map((node, index) => <li class:list={['map-node', { 'map-node-flagship': node.projectId === 'emvision' }]}>
           {index < main.length - 1 && <svg class="map-connector" width="24" aria-hidden="true" focusable="false">
             <line x1="12" y1="0" x2="12" y2="100%" stroke="currentColor" stroke-width="1" />
           </svg>}
           <a class="map-node-link" tabindex="0" href={projectUrl(node.projectId)} aria-labelledby={`map-title-${node.id}`} aria-describedby={`map-role-${node.id}`}>
             <svg class="map-point" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="5" /></svg>
-            <div class="map-node-title">{node.projectId === 'emvision' && <span class="map-flagship-label">Flagship</span>}<h5 id={`map-title-${node.id}`}>{names[node.projectId]}</h5><svg class="map-entry-arrow" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 16 L15 5 M5 5 H15 V15" /></svg></div>
+            <div class="map-node-title">{node.projectId === 'emvision' && <span class="map-flagship-label">Flagship · 代表项目</span>}<h5 id={`map-title-${node.id}`}>{names[node.projectId]}</h5><svg class="map-entry-arrow" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 16 L15 5 M5 5 H15 V15" /></svg></div>
             <p class="node-role" id={`map-role-${node.id}`}>{positioning[node.projectId]}</p>
             <span class="map-detail-hint" aria-hidden="true">点击查看详情</span>
           </a>
         </li>)}</ol>
       </div>
       <div class="map-branch" aria-label="独立自主系统分支">
-        <h4 class="track-label">Autonomous Systems <span>自主系统 · 独立分支</span></h4>
+        <div class="map-track-intro">
+          <h4 class="track-label">Autonomous Systems <span>自主系统 · 独立分支</span></h4>
+          <p>在闭环仿真中审视观测来源与系统行为。</p>
+        </div>
         {branch.map((node) => <div class="branch-node">
           <a class="map-node-link" tabindex="0" href={projectUrl(node.projectId)} aria-labelledby={`map-title-${node.id}`} aria-describedby={`map-role-${node.id}`}>
+            <svg class="map-point" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="5" /></svg>
             <div class="map-node-title"><h5 id={`map-title-${node.id}`}>{names[node.projectId]}</h5><svg class="map-entry-arrow" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 16 L15 5 M5 5 H15 V15" /></svg></div>
             <p class="node-role" id={`map-role-${node.id}`}>{positioning[node.projectId]}</p>
             <span class="map-detail-hint" aria-hidden="true">点击查看详情</span>
