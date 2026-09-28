@@ -644,6 +644,25 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
   import gsap from 'gsap';
 
   const initIntro = () => {
+    // A plain homepage visit starts at the Hero; explicit section links and
+    // browser Back navigation retain their intended destination.
+    const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+    const startAtHero = !window.location.hash && navigation?.type !== 'back_forward';
+    const showHeroTop = () => {
+      if (startAtHero) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    };
+    if (startAtHero) {
+      const previousScrollRestoration = history.scrollRestoration;
+      history.scrollRestoration = 'manual';
+      window.addEventListener('pagehide', () => {
+        history.scrollRestoration = previousScrollRestoration;
+      }, { once: true });
+      showHeroTop();
+      window.addEventListener('pageshow', (event) => {
+        if (!event.persisted) showHeroTop();
+      }, { once: true });
+    }
+    const previousOverflow = document.body.style.overflow;
     const hasSeenIntro = sessionStorage.getItem('hasSeenHeroIntro');
     
     if (hasSeenIntro) {
@@ -663,7 +682,7 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
       
       gsap.set(".intro-cursor", { opacity: 0 });
       gsap.set(".hero-welcome", { clearProps: "all" });
-      document.body.style.overflow = 'auto';
+      showHeroTop();
       return;
     }
 
@@ -696,7 +715,8 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
 
     const tl = gsap.timeline({
       onComplete: () => {
-        document.body.style.overflow = 'auto';
+        document.body.style.overflow = previousOverflow;
+        showHeroTop();
       }
     });
 
