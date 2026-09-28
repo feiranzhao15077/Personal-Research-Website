@@ -1,6 +1,6 @@
 id: FIG-QC-02
 project: quadcontrol-lab
-path: /evidence/originals/FIG-QC-02-d56acb62.svg
+path: /evidence/originals/FIG-QC-02-71f22914.png
 title:
   zh: 观测来源配对架构
 caption:
@@ -14,11 +14,11 @@ scientificPurpose:
 sourceRef: research-portfolio-public-copy
 sourceProject: Research-Portfolio
 sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472
-sourceHash: d56acb62397de943595d9277d21f280153eb15ad819018759cc1cdf18f63c13f
-sourceSize: 11056
+sourceHash: 71f229144946652d8d5404561e7769b95027a18269378168dda7effecf7c88f0
+sourceSize: 940502
 width: 786
 height: 448
-mime: image/svg+xml
+mime: image/png
 webDerivative: []
 homepageEligible: true
 mobileSuitability:
