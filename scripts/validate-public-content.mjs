@@ -22,7 +22,7 @@ function walk(directory) {
     if (item.isDirectory()) walk(relative);
     else if (/\.(?:md|yaml|yml|html|xml|txt|svg|json|js|css)$/i.test(item.name)) {
       const text = fs.readFileSync(path.join(root, relative), 'utf8');
-      if (release && scanDist && /\bTBD\b|\.invalid|PLACEHOLDER|版本待确认|正式 CV 待版本确定后补入|最终 CV 版本仍待确认/.test(text)) problems.push(`${relative}: unresolved release placeholder`);
+      if (release && scanDist && /\bTBD\b|\.invalid\b|PLACEHOLDER|版本待确认|正式 CV 待版本确定后补入|最终 CV 版本仍待确认/.test(text)) problems.push(`${relative}: unresolved release placeholder`);
       for (const email of text.matchAll(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g)) if (email[0] !== approvedEmail) problems.push(`${relative}: unapproved email`);
       for (const [regex, label] of patterns) if (regex.test(text)) problems.push(`${relative}: ${label}`);
     }
@@ -45,7 +45,7 @@ if (release) {
   } else if (cv.accessStatus !== 'PUBLIC' || !cv.publicUrl) problems.push('CV is not public and approved');
   if (scanDist) {
     const index = fs.readFileSync(path.join(root, 'dist/index.html'), 'utf8');
-    if (/noindex|\.invalid/.test(index)) problems.push('dist contains draft indexing metadata');
+    if (/noindex|\.invalid\b/.test(index)) problems.push('dist contains draft indexing metadata');
     if (process.env.RELEASE_TARGET === 'initial' && /documents\/cv\.pdf|版本待确认|CV 版本/.test(index)) problems.push('initial release dist exposes CV or a CV placeholder');
     if (/feiranzhao15077\.github\.io|\/personal-research-website\//i.test(index)) problems.push('dist contains obsolete deployment URL or base path');
     if (!index.includes('https://zhaofeiran.pages.dev/')) problems.push('dist lacks frozen canonical site URL');
