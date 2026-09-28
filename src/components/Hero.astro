@@ -1,15 +1,20 @@
----
+﻿---
 import { projectUrl } from '../lib/content';
+import { sitePath } from '../lib/urls';
+import { getCollection } from 'astro:content';
 
 interface Props {
   profile: {
     publicName: { zh: string; en?: string };
     schoolWording: { zh: string };
     githubUrl: string;
+    cvMaterialId?: string;
   };
 }
 
 const { profile } = Astro.props;
+const cv = (await getCollection('materials')).find((item) => item.id === profile.cvMaterialId)?.data;
+const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.publicUrl) : undefined;
 ---
 
 <section class="hero-section" aria-labelledby="hero-title">
@@ -105,9 +110,9 @@ const { profile } = Astro.props;
             探索研究脉络 <span class="btn-arrow" aria-hidden="true">↓</span>
           </a>
           <!-- Added CV Button -->
-          <a class="button subtle" href="/cv">
+          {cvUrl && (<a class="button subtle" href={cvUrl} target="_blank" rel="noopener noreferrer">
             学术简历 (CV) <span class="btn-arrow" aria-hidden="true">↗</span>
-          </a>
+          </a>)}
           <a class="button subtle" href={projectUrl('emvision')}>
             阅读旗舰研究 EMvision <span class="btn-arrow" aria-hidden="true">↗</span>
           </a>
