@@ -55,9 +55,13 @@ const emvision = p.get('emvision')!, lowalt = p.get('lowalt-md')!, emtrace = p.g
 
 <style>
   .study-evidence {
-    margin-top: clamp(2rem, 4vw, 4rem);
-    padding-top: clamp(1.5rem, 3vw, 2.5rem);
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    padding-top: clamp(1rem, 2vw, 1.5rem);
     border-top: 1px solid var(--line);
+  }
+  .study-evidence :global(.figure-frame) {
+    max-width: 52rem;
+    margin-inline: auto;
   }
   .study-evidence :global(.figure-image-link img) {
     height: auto;
