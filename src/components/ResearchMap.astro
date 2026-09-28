@@ -1,65 +1,452 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { projectUrl } from '../lib/content';
-interface Props { map: CollectionEntry<'maps'>; }
+
+interface Props {
+  map: CollectionEntry<'maps'>;
+}
+
 const { map } = Astro.props;
-const main = map.data.nodes.filter((node) => node.trackId === 'electromagnetic').sort((a,b) => a.sequence-b.sequence);
-const branch = map.data.nodes.filter((node) => node.trackId === 'autonomous');
-const positioning: Record<string, string> = {
-  'em-trace': '计算电磁基础：模型约定与信号链审计。',
-  'lowalt-md': '传播机制研究：低空微多普勒物理建模。',
-  emvision: '固定合成测试域中的受控识别与归因。',
-  'quadcontrol-lab': '自主系统分支：闭环仿真与状态分析。'
+
+const mainNodes = map.data.nodes
+  .filter((node) => node.trackId === 'electromagnetic')
+  .sort((a, b) => a.sequence - b.sequence);
+
+const branchNode = map.data.nodes.find((node) => node.trackId === 'autonomous');
+
+const names: Record<string, string> = {
+  'em-trace': 'EM-Trace',
+  'lowalt-md': 'LowAlt-MD',
+  emvision: 'EMvision',
+  'quadcontrol-lab': 'QuadControl-Lab'
 };
-const names: Record<string,string> = { 'em-trace': 'EM-Trace', 'lowalt-md': 'LowAlt-MD', emvision: 'EMvision', 'quadcontrol-lab': 'QuadControl-Lab' };
+
+const phaseLabels: Record<string, { step: string; phase: string }> = {
+  'em-trace': { step: 'PHASE 01', phase: '计算基底与信号链' },
+  'lowalt-md': { step: 'PHASE 02', phase: '前向传播与相关' },
+  emvision: { step: 'PHASE 03', phase: '逆向归因与边界' },
+  'quadcontrol-lab': { step: 'PARALLEL', phase: '闭环动力学隔离' }
+};
 ---
-<section class="section map-section" id="research-map" aria-labelledby="map-heading">
+
+<section class="blueprint-section" id="research-map" aria-labelledby="map-heading">
   <div class="shell">
-    <div class="section-intro"><p class="eyebrow">01 / Research Map</p><h2 id="map-heading">研究脉络</h2><p>我以物理建模与可审计实验为共同方法，在电磁感知与自主系统两个方向展开研究。</p></div>
-    <div class="map-universe">
-      <div class="map-theme">
-        <h3>物理驱动智能系统</h3>
-        <p lang="en">Physics-driven Intelligent Systems</p>
-        <p class="map-theme-note">共同研究兴趣与方法</p>
-      </div>
-      <svg class="map-theme-paths" viewBox="0 0 1000 80" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <path class="theme-path-em" d="M500 0 C500 36 250 24 250 80" />
-        <path class="theme-path-autonomous" d="M500 0 C500 36 750 24 750 80" />
+    
+    <div class="section-intro light-intro">
+      <p class="eyebrow">01 / Research Blueprint</p>
+      <h2 id="map-heading">研究坐标图谱</h2>
+      <p>以第一性原理建模与受控审计为共同方法论，在电磁感知与自主系统两个领域建立的结构化探索路径。</p>
+    </div>
+
+    <div class="blueprint-container">
+      <!-- Background Grid Pattern -->
+      <div class="blueprint-bg"></div>
+
+      <!-- Connecting Lines (SVG) -->
+      <svg class="blueprint-lines" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Main Track Line -->
+        <line x1="16%" y1="25%" x2="84%" y2="25%" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6 6" />
+        <!-- Branch Line (Drops down from center) -->
+        <path d="M 50% 25% L 50% 75%" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6 6" />
       </svg>
-    <div class="map-tracks">
-      <div class="map-main" aria-label="电磁感知研究线">
-        <div class="map-track-intro">
-          <h4 class="track-label">Electromagnetic Sensing <span>电磁感知</span></h4>
-          <p>从模型约定、传播机制，到受控识别与归因。</p>
-        </div>
-        <ol class="map-nodes">{main.map((node, index) => <li class:list={['map-node', { 'map-node-flagship': node.projectId === 'emvision' }]}>
-          {index < main.length - 1 && <svg class="map-connector" width="24" aria-hidden="true" focusable="false">
-            <line x1="12" y1="0" x2="12" y2="100%" stroke="currentColor" stroke-width="1" />
-          </svg>}
-          <a class="map-node-link" tabindex="0" href={projectUrl(node.projectId)} aria-labelledby={`map-title-${node.id}`} aria-describedby={`map-role-${node.id}`}>
-            <svg class="map-point" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="5" /></svg>
-            <div class="map-node-title">{node.projectId === 'emvision' && <span class="map-flagship-label">Flagship · 代表项目</span>}<h5 id={`map-title-${node.id}`}>{names[node.projectId]}</h5><svg class="map-entry-arrow" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 16 L15 5 M5 5 H15 V15" /></svg></div>
-            <p class="node-role" id={`map-role-${node.id}`}>{positioning[node.projectId]}</p>
-            <span class="map-detail-hint" aria-hidden="true">点击查看详情</span>
-          </a>
-        </li>)}</ol>
+
+      <div class="nodes-grid">
+        <!-- Track 1: Electromagnetic progression -->
+        {mainNodes.map((node, index) => {
+          const isFlagship = node.projectId === 'emvision';
+          const pInfo = phaseLabels[node.projectId];
+
+          return (
+            <div class={`b-node main-node node-${index + 1} gs-fade-up`}>
+              <div class="node-indicator">
+                <div class="inner-dot"></div>
+              </div>
+              <article class="b-card">
+                <a href={projectUrl(node.projectId)} class="card-link">
+                  <header class="card-header">
+                    <span class="phase-step">{pInfo.step}</span>
+                    {isFlagship && <span class="flagship-mark">★ FLAGSHIP</span>}
+                  </header>
+                  <h5 class="project-title">{names[node.projectId]}</h5>
+                  <p class="project-phase">{pInfo.phase}</p>
+                  <p class="q-text">{node.question.zh}</p>
+                </a>
+              </article>
+            </div>
+          );
+        })}
+
+        <!-- Track 2: Autonomous Branch -->
+        {branchNode && (
+          <div class="b-node branch-node gs-fade-up">
+            <div class="node-indicator auto-indicator">
+              <div class="inner-dot"></div>
+            </div>
+            <article class="b-card auto-card">
+              <a href={projectUrl(branchNode.projectId)} class="card-link">
+                <header class="card-header">
+                  <span class="phase-step auto-step">{phaseLabels[branchNode.projectId].step}</span>
+                  <span class="branch-stamp">独立沙盒</span>
+                </header>
+                <h5 class="project-title">{names[branchNode.projectId]}</h5>
+                <p class="project-phase">{phaseLabels[branchNode.projectId].phase}</p>
+                <p class="q-text">{branchNode.question.zh}</p>
+              </a>
+            </article>
+          </div>
+        )}
       </div>
-      <div class="map-branch" aria-label="独立自主系统分支">
-        <div class="map-track-intro">
-          <h4 class="track-label">Autonomous Systems <span>自主系统 · 独立分支</span></h4>
-          <p>在闭环仿真中审视观测来源与系统行为。</p>
-        </div>
-        {branch.map((node) => <div class="branch-node">
-          <a class="map-node-link" tabindex="0" href={projectUrl(node.projectId)} aria-labelledby={`map-title-${node.id}`} aria-describedby={`map-role-${node.id}`}>
-            <svg class="map-point" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="5" /></svg>
-            <div class="map-node-title"><h5 id={`map-title-${node.id}`}>{names[node.projectId]}</h5><svg class="map-entry-arrow" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 16 L15 5 M5 5 H15 V15" /></svg></div>
-            <p class="node-role" id={`map-role-${node.id}`}>{positioning[node.projectId]}</p>
-            <span class="map-detail-hint" aria-hidden="true">点击查看详情</span>
-          </a>
-        </div>)}
-      </div>
+
     </div>
+
+    <!-- Qualifier -->
+    <div class="audit-qualifier gs-fade-up">
+      <span class="aq-label">RELATIONSHIP AUDIT</span>
+      <p class="aq-text">节点表征物理维度与认知视角的演进，<strong>不代表</strong>软件工程中的直接代码依赖或数据流向。</p>
     </div>
-    <p class="map-qualifier"><strong>关系说明</strong> 连接表示研究主题与方法关注点的演进，不表示数据、代码依赖或因果关系。</p>
+
   </div>
 </section>
+
+<style>
+  /* =========================================================
+     RESEARCH BLUEPRINT (Light/Structured Theme)
+     ========================================================= */
+
+  .blueprint-section {
+    position: relative;
+    background: var(--paper); /* Same as Hero */
+    padding-block: clamp(5rem, 10vw, 8rem);
+    border-top: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .light-intro {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 4rem auto;
+  }
+  .light-intro .eyebrow {
+    color: var(--blue);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+  .light-intro h2 {
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .light-intro p {
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* --- Container & Background --- */
+  .blueprint-container {
+    position: relative;
+    width: 100%;
+    padding: 3rem 0;
+    margin-bottom: 3rem;
+  }
+
+  .blueprint-bg {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(99, 179, 237, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99, 179, 237, 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center;
+    z-index: 0;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  }
+
+  .blueprint-lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* --- Grid Layout --- */
+  .nodes-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 4rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* Node Placements */
+  .main-node.node-1 { grid-column: 1; grid-row: 1; }
+  .main-node.node-2 { grid-column: 2; grid-row: 1; }
+  .main-node.node-3 { grid-column: 3; grid-row: 1; }
+  .branch-node      { grid-column: 2; grid-row: 2; } /* Placed under Phase 2 for symmetry */
+
+  .b-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+  }
+
+  /* Node Indicator (Dots on the lines) */
+  .node-indicator {
+    width: 24px;
+    height: 24px;
+    background: var(--paper);
+    border: 2px solid var(--blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    z-index: 5;
+    position: relative;
+    box-shadow: 0 0 0 4px var(--paper); /* Cut out line behind */
+  }
+  .inner-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--blue);
+    border-radius: 50%;
+  }
+
+  .auto-indicator {
+    border-color: #48bb78;
+  }
+  .auto-indicator .inner-dot {
+    background: #48bb78;
+  }
+
+  /* --- Cards --- */
+  .b-card {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
+    overflow: hidden;
+    --accent: rgba(99, 179, 237, 1); /* Blue for main nodes */
+  }
+
+  .auto-card {
+    --accent: rgba(72, 187, 120, 1); /* Green for branch node */
+  }
+
+  /* Soft Inner Glow and Border Highlight */
+  .b-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: inset 0 0 0 1px transparent;
+    transition: box-shadow 0.4s ease;
+    z-index: 1;
+  }
+
+  /* Sweeping Scanline Effect */
+  .b-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 15%, transparent), transparent);
+    transform: skewX(-25deg);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .b-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.06), 0 5px 15px color-mix(in srgb, var(--accent) 15%, transparent);
+    border-color: transparent; /* Hide original border to let pseudo-element shine */
+  }
+
+  .b-card:hover::before {
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--accent) 60%, transparent), 
+                inset 0 0 20px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .b-card:hover::after {
+    animation: scan-light 0.8s ease-out forwards;
+  }
+
+  @keyframes scan-light {
+    0% { left: -150%; }
+    100% { left: 200%; }
+  }
+
+  .card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+    position: relative;
+    z-index: 2; /* Content above the scanline */
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+  }
+  
+  .phase-step {
+    color: var(--blue);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  
+  .auto-step {
+    color: #48bb78;
+  }
+
+  .flagship-mark {
+    background: var(--ink);
+    color: #fff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.65rem;
+  }
+
+  .branch-stamp {
+    border: 1px solid #48bb78;
+    color: #48bb78;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  .project-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+    font-family: var(--serif);
+  }
+
+  .project-phase {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  .q-text {
+    font-size: 0.9rem;
+    color: var(--ink-light);
+    line-height: 1.5;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 1rem;
+  }
+
+  /* Qualifier */
+  .audit-qualifier {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 6px;
+  }
+  .aq-label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+  }
+  .aq-text {
+    font-size: 0.85rem;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+  .aq-text strong {
+    color: #e53e3e;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 900px) {
+    .nodes-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      gap: 3rem;
+    }
+    .main-node.node-1 { grid-column: 1; grid-row: 1; }
+    .main-node.node-2 { grid-column: 1; grid-row: 2; }
+    .main-node.node-3 { grid-column: 1; grid-row: 3; }
+    .branch-node      { grid-column: 1; grid-row: 4; }
+    
+    .blueprint-lines {
+      display: none; /* Hide SVG lines on mobile, rely on cards */
+    }
+    .node-indicator {
+      margin-bottom: 1rem;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const initMap = () => {
+    // Simple fade up for elements
+    gsap.utils.toArray('.gs-fade-up').forEach((el: any, i) => {
+      gsap.fromTo(el,
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+    });
+
+    // Draw lines animation
+    gsap.fromTo(".blueprint-lines line, .blueprint-lines path",
+      { strokeDasharray: "0 1000" },
+      {
+        strokeDasharray: "6 6",
+        duration: 2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".blueprint-container",
+          start: "top 70%"
+        }
+      }
+    );
+  };
+
+  // Run on first load
+  initMap();
+  
+  // Re-run on View Transitions
+  document.addEventListener('astro:page-load', initMap);
+</script>

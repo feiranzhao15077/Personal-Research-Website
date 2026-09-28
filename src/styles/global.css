@@ -1,4 +1,4 @@
-@layer reset, tokens, base, layout, components, responsive;
+﻿@layer reset, tokens, base, layout, components, responsive;
 
 @layer reset {
   *, *::before, *::after { box-sizing: border-box; }
@@ -125,20 +125,20 @@
   }
   .flagship-section { background: var(--paper); }
   .heading-sub { font-family: var(--sans); font-size: .45em; font-weight: 400; color: var(--ink-faint); vertical-align: middle; margin-left: .6rem; letter-spacing: 0; }
-  .flagship-overview { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+  .flagship-overview { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(4rem, 10vw, 8rem); justify-content: space-between; align-items: start; }
   .flagship-figure { max-width: var(--evidence); margin-top: 3rem; }
   .factor-list { display: grid; gap: .45rem; margin-top: 1.6rem; }
   .factor-list div { display: grid; grid-template-columns: 2rem 1fr; gap: .5rem; padding-top: .45rem; border-top: 1px solid var(--line-soft); }
   .factor-list dt { color: var(--blue); font-weight: 800; }
   .factor-list dd { color: var(--ink-soft); }
-  .flagship-result { padding: 1.2rem 0 1rem; border-top: 1px solid var(--blue); }
+  .flagship-result { padding: 1.2rem 0 1rem 3rem; border-top: 1px solid var(--blue); margin-left: 4rem; }
   .result-label { margin-bottom: 1.2rem; color: var(--blue); font-size: .88rem; font-weight: 700; }
-  .endpoint-line { display: flex; align-items: end; gap: .8rem; flex-wrap: wrap; }
+  .endpoint-line { display: flex; align-items: end; gap: 2.5rem; flex-wrap: wrap; }
   .endpoint-line > div { display: flex; flex-direction: column; gap: .15rem; }
   .endpoint-line span:not(.endpoint-arrow) { color: var(--ink-soft); font-size: .84rem; }
   .endpoint-line strong { color: var(--ink); font: 600 clamp(1.85rem, 3vw, 2.35rem)/1.15 var(--sans); font-variant-numeric: tabular-nums; }
-  .endpoint-arrow { color: var(--blue); font-size: 1.6rem; padding-bottom: .3rem; }
-  .difference-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem 1.4rem; margin-top: 1.15rem; font-size: .95rem; }
+  .endpoint-arrow { color: var(--blue); font-size: 1.6rem; padding-bottom: .3rem; margin: 0 1rem; }
+  .difference-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem 3rem; margin-top: 1.15rem; font-size: .95rem; }
   .difference-line strong { color: var(--blue); font-variant-numeric: tabular-nums; font-size: 1.25rem; }
   .result-context, .result-source { margin-top: 1rem; color: var(--ink-soft); font-size: .88rem; line-height: 1.65; }
   .result-boundary { margin-top: 1rem; border-left: 2px solid var(--line); padding: .1rem 0 .1rem 1rem; font-size: .9rem; line-height: 1.65; }

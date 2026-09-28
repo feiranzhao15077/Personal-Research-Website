@@ -1,6 +1,7 @@
 ---
 import { sitePath } from '../lib/urls';
 import { getCollection } from 'astro:content';
+import Hero from '../components/Hero.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ResearchMap from '../components/ResearchMap.astro';
 import EvidenceBlock from '../components/EvidenceBlock.astro';
@@ -21,19 +22,7 @@ const initialRelease = import.meta.env.RELEASE_MODE === 'production' && import.m
 const emvision = p.get('emvision')!, lowalt = p.get('lowalt-md')!, emtrace = p.get('em-trace')!, quad = p.get('quadcontrol-lab')!;
 ---
 <BaseLayout title="应用物理 · 计算电磁 · 智能感知" description="围绕电磁感知与无人系统，以可审计的物理模型、受控实验和明确的证据边界呈现四个研究项目。">
-  <section class="hero" aria-labelledby="hero-title"><div class="shell hero-grid">
-    <div class="hero-copy">
-      <h1 id="hero-title">{profile.publicName.zh}</h1>
-      <p class="hero-identity">{profile.schoolWording.zh}本科生</p>
-      <p class="hero-deck">以物理建模为基础，<br />探索电磁感知、智能探测与自主系统。</p>
-      <p class="hero-note">从物理模型，到可审计的研究证据。</p>
-      <div class="cta-row">
-        <a class="button primary" href="#research-map">探索研究脉络 <span aria-hidden="true">↓</span></a>
-        <a class="button subtle" href={projectUrl('emvision')}>阅读 EMvision <span aria-hidden="true">↗</span></a>
-      </div>
-      <a class="hero-github" href={profile.githubUrl} target="_blank" rel="noopener noreferrer">Research Portfolio / GitHub <span aria-hidden="true">↗</span></a>
-    </div>
-  </div></section>
+  <Hero profile={profile} />
 
   <ResearchMap map={map} />
 

@@ -7,14 +7,170 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
 ---
 <header class="site-header">
   <div class="shell header-inner">
-    <a class="brand" href={sitePath('/')} aria-label={`${profile.publicName.zh} 研究主页`}><span class="brand-mark" aria-hidden="true">R<span class="brand-dot">.</span></span><span class="brand-name">{profile.publicName.zh}<span class="brand-context"> / Research Portfolio</span></span></a>
+    <a class="brand" href={sitePath('/')} aria-label={`${profile.publicName.zh} 研究主页`}>
+      <span class="brand-mark" aria-hidden="true">R<span class="brand-dot">.</span></span>
+      <span class="brand-name">{profile.publicName.zh}<span class="brand-context"> / Research Portfolio</span></span>
+    </a>
     <nav aria-label="主导航" class="site-nav">
-      <a href={sitePath('/#research-map')}>研究脉络</a>
-      <a href={sitePath('/#projects')}>项目</a>
-      <a href={sitePath('/#about')}>关于</a>
-      <a href={sitePath('/#materials')}>资料</a>
-      {cvUrl && <a href={cvUrl} target="_blank" rel="noopener">CV ↗</a>}
-      <a href={sitePath('/#contact')}>联系</a>
+      <a class="nav-link" href={sitePath('/#research-map')}>研究脉络</a>
+      <a class="nav-link" href={sitePath('/#projects')}>项目</a>
+      <a class="nav-link" href={sitePath('/#about')}>关于</a>
+      <a class="nav-link" href={sitePath('/#materials')}>资料</a>
+      {cvUrl && (
+        <a class="nav-link nav-cv" href={cvUrl} target="_blank" rel="noopener">
+          CV <span class="cv-arrow" aria-hidden="true">↗</span>
+        </a>
+      )}
+      <a class="nav-link" href={sitePath('/#contact')}>联系</a>
     </nav>
   </div>
 </header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(247, 247, 242, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line-soft);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .header-inner {
+    min-height: 4.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    color: var(--ink);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 0.15s ease;
+  }
+
+  .brand:hover {
+    transform: translateY(-1px);
+  }
+
+  .brand-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    background: var(--blue);
+    color: var(--paper);
+    font-family: var(--serif);
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1;
+    border-radius: 3px;
+    box-shadow: 0 2px 6px rgba(33, 79, 115, 0.18);
+  }
+
+  .brand-dot {
+    color: #e5c39c;
+  }
+
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .brand-context {
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-left: 0.35rem;
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .nav-link {
+    font-family: var(--sans);
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 0.5rem 0.95rem;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-link:hover {
+    color: var(--blue);
+    background: rgba(33, 79, 115, 0.08);
+    text-decoration: none;
+  }
+
+  .nav-link:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+  }
+
+  /* Academic CV Pill Accent */
+  .nav-cv {
+    color: var(--blue);
+    background: var(--blue-pale);
+    border: 1px solid rgba(33, 79, 115, 0.25);
+    padding: 0.42rem 0.9rem;
+    font-weight: 700;
+    margin-left: 0.25rem;
+  }
+
+  .nav-cv:hover {
+    background: var(--blue);
+    color: var(--white);
+    border-color: var(--blue);
+  }
+
+  .cv-arrow {
+    font-size: 0.85em;
+    transition: transform 0.15s ease;
+  }
+
+  .nav-cv:hover .cv-arrow {
+    transform: translate(1px, -1px);
+  }
+
+  @media (max-width: 768px) {
+    .header-inner {
+      min-height: 4rem;
+      padding-block: 0.5rem;
+    }
+
+    .brand-context {
+      display: none;
+    }
+
+    .site-nav {
+      gap: 0.2rem;
+    }
+
+    .nav-link {
+      font-size: 0.88rem;
+      padding: 0.4rem 0.6rem;
+    }
+  }
+</style>
