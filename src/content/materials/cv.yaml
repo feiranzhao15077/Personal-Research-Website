@@ -2,9 +2,12 @@ id: cv
 label:
   zh: 学术 CV
 type: CV
-accessStatus: PENDING
-approvalStatus: PENDING
+publicUrl: /documents/Zhaofeiran_CV.pdf
+sourceHash: 56fc85fd10227e59be03a82f658ac5216619da221a670a487924cea7c4394fc1
+sourceSize: 255663
+accessStatus: PUBLIC
+approvalStatus: APPROVED
 recommendedPlacement:
-- HERO
 - MATERIALS
+- CONTACT
 - CONTACT

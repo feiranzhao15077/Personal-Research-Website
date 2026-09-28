@@ -35,9 +35,9 @@ try {
     assert.equal(await page.locator('a[href$="/documents/research-overview.pdf"]').count() > 0, true);
     assert.equal(await page.locator('a[href^="https://github.com/"]').count() > 0, true);
     assert.equal(await page.locator('a[href^="mailto:"]').count() > 0, true);
-    if (await page.locator('a[href$="/documents/cv.pdf"]').count()) {
-      assert.equal(await page.locator('a[href$="/documents/cv.pdf"][download="cv.pdf"]').count(), 1);
-      const cv = await fetch(url('/documents/cv.pdf'));
+    if (await page.locator('a[href$="/documents/Zhaofeiran_CV.pdf"]').count()) {
+      assert.equal(await page.locator('a[href$="/documents/Zhaofeiran_CV.pdf"][download="Zhaofeiran_CV.pdf"]').count(), 1);
+      const cv = await fetch(url('/documents/Zhaofeiran_CV.pdf'));
       assert.equal(cv.status, 200);
       assert.match(cv.headers.get('content-type') || '', /application\/pdf/);
       assert.equal(Buffer.from(await cv.arrayBuffer()).subarray(0, 5).toString(), '%PDF-');

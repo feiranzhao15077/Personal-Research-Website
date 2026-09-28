@@ -109,7 +109,23 @@ test('CV has a visible reserved slot without a fabricated download', async ({ pa
   await page.goto('/');
   if (process.env.RELEASE_MODE === 'production' && process.env.RELEASE_TARGET === 'initial') {
     await expect(page.locator('.material-item.pending')).toHaveCount(0);
-    await expect(page.locator('a[href*="/documents/cv.pdf"]')).toHaveCount(0);
+    await expect(page.locator('a[href*="/documents/Zhaofeiran_CV.pdf"]')).toHaveCount(0);
+    return;
+  }
+  if (process.env.RELEASE_MODE === 'production') {
+    const cv = page.locator('.material-item').filter({ hasText: '学术 CV' });
+    const url = '/documents/Zhaofeiran_CV.pdf';
+    const open = cv.getByRole('link', { name: '打开 CV' });
+    const download = cv.getByRole('link', { name: '下载 CV' });
+    await expect(open).toHaveAttribute('href', url);
+    await expect(open).toHaveAttribute('target', '_blank');
+    await expect(download).toHaveAttribute('href', url);
+    await expect(download).toHaveAttribute('download', 'Zhaofeiran_CV.pdf');
+    const response = await page.request.get(new URL(url, page.url()).toString());
+    expect(response.status()).toBe(200);
+    expect(response.headers()['content-type']).toContain('application/pdf');
+    expect((await response.body()).subarray(0, 5).toString()).toBe('%PDF-');
+    expect(await page.locator('.hero a[href="/documents/Zhaofeiran_CV.pdf"]').count()).toBe(0);
     return;
   }
   const cv = page.locator('.material-item.pending');

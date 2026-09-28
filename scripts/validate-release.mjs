@@ -28,15 +28,15 @@ try {
 const base = process.env.PUBLIC_BASE_PATH || '/';
 if (!/^\/(?:[a-zA-Z0-9_-]+\/)*$/.test(base)) block('BASE_PATH_INVALID', 'PUBLIC_BASE_PATH 必须为 / 或 /repository-name/');
 if (origin.replace(/\/$/, '') !== 'https://zhaofeiran.pages.dev' || base !== '/') block('SITE_IDENTITY_MISMATCH', '正式站点仅允许 https://zhaofeiran.pages.dev/ 且 base=/');
-const cvPath = path.join(root, 'public/documents/cv.pdf');
+const cvPath = path.join(root, 'public/documents/Zhaofeiran_CV.pdf');
 if (target === 'initial') {
   if (cv.accessStatus !== 'PENDING' || cv.publicUrl || fs.existsSync(cvPath)) block('INITIAL_CV_EXPOSED', '初版不得包含 CV 链接或 PDF');
 } else {
-  if (cv.accessStatus !== 'PUBLIC' || cv.publicUrl !== '/documents/cv.pdf' || cv.type !== 'CV' || cv.id !== profile.cvMaterialId) {
-    block('FINAL_CV_MISSING', 'cv.yaml 尚未指向已批准的 /documents/cv.pdf');
+  if (cv.accessStatus !== 'PUBLIC' || cv.publicUrl !== '/documents/Zhaofeiran_CV.pdf' || cv.type !== 'CV' || cv.id !== profile.cvMaterialId) {
+    block('FINAL_CV_MISSING', 'cv.yaml 尚未指向已批准的 /documents/Zhaofeiran_CV.pdf');
   }
   if (cv.approvalStatus !== 'APPROVED') block('FINAL_CV_UNAPPROVED', '最终 CV 尚未得到本人批准');
-  if (!fs.existsSync(cvPath)) block('FINAL_CV_MISSING', 'public/documents/cv.pdf 不存在');
+  if (!fs.existsSync(cvPath)) block('FINAL_CV_MISSING', 'public/documents/Zhaofeiran_CV.pdf 不存在');
   else {
     const buffer = fs.readFileSync(cvPath);
     const hash = createHash('sha256').update(buffer).digest('hex');

@@ -54,7 +54,7 @@ npm run dry-run
 
 `INITIAL_SITE_RELEASE` 允许最终 CV 缺席，但会拒绝任何 CV 链接或临时 PDF；生产首页隐藏 CV 占位。`FULL_RELEASE` 仍要求本人批准的 CV、固定路径和 hash。`npm run predeploy:initial` 检查类型、内容、隐私、发布模式、生产构建、静态与浏览器测试、站内及外部链接。正式构建生成允许抓取的 robots/sitemap，404 仍 noindex。
 
-当前最终 CV 未完成，因此 `npm run validate:release` 与 `npm run predeploy` 会以 `RELEASE BLOCKER` 失败；草稿构建仍可用，站内保留无链接占位。最终 CV 须放在 `public/documents/cv.pdf`，并仅在 `src/content/materials/cv.yaml` 中设置 `accessStatus: PUBLIC`、`approvalStatus: APPROVED`、`publicUrl: /documents/cv.pdf`、实际 SHA-256 `sourceHash` 与字节数 `sourceSize`。Header、首页 CTA、资料区和 Footer 的 CV 链接统一从该条目生成。
+最终 CV 文件为 `public/documents/Zhaofeiran_CV.pdf`。其 `src/content/materials/cv.yaml` 条目记录 `accessStatus: PUBLIC`、`approvalStatus: APPROVED`、稳定 `publicUrl`、原文件 SHA-256 `sourceHash` 与字节数 `sourceSize`。About、导航与资料区提供 CV 入口；Hero 保持不显示 CV 按钮。
 
 Cloudflare Pages 连接公开源码仓库 `feiranzhao15077/Personal-Research-Website` 的 `main` 分支。构建命令 `npm run build`，输出目录 `dist`，Node 24.20.0；生产环境变量为 `RELEASE_MODE=production`、`RELEASE_TARGET=initial`、`PUBLIC_SITE_URL=https://zhaofeiran.pages.dev`、`PUBLIC_BASE_PATH=/`。不需要 Astro Cloudflare adapter、SSR、Pages Functions 或 Workers。`npm run dry-run` 对当前 `dist/` 进行本地静态服务浏览器预检。
 

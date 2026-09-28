@@ -41,7 +41,7 @@ if (release) {
   }
   const cv = YAML.parse(fs.readFileSync(path.join(root, 'src/content/materials/cv.yaml'), 'utf8'));
   if (process.env.RELEASE_TARGET === 'initial') {
-    if (cv.accessStatus !== 'PENDING' || cv.publicUrl || fs.existsSync(path.join(root, 'public/documents/cv.pdf'))) problems.push('initial release contains a CV asset or link');
+    if (cv.accessStatus !== 'PENDING' || cv.publicUrl || fs.existsSync(path.join(root, 'public/documents/Zhaofeiran_CV.pdf'))) problems.push('initial release contains a CV asset or link');
   } else if (cv.accessStatus !== 'PUBLIC' || !cv.publicUrl) problems.push('CV is not public and approved');
   if (scanDist) {
     const index = fs.readFileSync(path.join(root, 'dist/index.html'), 'utf8');
