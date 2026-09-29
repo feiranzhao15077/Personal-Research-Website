@@ -18,6 +18,7 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
 ---
 
 <section class="hero-section" aria-labelledby="hero-title">
+  <img class="hero-signature" src="/hero-signature.png" alt="赵斐然手写签名" width="1774" height="887" decoding="async" />
   <!-- Precision Electromagnetic Field Background (Dynamic effects on the right) -->
   <div class="hero-em-field" aria-hidden="true">
     <svg class="em-svg" viewBox="0 0 1400 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
@@ -131,7 +132,6 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
 
       <!-- Right Column: Welcome Text and Drone -->
       <div class="hero-right">
-        
         <div class="hero-welcome">
           <div class="intro-text-wrapper">
             <span class="intro-char">欢</span>
@@ -214,6 +214,21 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
     z-index: 2;
     flex-grow: 1;
     padding-top: 0;
+  }
+
+  .hero-signature {
+    position: absolute;
+    top: 1rem;
+    right: max(1rem, calc((100vw - 1200px) / 2));
+    width: clamp(230px, 26vw, 380px);
+    height: 5.5rem;
+    object-fit: cover;
+    object-position: center;
+    mix-blend-mode: multiply;
+    filter: grayscale(1) contrast(2.4);
+    opacity: .82;
+    pointer-events: none;
+    z-index: 3;
   }
 
   /* --- Welcome Text on the Right --- */
@@ -644,6 +659,7 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
     .hero-layout { flex-direction: column; align-items: stretch; min-height: 0; }
     .hero-content { width: 100%; max-width: none; min-width: 0; }
     .hero-right { width: 100%; flex-grow: 0; align-items: center; }
+    .hero-signature { top: 1.25rem; right: 1rem; width: min(50vw, 220px); height: 4.5rem; }
     .hero-welcome { align-items: center; max-width: 100%; }
     .intro-text-wrapper { font-size: clamp(1.4rem, 5vw, 2.5rem); letter-spacing: .06em; }
     .intro-sys-boot { font-size: .7rem; letter-spacing: .1em; text-align: center; }
@@ -695,10 +711,12 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
         ".cta-row", 
         ".hero-links",
         ".hero-em-field",
+        ".hero-signature",
         ".intro-sys-boot",
         ".drone-display",
         ".intro-char"
       ], { opacity: 1 });
+      gsap.set(".hero-signature", { opacity: 0.82 });
       
       gsap.set(".intro-cursor", { opacity: 0 });
       gsap.set(".hero-welcome", { clearProps: "all" });
@@ -718,6 +736,7 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
       ".cta-row", 
       ".hero-links",
       ".hero-em-field",
+      ".hero-signature",
       ".intro-sys-boot",
       ".drone-display"
     ], { opacity: 0 });
@@ -800,6 +819,12 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
       { y: 30, scale: 0.9 },
       { y: 0, scale: 1, opacity: 1, duration: 1, ease: "back.out(1.5)" }, 
       "moveRight+=0.4"
+    );
+
+    tl.fromTo(".hero-signature",
+      { y: 8 },
+      { y: 0, opacity: 0.82, duration: 0.8, ease: "power2.out" },
+      "moveRight+=0.5"
     );
     
     // The SVG waves fade in
