@@ -685,6 +685,7 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
     const previousOverflow = document.body.style.overflow;
     
     if (hasSeenIntro) {
+      document.documentElement.classList.remove('hero-intro-pending');
       // Skip animation, just set everything to visible
       gsap.set([
         ".simple-portrait-wrapper", 
@@ -731,6 +732,8 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
       scale: 1.5,
       zIndex: 999
     });
+    gsap.set([".intro-char", ".intro-cursor"], { opacity: 0 });
+    document.documentElement.classList.remove('hero-intro-pending');
 
     const tl = gsap.timeline({
       onComplete: () => {

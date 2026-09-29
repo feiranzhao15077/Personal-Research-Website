@@ -17,6 +17,21 @@ const pageTitle = `${title} · ${profile.publicName.zh}`;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {path === '/' && <>
+      <script is:inline>
+        try {
+          if (matchMedia('(min-width: 901px)').matches && !sessionStorage.getItem('hasSeenHeroIntro')) {
+            document.documentElement.classList.add('hero-intro-pending');
+            setTimeout(() => document.documentElement.classList.remove('hero-intro-pending'), 8000);
+          }
+        } catch { /* Keep the static homepage readable if storage is unavailable. */ }
+      </script>
+      <style is:inline>
+        @media (min-width: 901px) {
+          .hero-intro-pending .hero-section { visibility: hidden; }
+        }
+      </style>
+    </>}
     <meta name="color-scheme" content="light" />
     <meta name="description" content={description} />
     {(isDraft || path === '/404.html') && <meta name="robots" content="noindex,nofollow" />}
