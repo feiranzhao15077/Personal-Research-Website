@@ -5,22 +5,31 @@
 const project = (x: number, y: number, z: number) => [70 + x - .65 * z, 128 - .08 * x - y + .35 * z];
 const wave = (x: number) => 46 * Math.sin(4 * Math.PI * x / 280);
 const coordinate = (point: number[]) => point.map((value) => value.toFixed(2)).join(' ');
-const samples = Array.from({ length: 161 }, (_, index) => 280 * index / 160);
+// One extra period on each side allows a seamless transform within fixed planes.
+const samples = Array.from({ length: 321 }, (_, index) => -140 + 560 * index / 320);
 const electric = samples.map((x) => project(x, wave(x), 0));
 const magnetic = samples.map((x) => project(x, 0, wave(x)));
 const path = (points: number[][]) => points.map((point, index) => `${index ? 'L' : 'M'} ${coordinate(point)}`).join(' ');
 const electricPath = path(electric);
 const magneticPath = path(magnetic);
-const fieldVectors = Array.from({ length: 33 }, (_, index) => 280 * index / 32)
+const fieldVectors = Array.from({ length: 65 }, (_, index) => -140 + 560 * index / 64)
   .filter((x) => Math.abs(wave(x)) > 1)
   .map((x) => ({ origin: project(x, 0, 0), e: project(x, wave(x), 0), b: project(x, 0, wave(x)) }));
+const electricClip = [[0, 58, 0], [280, 58, 0], [280, -58, 0], [0, -58, 0]]
+  .map(([x, y, z]) => coordinate(project(x, y, z))).join(' ');
+const magneticClip = [[0, 0, 58], [280, 0, 58], [280, 0, -58], [0, 0, -58]]
+  .map(([x, y, z]) => coordinate(project(x, y, z))).join(' ');
+const planePath = (curve: string) => `${curve} L ${coordinate(project(420, 0, 0))} L ${coordinate(project(-140, 0, 0))} Z`;
 ---
 
 <figure class="em-wave-figure">
+  <button class="em-wave-control" type="button" aria-label="播放电磁波传播动画" aria-pressed="false">
   <svg class="em-wave-diagram" viewBox="0 0 430 205" role="img" aria-labelledby="approach-wave-title approach-wave-description">
     <title id="approach-wave-title">三维坐标中的电磁波传播示意</title>
     <desc id="approach-wave-description">理想平面电磁波：电场 E 沿 y 方向、磁场 B 沿 z 方向同相振荡，沿正 x 方向传播。两种场的显示振幅分别归一化，仅作概念示意。</desc>
     <defs>
+      <clipPath id="approach-wave-electric-clip"><polygon points={electricClip} /></clipPath>
+      <clipPath id="approach-wave-magnetic-clip"><polygon points={magneticClip} /></clipPath>
       <marker id="approach-wave-axis" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="5" markerHeight="5" orient="auto">
         <path d="M 0 0 L 6 3 L 0 6" fill="none" stroke="var(--ink-soft)" stroke-width="1" />
       </marker>
@@ -36,19 +45,23 @@ const fieldVectors = Array.from({ length: 33 }, (_, index) => 280 * index / 32)
       <path d="M 70 161 L 70 43" />
       <path d="M 103 110.23 L 16 157.08" />
     </g>
-    <g class="wave-magnetic">
-      <path class="wave-plane" d={`${magneticPath} L ${coordinate(project(0, 0, 0))} Z`} />
+    <g class="wave-magnetic" clip-path="url(#approach-wave-magnetic-clip)">
+      <g class="wave-pattern">
+      <path class="wave-plane" d={planePath(magneticPath)} />
       <g class="wave-vectors" marker-end="url(#approach-wave-magnetic)">
         {fieldVectors.map(({ origin, b }) => <path d={`M ${coordinate(origin)} L ${coordinate(b)}`} />)}
       </g>
       <path class="wave-curve" d={magneticPath} />
+      </g>
     </g>
-    <g class="wave-electric">
-      <path class="wave-plane" d={`${electricPath} L ${coordinate(project(0, 0, 0))} Z`} />
+    <g class="wave-electric" clip-path="url(#approach-wave-electric-clip)">
+      <g class="wave-pattern">
+      <path class="wave-plane" d={planePath(electricPath)} />
       <g class="wave-vectors" marker-end="url(#approach-wave-electric)">
         {fieldVectors.map(({ origin, e }) => <path d={`M ${coordinate(origin)} L ${coordinate(e)}`} />)}
       </g>
       <path class="wave-curve" d={electricPath} />
+      </g>
     </g>
     <g class="wave-axis-labels">
       <text x="405" y="108">x</text>
@@ -59,10 +72,23 @@ const fieldVectors = Array.from({ length: 33 }, (_, index) => 280 * index / 32)
     <text class="wave-field-label wave-electric" x="120" y="72">E</text>
     <text class="wave-field-label wave-magnetic" x="229" y="150">B</text>
   </svg>
+  </button>
 </figure>
 
 <style>
   .em-wave-figure { width: 100%; margin: 0; }
+  .em-wave-control {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .em-wave-control:focus-visible { outline: 1px solid var(--blue); outline-offset: 4px; }
+  .em-wave-control[aria-disabled="true"] { cursor: default; }
   .em-wave-diagram { display: block; width: 100%; height: auto; overflow: visible; }
   .wave-axes { stroke: var(--ink-soft); stroke-width: .85; opacity: .55; }
   .wave-electric { color: var(--blue); }
@@ -75,7 +101,13 @@ const fieldVectors = Array.from({ length: 33 }, (_, index) => 280 * index / 32)
   @media (hover: hover) and (pointer: fine) {
     .em-wave-figure:hover .wave-curve { opacity: 1; }
   }
+  .em-wave-control[aria-pressed="true"] .wave-curve { opacity: 1; }
   @media (prefers-reduced-motion: reduce) {
     .wave-curve { transition: none; }
   }
 </style>
+
+<script>
+  import { setupWaveInteraction } from '../lib/wave-interaction';
+  document.querySelectorAll<HTMLButtonElement>('.em-wave-control').forEach(setupWaveInteraction);
+</script>

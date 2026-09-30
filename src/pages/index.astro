@@ -85,6 +85,48 @@ const approachStages = [
 </BaseLayout>
 
 <style>
+  .flagship-section .section-intro {
+    max-width: 58rem;
+    margin-bottom: clamp(2rem, 3.5vw, 3rem);
+  }
+  .flagship-section .section-intro h2 {
+    font-size: clamp(1.9rem, 3vw, 2.4rem);
+    line-height: 1.25;
+    margin-bottom: 1.25rem;
+  }
+  .flagship-section .heading-sub {
+    font-size: 1rem;
+    margin-left: .8rem;
+  }
+  .flagship-section :global(.research-summary) { max-width: 76ch; margin-block: 0 1rem; }
+  .flagship-section :global(.narrative-title) { font-size: 1.05rem; line-height: 1.6; margin-bottom: .6rem; }
+  .flagship-section :global(.narrative-copy),
+  .flagship-section .section-intro > p:last-child { font-size: 1rem; line-height: 1.8; }
+  .flagship-section .section-intro > p:last-child { max-width: 76ch; margin-top: 1rem; }
+  .flagship-section .flagship-overview {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+  .flagship-section .feature-content { min-width: 0; padding-top: 1rem; border-top: 1px solid var(--blue); }
+  .flagship-section .small-label { margin-bottom: 1rem; }
+  .flagship-section .feature-question { font: 400 1.125rem/1.8 var(--serif); margin-bottom: 1.5rem; }
+  .flagship-section .factor-list { margin-top: 0; gap: .65rem; font-size: .95rem; }
+  .flagship-section :global(.flagship-result) { min-width: 0; margin-left: 0; padding: 1rem 0 0; }
+  .flagship-section :global(.result-label) { font-size: .85rem; margin-bottom: 1.15rem; }
+  .flagship-section :global(.endpoint-line) { gap: 1rem; }
+  .flagship-section :global(.endpoint-arrow) { margin: 0; font-size: 1.35rem; }
+  .flagship-section :global(.endpoint-line strong) { font-size: clamp(1.8rem, 2.5vw, 2.2rem); }
+  .flagship-section :global(.difference-line) { font-size: .9rem; gap: .5rem 1.5rem; }
+  .flagship-section :global(.difference-line strong) { font-size: 1.15rem; }
+  .flagship-section :global(.result-context),
+  .flagship-section :global(.result-source),
+  .flagship-section :global(.result-boundary) { font-size: .9rem; line-height: 1.75; }
+  @media (max-width: 900px) {
+    .flagship-section .flagship-overview { grid-template-columns: 1fr; gap: 2rem; }
+  }
+  @media (max-width: 370px) {
+    .flagship-section .heading-sub { margin: .4rem 0 0; }
+  }
   .approach-heading-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
