@@ -3,7 +3,10 @@
 // Field relationships: OpenStax, University Physics Vol. 2, §16.2.
 // Independently drawn illustration; no project measurements are represented.
 const project = (x: number, y: number, z: number) => [70 + x - .65 * z, 128 - .08 * x - y + .35 * z];
-const wave = (x: number) => 46 * Math.sin(4 * Math.PI * x / 280);
+const amplitude = 46;
+const period = 140;
+const vectorCount = 25;
+const wave = (x: number) => amplitude * Math.sin(2 * Math.PI * x / period);
 const coordinate = (point: number[]) => point.map((value) => value.toFixed(2)).join(' ');
 // One extra period on each side allows a seamless transform within fixed planes.
 const samples = Array.from({ length: 321 }, (_, index) => -140 + 560 * index / 320);
@@ -12,9 +15,10 @@ const magnetic = samples.map((x) => project(x, 0, wave(x)));
 const path = (points: number[][]) => points.map((point, index) => `${index ? 'L' : 'M'} ${coordinate(point)}`).join(' ');
 const electricPath = path(electric);
 const magneticPath = path(magnetic);
-const fieldVectors = Array.from({ length: 65 }, (_, index) => -140 + 560 * index / 64)
+const fieldVectors = Array.from({ length: vectorCount }, (_, index) => 280 * index / (vectorCount - 1))
   .filter((x) => Math.abs(wave(x)) > 1)
   .map((x) => ({ origin: project(x, 0, 0), e: project(x, wave(x), 0), b: project(x, 0, wave(x)) }));
+const vectorPath = (field: 'e' | 'b') => fieldVectors.map((vector) => `M ${coordinate(vector.origin)} L ${coordinate(vector[field])}`).join(' ');
 const electricClip = [[0, 58, 0], [280, 58, 0], [280, -58, 0], [0, -58, 0]]
   .map(([x, y, z]) => coordinate(project(x, y, z))).join(' ');
 const magneticClip = [[0, 0, 58], [280, 0, 58], [280, 0, -58], [0, 0, -58]]
@@ -23,7 +27,7 @@ const planePath = (curve: string) => `${curve} L ${coordinate(project(420, 0, 0)
 ---
 
 <figure class="em-wave-figure">
-  <button class="em-wave-control" type="button" aria-label="播放电磁波传播动画" aria-pressed="false">
+  <button class="em-wave-control" type="button" aria-label="播放电磁波传播动画" aria-pressed="false" data-wave-amplitude={amplitude} data-wave-period={period} data-wave-vector-count={vectorCount}>
   <svg class="em-wave-diagram" viewBox="0 0 430 205" role="img" aria-labelledby="approach-wave-title approach-wave-description">
     <title id="approach-wave-title">三维坐标中的电磁波传播示意</title>
     <desc id="approach-wave-description">理想平面电磁波：电场 E 沿 y 方向、磁场 B 沿 z 方向同相振荡，沿正 x 方向传播。两种场的显示振幅分别归一化，仅作概念示意。</desc>
@@ -48,20 +52,16 @@ const planePath = (curve: string) => `${curve} L ${coordinate(project(420, 0, 0)
     <g class="wave-magnetic" clip-path="url(#approach-wave-magnetic-clip)">
       <g class="wave-pattern">
       <path class="wave-plane" d={planePath(magneticPath)} />
-      <g class="wave-vectors" marker-end="url(#approach-wave-magnetic)">
-        {fieldVectors.map(({ origin, b }) => <path d={`M ${coordinate(origin)} L ${coordinate(b)}`} />)}
-      </g>
       <path class="wave-curve" d={magneticPath} />
       </g>
+      <path class="wave-vectors" data-wave-field="b" marker-end="url(#approach-wave-magnetic)" d={vectorPath('b')} />
     </g>
     <g class="wave-electric" clip-path="url(#approach-wave-electric-clip)">
       <g class="wave-pattern">
       <path class="wave-plane" d={planePath(electricPath)} />
-      <g class="wave-vectors" marker-end="url(#approach-wave-electric)">
-        {fieldVectors.map(({ origin, e }) => <path d={`M ${coordinate(origin)} L ${coordinate(e)}`} />)}
-      </g>
       <path class="wave-curve" d={electricPath} />
       </g>
+      <path class="wave-vectors" data-wave-field="e" marker-end="url(#approach-wave-electric)" d={vectorPath('e')} />
     </g>
     <g class="wave-axis-labels">
       <text x="405" y="108">x</text>
@@ -94,7 +94,7 @@ const planePath = (curve: string) => `${curve} L ${coordinate(project(420, 0, 0)
   .wave-electric { color: var(--blue); }
   .wave-magnetic { color: #8a6a51; }
   .wave-plane { fill: currentColor; opacity: .055; }
-  .wave-vectors { fill: none; stroke: currentColor; stroke-width: .7; opacity: .3; }
+  .wave-vectors { fill: none; stroke: currentColor; stroke-width: .65; opacity: .24; }
   .wave-curve { fill: none; stroke: currentColor; stroke-width: 1.5; opacity: .8; transition: opacity .25s ease; }
   .wave-axis-labels { fill: var(--ink-soft); font: italic 15px 'Cambria Math', var(--serif); }
   .wave-field-label { fill: currentColor; font: italic 19px 'Cambria Math', var(--serif); }

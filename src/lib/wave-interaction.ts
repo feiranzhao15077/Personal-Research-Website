@@ -1,13 +1,54 @@
 import gsap from 'gsap';
 
-/** Translate a periodic plane wave along +x; E and B share the same phase. */
+/** A shared travelling phase: fixed field vectors oscillate while crests travel +x. */
 export function setupWaveInteraction(control: HTMLButtonElement) {
   const patterns = control.querySelectorAll<SVGGElement>('.wave-pattern');
-  if (patterns.length !== 2) return;
+  const electric = control.querySelector<SVGPathElement>('[data-wave-field="e"]');
+  const magnetic = control.querySelector<SVGPathElement>('[data-wave-field="b"]');
+  const amplitude = Number(control.dataset.waveAmplitude);
+  const period = Number(control.dataset.wavePeriod);
+  const count = Number(control.dataset.waveVectorCount);
+  if (patterns.length !== 2 || !electric || !magnetic || !amplitude || !period || count < 2) return;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const motion = gsap.to(patterns, {
-    x: 140, y: -11.2, duration: 3.2, ease: 'none', repeat: -1, paused: true,
+  const moveX = gsap.quickSetter(patterns, 'x', 'px');
+  const moveY = gsap.quickSetter(patterns, 'y', 'px');
+  const origins = Array.from({ length: count }, (_, i) => {
+    const x = 280 * i / (count - 1);
+    return { x, px: 70 + x, py: 128 - .08 * x };
   });
+  const speed = { value: 0 };
+  let phase = 0;
+  let ticking = false;
+  let requested = false;
+  let ramp: gsap.core.Tween | undefined;
+
+  const render = () => {
+    moveX(phase);
+    moveY(-.08 * phase);
+    const e: string[] = [];
+    const b: string[] = [];
+    for (const { x, px, py } of origins) {
+      const field = amplitude * Math.sin(2 * Math.PI * (x - phase) / period);
+      // Avoid a nonzero arrowhead at a zero-field node.
+      if (Math.abs(field) <= 1) continue;
+      const origin = `M ${px.toFixed(2)} ${py.toFixed(2)} L `;
+      e.push(`${origin}${px.toFixed(2)} ${(py - field).toFixed(2)}`);
+      b.push(`${origin}${(px - .65 * field).toFixed(2)} ${(py + .35 * field).toFixed(2)}`);
+    }
+    // Two small SVG paths; no per-frame geometry reads or per-arrow tweens.
+    electric.setAttribute('d', e.join(' '));
+    magnetic.setAttribute('d', b.join(' '));
+  };
+  const tick = (_time: number, delta: number) => {
+    phase = (phase + period / 4.6 * speed.value * Math.min(delta, 64) / 1000) % period;
+    render();
+  };
+  const stop = () => {
+    ramp?.kill();
+    speed.value = 0;
+    gsap.ticker.remove(tick);
+    ticking = false;
+  };
   let hovered = false;
   let toggled = false;
   let pausedByClick = false;
@@ -18,7 +59,21 @@ export function setupWaveInteraction(control: HTMLButtonElement) {
   const update = () => {
     const playing = (hovered || toggled) && !pausedByClick && visible
       && !document.hidden && !suspended && windowActive && !reduced.matches;
-    if (playing) motion.resume(); else motion.pause();
+    const unavailable = !visible || document.hidden || suspended || !windowActive || reduced.matches;
+    if (unavailable) {
+      requested = false;
+      stop();
+    } else if (playing !== requested) {
+      requested = playing;
+      ramp?.kill();
+      if (playing && !ticking) { gsap.ticker.add(tick); ticking = true; }
+      ramp = gsap.to(speed, {
+        value: playing ? 1 : 0,
+        duration: playing ? .8 : .65,
+        ease: 'sine.inOut',
+        onComplete: () => { if (!requested) stop(); },
+      });
+    }
     control.setAttribute('aria-pressed', String(playing));
     control.setAttribute('aria-disabled', String(reduced.matches));
     control.setAttribute('aria-label', reduced.matches
@@ -39,7 +94,7 @@ export function setupWaveInteraction(control: HTMLButtonElement) {
   };
   const focusOut = () => { toggled = false; pausedByClick = false; update(); };
   const preference = () => {
-    if (reduced.matches) { toggled = false; motion.pause().time(0); }
+    if (reduced.matches) { toggled = false; stop(); phase = 0; render(); }
     update();
   };
   const blur = () => { windowActive = false; hovered = false; update(); };
@@ -63,7 +118,7 @@ export function setupWaveInteraction(control: HTMLButtonElement) {
     suspended = true;
     update();
     if (!event.persisted) {
-      motion.kill();
+      stop();
       observer.disconnect();
       control.removeEventListener('pointerenter', enter);
       control.removeEventListener('pointerleave', leave);
