@@ -4,7 +4,7 @@ claim:
   zh: 输入层机制诊断支持。
 metric:
   name:
-    zh: A1 terminal error 0 rad；A2 0.3354319429327265 rad；每臂 200/200 formula checks。
+    zh: 输入层机制检查
   display:
     zh: A1 terminal error 0 rad；A2 0.3354319429327265 rad；每臂 200/200 formula checks。
   unit: rad；formula checks count。

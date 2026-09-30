@@ -11,7 +11,7 @@
 @layer tokens {
   :root {
     --paper: #f7f7f2; --paper-deep: #efefea; --white: #fffefa;
-    --ink: #202c35; --ink-soft: #4b5b64; --ink-faint: #596870;
+    --ink: #202c35; --ink-soft: #374955; --ink-faint: #42545e;
     --blue: #214f73; --blue-deep: #153b58; --blue-pale: #e7eef1;
     --line: #ccd5d6; --line-soft: #dce3e2;
     --warm: #795c2c; --warm-pale: #f4f0e8; --green: #38635c; --focus: #075fad;

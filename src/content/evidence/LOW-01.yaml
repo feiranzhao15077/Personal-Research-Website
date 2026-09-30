@@ -1,10 +1,10 @@
 id: LOW-01
 project: lowalt-md
 claim:
-  zh: 上述受限条件下的数学/实现性质。
+  zh: M1 受限共同复增益条件下的数学与实现性质。
 metric:
   name:
-    zh: normalized-spectrum L2
+    zh: 受限共同增益下的归一化谱 L2 差
   display:
     zh: normalized-spectrum L2 = 4.2423×10^-17。
   unit: 无量纲 L2 差。

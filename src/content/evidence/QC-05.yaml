@@ -4,7 +4,7 @@ claim:
   zh: 两项净累计 estimator roll-error budget 的相对比较。
 metric:
   name:
-    zh: R_C
+    zh: 两项净累计横滚误差预算的相对量 R_C
   display:
     zh: R_C=0.9994896743377543。
   unit: rad；R_C 无量纲。

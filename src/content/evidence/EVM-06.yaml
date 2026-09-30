@@ -4,9 +4,9 @@ claim:
   zh: 说明存在负对照检查。
 metric:
   name:
-    zh: 接近三分类 chance；不补具体数值。
+    zh: 负对照与三分类随机基准
   display:
-    zh: 接近三分类 chance；不补具体数值。
+    zh: 负对照表现接近三分类随机基准；本页未列出具体数值。
   unit: Macro-F1 / 三分类基线，具体字段须等 raw JSON。
   observations: []
 protocolContext:

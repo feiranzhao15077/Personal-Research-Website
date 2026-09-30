@@ -27,9 +27,9 @@ const names: Record<string, string> = {
 
 const phaseLabels: Record<string, { step: string; phase: string }> = {
   'em-trace': { step: 'PHASE 01', phase: '计算基底与信号链' },
-  'lowalt-md': { step: 'PHASE 02', phase: '前向传播与相关' },
-  emvision: { step: 'PHASE 03', phase: '逆向归因与边界' },
-  'quadcontrol-lab': { step: 'PARALLEL', phase: '闭环动力学隔离' }
+  'lowalt-md': { step: 'PHASE 02', phase: '传播机制与微多普勒' },
+  emvision: { step: 'PHASE 03', phase: '受控识别与归因' },
+  'quadcontrol-lab': { step: 'PARALLEL', phase: '闭环仿真与观测分析' }
 };
 
 // Illustration coordinates only; these overlays are not research measurements.
@@ -193,7 +193,7 @@ const sketchRotors = [
     <!-- Qualifier -->
     <div class="audit-qualifier gs-fade-up">
       <span class="aq-label">RELATIONSHIP AUDIT</span>
-      <p class="aq-text">节点表征物理维度与认知视角的演进，<strong>不代表</strong>软件工程中的直接代码依赖或数据流向。</p>
+      <p class="aq-text">连接表示研究主题与方法关注点的演进，<strong>不表示</strong>数据、代码依赖或因果关系。</p>
     </div>
 
   </div>
@@ -539,7 +539,7 @@ const sketchRotors = [
   }
   
   .auto-step {
-    color: #48bb78;
+    color: var(--green);
   }
 
   .flagship-mark {
@@ -553,7 +553,7 @@ const sketchRotors = [
 
   .branch-stamp {
     border: 1px solid #48bb78;
-    color: #48bb78;
+    color: var(--green);
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
   }
@@ -575,7 +575,7 @@ const sketchRotors = [
 
   .q-text {
     font-size: 0.9rem;
-    color: var(--ink-light);
+    color: var(--ink-faint);
     line-height: 1.5;
     border-top: 1px solid #f1f5f9;
     padding-top: 1rem;
@@ -600,7 +600,7 @@ const sketchRotors = [
   }
   .aq-text {
     font-size: 0.85rem;
-    color: var(--ink-light);
+    color: var(--ink-faint);
     line-height: 1.5;
   }
   .aq-text strong {

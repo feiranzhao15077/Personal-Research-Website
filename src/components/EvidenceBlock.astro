@@ -4,19 +4,20 @@ import { statusLabel } from '../lib/content';
 interface Props { evidence: Evidence; compact?: boolean; }
 const { evidence, compact = false } = Astro.props;
 const e = evidence.data;
+const supplementaryMetrics = e.id === 'QC-01' ? e.metric.display.zh.split('；').slice(1).join('；') : '';
 ---
 <article class:list={['evidence-block', { compact }]} id={e.id.toLowerCase()}>
   <div class="evidence-head"><span class="evidence-id">{e.id}</span><span class:list={['status', `status-${e.status.toLowerCase()}`]}>{statusLabel[e.status]}</span></div>
   <h3>{e.metric.name.zh}</h3>
   <p class="evidence-claim">{e.claim.zh}</p>
   {e.metric.observations.length > 0 && <dl class="metric-list">{e.metric.observations.map((observation) => <div><dt>{observation.label.zh}</dt><dd>{observation.display}</dd></div>)}</dl>}
-  {e.metric.observations.length === 0 && !/^无[。.]?$/.test(e.metric.display.zh) && <p class="metric-display">{e.metric.display.zh}</p>}
-  {!compact && e.id === 'QC-01' && <p class="metric-display">{e.metric.display.zh}</p>}
+  {e.metric.observations.length === 0 && !/^无[。.]?$/.test(e.metric.display.zh) && e.metric.display.zh.trim() !== e.metric.name.zh.trim() && <p class="metric-display">{e.metric.display.zh}</p>}
+  {!compact && supplementaryMetrics && <p class="metric-display">{supplementaryMetrics}</p>}
   {!compact && <div class="evidence-details">
     <p><strong>协议 / 样本</strong>{e.protocolContext.zh}</p>
-    <p><strong>不确定性</strong>{e.uncertainty.detail.zh}</p>
+    <p><strong>{e.uncertainty.kind === 'CONTEXT' ? '适用条件与核验说明' : '不确定性'}</strong>{e.uncertainty.detail.zh}</p>
     <p class="boundary"><strong>不支持以下解读</strong>{e.boundary.zh}</p>
-    <p class="source-note"><strong>来源状态</strong>{e.sourceVisibility === 'PRIVATE_CANONICAL_SOURCE' ? '底层 canonical 结果已内部核验；公开页面提供摘要。' : '公开摘要；原始审计材料的访问状态见项目说明。'} {e.publicSource.url && <a href={e.publicSource.url} target="_blank" rel="noopener noreferrer">阅读公开证据摘要 ↗</a>}</p>
+    <p class="source-note"><strong>来源状态</strong>{e.sourceVisibility === 'PRIVATE_CANONICAL_SOURCE' ? '基准结果已内部核验；公开页面提供摘要。' : '公开摘要；原始审计材料的访问状态见项目说明。'} {e.publicSource.url && <a href={e.publicSource.url} target="_blank" rel="noopener noreferrer">阅读公开证据摘要 ↗</a>}</p>
   </div>}
   {compact && <><p class="context-note">协议 / 样本：{e.protocolContext.zh}</p><p class="evidence-compact-boundary">不支持以下解读：{e.boundary.zh}</p>{e.publicSource.url && <a class="text-link" href={e.publicSource.url} target="_blank" rel="noopener noreferrer">公开证据摘要 ↗</a>}</>}
 </article>

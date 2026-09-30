@@ -4,7 +4,7 @@ claim:
   zh: 不同 actual calculation box 会显著改变整体响应。
 metric:
   name:
-    zh: body-only
+    zh: 计算域敏感性比较
   display:
     zh: body-only：85.807734%、16.809791 dB；body+arms：33.134155%、1.371822 dB。
   unit: complex-field relative change %；RCS change dB。

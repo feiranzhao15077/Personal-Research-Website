@@ -4,7 +4,7 @@ claim:
   zh: 冻结误差预算账本的 prefix 与 closure 检查通过。
 metric:
   name:
-    zh: B-2 999 evaluated / 0 prefix violations；B-3 closure residual 0 rad。
+    zh: 误差预算累计与闭合检查
   display:
     zh: B-2 999 evaluated / 0 prefix violations；B-3 closure residual 0 rad。
   unit: evaluation count；rad。

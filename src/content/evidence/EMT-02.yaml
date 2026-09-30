@@ -4,7 +4,7 @@ claim:
   zh: 执行成功、敏感性审计完成、数值稳定性尚未确立。
 metric:
   name:
-    zh: P0 L13→L16
+    zh: 单旋翼网格敏感性检查
   display:
     zh: P0 L13→L16 = 0.331229 dB；P180 = 0.051345 dB。
   unit: dB RCS change。

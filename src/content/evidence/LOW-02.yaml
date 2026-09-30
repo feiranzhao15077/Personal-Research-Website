@@ -4,7 +4,7 @@ claim:
   zh: 当前 proxy 下，element-wise 非共同复权重可以改变归一化谱形。
 metric:
   name:
-    zh: 0.025246。
+    zh: 逐单元复权重下的归一化谱 L2 差
   display:
     zh: 0.025246。
   unit: 无量纲 normalized-spectrum L2。

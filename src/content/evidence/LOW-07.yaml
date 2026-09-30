@@ -1,12 +1,12 @@
 id: LOW-07
 project: lowalt-md
 claim:
-  zh: 指出 Track A 有类别能量 shortcut 风险。
+  zh: 指出 Track A 有类别能量捷径风险。
 metric:
   name:
-    zh: 定性证据；本内容包不复制单一高分数字。
+    zh: 类别能量捷径风险
   display:
-    zh: 定性证据；本内容包不复制单一高分数字。
+    zh: 此项为定性证据；本页未列出识别分数。
   unit: 不适用。
   observations: []
 protocolContext:

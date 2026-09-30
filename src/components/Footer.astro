@@ -5,7 +5,6 @@ const profile = (await getCollection('site'))[0].data;
 const cv = (await getCollection('materials')).find((item) => item.id === profile.cvMaterialId)?.data;
 const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.publicUrl) : undefined;
 ---
----
 <footer class="site-footer">
   <div class="shell footer-inner">
     <p>{profile.publicName.zh} · 应用物理 · 计算电磁 · 智能感知</p>

@@ -4,7 +4,7 @@ claim:
   zh: 当前配置呈相消倾向。
 metric:
   name:
-    zh: 0.4311。
+    zh: 200 m 工况下的功率比
   display:
     zh: 0.4311。
   unit: 功率比，无量纲。

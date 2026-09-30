@@ -4,7 +4,7 @@ claim:
   zh: 冻结合成协议内的训练因素比较。
 metric:
   name:
-    zh: 2×2×2；n
+    zh: C/G/P 三因素全因子设计
   display:
     zh: 2×2×2；n=20 paired seeds。
   unit: 无量纲设计参数。

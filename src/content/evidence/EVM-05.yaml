@@ -4,7 +4,7 @@ claim:
   zh: 当前协议中一个角点出现严重退化。
 metric:
   name:
-    zh: 17/20 seeds；Macro-F1
+    zh: v011 角点的单类预测退化
   display:
     zh: 17/20 种子为单类预测；这些种子的 Macro-F1=0.1667。
   unit: seed count；Macro-F1 无量纲。

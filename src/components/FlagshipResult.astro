@@ -11,5 +11,5 @@ const [baseline, matched, difference] = e.metric.observations;
   <div class="difference-line"><span>配对差 Δ <strong>{difference.display}</strong></span><span>95% CI {e.uncertainty.display}</span></div>
   <p class="result-context">{e.protocolContext.zh}</p>
   <p class="result-boundary"><strong>不支持以下解读</strong>{e.boundary.zh}</p>
-  {!compact && <p class="result-source">底层 canonical 结果已内部核验；<a href={e.publicSource.url} target="_blank" rel="noopener noreferrer">阅读公开证据摘要 ↗</a></p>}
+  {!compact && <p class="result-source">基准结果已内部核验；<a href={e.publicSource.url} target="_blank" rel="noopener noreferrer">阅读公开证据摘要 ↗</a></p>}
 </div>

@@ -4,7 +4,7 @@ claim:
   zh: 当前 parent artifact 可重放且检查通过。
 metric:
   name:
-    zh: 10,000 rows；328,049 fields；0 mismatches；B-1 993/993。
+    zh: 实验记录重放与一致性检查
   display:
     zh: 10,000 rows；328,049 fields；0 mismatches；B-1 993/993。
   unit: rows、recursive fields、checks。

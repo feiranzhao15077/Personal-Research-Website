@@ -4,9 +4,9 @@ claim:
   zh: 建模—求解—复场处理—信号处理的工程流程能力。
 metric:
   name:
-    zh: 无可作为网站性能结果的 metric。
+    zh: 电磁仿真与信号处理流程
   display:
-    zh: 无可作为网站性能结果的 metric。
+    zh: 本项展示工程流程，不提供可用于性能结论的定量指标。
   unit: 不适用。
   observations: []
 protocolContext:

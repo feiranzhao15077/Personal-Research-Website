@@ -1,0 +1,93 @@
+<figure class="radar-figure">
+  <button class="radar-control" type="button" aria-label="雷达跟踪无人机视觉示意" aria-describedby="radar-instructions">
+    <svg class="radar-diagram" viewBox="0 0 440 330" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="flagship-radar-beam" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#245778" stop-opacity=".02" />
+          <stop offset="1" stop-color="#245778" stop-opacity=".13" />
+        </linearGradient>
+      </defs>
+      <g class="radar-guides" fill="none">
+        <path d="M 24 270 H 416 M 220 102 V 306" />
+        <ellipse cx="220" cy="264" rx="180" ry="40" />
+        <path d="M 24 118 V 106 H 36 M 404 106 H 416 V 118 M 24 294 V 306 H 36 M 404 306 H 416 V 294" />
+      </g>
+      <path class="radar-beam" d="M 220 72 L 291 236 L 341 204 Z" />
+      <path class="radar-ray" d="M 220 72 L 316 220" />
+      <g class="radar-wavefronts" fill="none">
+        <path data-wavefront=".3" d="M 241 121 Q 251 119 257 111" />
+        <path data-wavefront=".55" d="M 259 162 Q 275 158 287 145" />
+        <path data-wavefront=".8" d="M 277 203 Q 299 196 317 179" />
+      </g>
+      <g class="radar-hardware" fill="none">
+        <path d="M 220 33 V 54 M 206 33 H 234 M 212 29 H 228" />
+        <g class="radar-dish" transform="rotate(-33 220 72)">
+          <path d="M 193 56 Q 220 89 247 56 M 193 56 Q 220 65 247 56 M 220 62 V 72 M 215 71 H 225" />
+          <circle cx="220" cy="72" r="2" />
+        </g>
+      </g>
+      <g class="radar-target" transform="translate(316 220)">
+        <ellipse class="radar-target-ring" rx="44" ry="25" />
+        <g class="radar-drone" fill="none">
+          <path d="M -9 -3 L -27 -11 M 7 -5 L 21 -16 M -10 5 L -21 16 M 10 2 L 29 10" />
+          <path class="radar-drone-body" d="M -16 -3 L 5 -9 L 16 -3 L 15 5 L -6 11 L -16 5 Z M -16 -3 L -6 3 L 16 -3 M -6 3 V 11 M -8 -3 L 4 -6 L 8 -4 L -4 -1 Z" />
+          <path d="M -9 10 V 16 L 5 19 M 10 7 V 13 L 20 16" />
+          {[[ -27, -11 ], [21, -16], [-21, 16], [29, 10]].map(([x, y]) => (
+            <g class="radar-motor" transform={`translate(${x} ${y})`}>
+              <path d="M -2 0 V 5 Q 0 7 2 5 V 0" />
+              <g transform="scale(1 .42)">
+                <circle class="radar-rotor-disc" r="12" />
+                <g class="radar-rotor"><path d="M -11 -3 Q 0 -7 11 3 M -11 -3 Q 0 7 11 3" /><circle r="2" /></g>
+              </g>
+            </g>
+          ))}
+        </g>
+      </g>
+    </svg>
+  </button>
+  <figcaption id="radar-instructions"><span><span class="radar-pointer-hint">移动指针</span><span class="radar-touch-hint">点按移动</span> · 雷达跟踪</span><span class="radar-note">视觉示意</span><span class="radar-sr-only">。键盘聚焦后使用方向键移动无人机，Escape 复位。</span></figcaption>
+</figure>
+
+<style>
+  .radar-figure { width: 100%; max-width: 440px; margin: 0; color: var(--blue); }
+  .radar-control { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; border-radius: 2px; touch-action: pan-y; cursor: crosshair; }
+  .radar-control:focus-visible { outline: 2px solid var(--blue); outline-offset: 5px; }
+  .radar-diagram { display: block; width: 100%; height: auto; overflow: visible; }
+  .radar-guides { stroke: currentColor; stroke-width: .7; opacity: .16; }
+  .radar-guides path:first-child { stroke-dasharray: 2 6; }
+  .radar-beam { fill: url(#flagship-radar-beam); opacity: .5; transition: opacity .3s; }
+  .radar-ray { fill: none; stroke: currentColor; stroke-width: .8; stroke-dasharray: 3 7; opacity: .3; }
+  .radar-wavefronts { stroke: currentColor; stroke-width: 1; opacity: .2; transition: opacity .3s; }
+  .radar-hardware { stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+  .radar-hardware circle { fill: currentColor; }
+  .radar-target-ring { fill: none; stroke: currentColor; stroke-width: .65; stroke-dasharray: 2 5; opacity: .25; }
+  .radar-drone { stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; opacity: .7; transition: opacity .3s; }
+  .radar-drone-body { fill: var(--paper, #f7f7f2); }
+  .radar-rotor-disc { stroke-width: .6; opacity: .4; }
+  .radar-rotor { transform-box: fill-box; transform-origin: center; }
+  .radar-control.is-flying .radar-beam { opacity: .75; }
+  .radar-control.is-flying .radar-wavefronts { opacity: .35; }
+  .radar-control.is-flying .radar-drone { opacity: .9; }
+  .radar-control.is-flying .radar-rotor { animation: radar-rotor 1.8s linear infinite; }
+  .radar-control.is-tracking .radar-beam { opacity: 1; }
+  .radar-control.is-tracking .radar-wavefronts { opacity: .55; }
+  .radar-control.is-tracking .radar-drone { opacity: 1; }
+  .radar-control.is-tracking .radar-ray { animation: radar-transmission 1.8s linear infinite; }
+  .radar-control.is-tracking .radar-rotor { animation: radar-rotor .65s linear infinite; }
+  .radar-figure figcaption { display: flex; align-items: baseline; gap: .3em; padding: 0 24px; font: .7rem/1.7 var(--sans); color: var(--ink-soft); letter-spacing: .04em; }
+  .radar-note { margin-left: auto; color: var(--ink-faint); }
+  .radar-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+  .radar-touch-hint { display: none; }
+  @keyframes radar-transmission { to { stroke-dashoffset: -30; } }
+  @keyframes radar-rotor { to { transform: rotate(360deg); } }
+  @media (pointer: coarse) { .radar-pointer-hint { display: none; } .radar-touch-hint { display: inline; } }
+  @media (prefers-reduced-motion: reduce) {
+    .radar-control .radar-ray, .radar-control .radar-rotor { animation: none; }
+    .radar-beam, .radar-wavefronts, .radar-drone { transition: none; }
+  }
+</style>
+
+<script>
+  import { initRadarTracking } from '../lib/radar-interaction';
+  initRadarTracking();
+</script>

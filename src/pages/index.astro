@@ -9,6 +9,7 @@ import EvidenceBlock from '../components/EvidenceBlock.astro';
 import FigureFrame from '../components/FigureFrame.astro';
 import FlagshipResult from '../components/FlagshipResult.astro';
 import ElectromagneticWave from '../components/ElectromagneticWave.astro';
+import RadarTracking from '../components/RadarTracking.astro';
 import { byId, projectUrl } from '../lib/content';
 
 const [projects, evidence, figures, materials, maps, sites] = await Promise.all([
@@ -63,7 +64,10 @@ const approachStages = [
   </div></section>
 
   <section class="section flagship-section" id="projects" aria-labelledby="flagship-heading"><div class="shell">
+    <div class="flagship-heading-layout">
     <div class="section-intro"><p class="eyebrow">03 / Flagship Study</p><h2 id="flagship-heading">EMvision <span class="heading-sub">受控识别实验</span></h2><ResearchSummary projectId="emvision" /><p>{emvision.data.summary.zh}</p></div>
+    <RadarTracking />
+    </div>
     <div class="flagship-overview"><div class="feature-content"><p class="small-label">研究问题与协议</p><p class="feature-question">{emvision.data.researchQuestion.zh}</p><dl class="factor-list"><div><dt>C</dt><dd>训练端通道匹配</dd></div><div><dt>G</dt><dd>生成器族匹配</dd></div><div><dt>P</dt><dd>参数分布匹配</dd></div></dl></div><FlagshipResult evidence={e.get('EVM-02')!} /></div>
     <div class="flagship-figure"><FigureFrame figure={f.get('FIG-EVM-03')!} /><a class="text-link" href={projectUrl('emvision')}>阅读 EMvision 的协议、结果与完整边界 <span aria-hidden="true">↗</span></a></div>
   </div></section>
@@ -71,11 +75,14 @@ const approachStages = [
   <section class="section studies-section" aria-labelledby="studies-heading"><div class="shell">
     <div class="section-intro"><p class="eyebrow">04 / Connected Studies</p><h2 id="studies-heading">物理机制与工程基础</h2></div>
     <div class="study-grid"><article class="study"><div><p class="study-index">A / Physics Mechanism</p><h3>{lowalt.data.title.zh}</h3><ResearchSummary projectId="lowalt-md" /><p>{lowalt.data.summary.zh}</p><EvidenceBlock evidence={e.get('LOW-01')!} compact /><EvidenceBlock evidence={e.get('LOW-02')!} compact /><p class="context-note">共同增益与非共同复权重是不同的模型条件；R3 的负结果在项目页保留。</p><a class="text-link" href={projectUrl('lowalt-md')}>进入 LowAlt-MD <span aria-hidden="true">↗</span></a></div></article>
-      <article class="study"><div><p class="study-index">B / Engineering Foundation</p><h3>{emtrace.data.title.zh}</h3><ResearchSummary projectId="em-trace" /><p>{emtrace.data.summary.zh}</p><EvidenceBlock evidence={e.get('EMT-01')!} compact /><p class="context-note">方向与极化约定已更正；历史前向输入不构成正确后向定量微动验证。</p><a class="text-link" href={projectUrl('em-trace')}>进入 EM-Trace <span aria-hidden="true">↗</span></a></div></article></div>
-    <div class="study-evidence"><FigureFrame figure={f.get('FIG-LOW-02')!} /></div>
+      <div class="study-column-right">
+        <article class="study"><div><p class="study-index">B / Engineering Foundation</p><h3>{emtrace.data.title.zh}</h3><ResearchSummary projectId="em-trace" /><p>{emtrace.data.summary.zh}</p><EvidenceBlock evidence={e.get('EMT-01')!} compact /><p class="context-note">方向与极化约定已更正；历史前向输入不构成正确后向定量微动验证。</p><a class="text-link" href={projectUrl('em-trace')}>进入 EM-Trace <span aria-hidden="true">↗</span></a></div></article>
+        <div class="study-evidence"><p class="small-label">LowAlt-MD / 机制图件</p><FigureFrame figure={f.get('FIG-LOW-02')!} /></div>
+      </div>
+    </div>
   </div></section>
 
-  <section class="section branch-section" aria-labelledby="branch-heading"><div class="shell branch-grid"><div><p class="eyebrow">05 / Autonomous Systems Branch</p><h2 id="branch-heading">QuadControl-Lab</h2><ResearchSummary projectId="quadcontrol-lab" /><p class="lead">{quad.data.summary.zh}</p><EvidenceBlock evidence={e.get('QC-01')!} compact /><p class="context-note">固定合成、确定性、单 seed 配对轨迹；不作为实机稳定性或因果比例结论。</p><a class="text-link" href={projectUrl('quadcontrol-lab')}>查看独立分支 <span aria-hidden="true">↗</span></a></div><FigureFrame figure={f.get('FIG-QC-02')!} /></div></section>
+  <section class="section branch-section" aria-labelledby="branch-heading"><div class="shell branch-grid"><div><p class="eyebrow">05 / Autonomous Systems Branch</p><h2 id="branch-heading">QuadControl-Lab</h2><ResearchSummary projectId="quadcontrol-lab" /><p class="lead">{quad.data.summary.zh}</p><EvidenceBlock evidence={e.get('QC-01')!} compact /><p class="context-note">固定合成、确定性、单个随机种子的配对轨迹；不作为实机稳定性或因果比例结论。</p><a class="text-link" href={projectUrl('quadcontrol-lab')}>查看独立分支 <span aria-hidden="true">↗</span></a></div><FigureFrame figure={f.get('FIG-QC-02')!} /></div></section>
 
   <section class="section about-section" id="about" aria-labelledby="about-heading"><div class="shell about-grid"><div><p class="eyebrow">06 / About</p><h2 id="about-heading">关于{profile.publicName.zh}</h2><p class="research-motto"><span>格物穷理<span class="motto-comma">，</span></span><span>致数博学</span></p></div><div><p class="lead">{profile.researchIdentity.zh}</p><p>{profile.publicName.zh}，{profile.schoolWording.zh}。{profile.statement.zh}</p><p>四个项目共享审慎的证据呈现方式：每个数字都有协议上下文，每个图件都保留原始来源，纠错与负结果也可直接阅读。{cvUrl ? <a href={cvUrl} target="_blank" rel="noopener">查看学术 CV ↗</a> : !initialRelease && '最终 CV 版本仍待确认。'}</p></div></div></section>
 
@@ -85,9 +92,16 @@ const approachStages = [
 </BaseLayout>
 
 <style>
+  .flagship-heading-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 400px;
+    align-items: center;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    margin-bottom: clamp(2rem, 3.5vw, 3rem);
+  }
   .flagship-section .section-intro {
     max-width: 58rem;
-    margin-bottom: clamp(2rem, 3.5vw, 3rem);
+    margin-bottom: 0;
   }
   .flagship-section .section-intro h2 {
     font-size: clamp(1.9rem, 3vw, 2.4rem);
@@ -122,6 +136,8 @@ const approachStages = [
   .flagship-section :global(.result-source),
   .flagship-section :global(.result-boundary) { font-size: .9rem; line-height: 1.75; }
   @media (max-width: 900px) {
+    .flagship-heading-layout { grid-template-columns: 1fr; gap: 1rem; }
+    .flagship-heading-layout :global(.radar-figure) { justify-self: end; width: min(100%, 340px); }
     .flagship-section .flagship-overview { grid-template-columns: 1fr; gap: 2rem; }
   }
   @media (max-width: 370px) {
@@ -273,11 +289,28 @@ const approachStages = [
     .research-motto > span:last-child, .research-motto::after,
     .research-motto:hover > span:last-child, .research-motto:hover::after { transition: none; transform: none; }
   }
+  .studies-section .section-intro { margin-bottom: 2rem; }
+  .studies-section .study-grid { gap: 2rem clamp(2rem, 4vw, 3.5rem); align-items: start; }
+  .studies-section .study { border-top-width: 1px; padding-top: 1rem; }
+  .studies-section .study-index { margin-bottom: .85rem; }
+  .studies-section .study h3 { font-size: clamp(1.65rem, 2.5vw, 2.15rem); margin-bottom: .75rem; }
+  .studies-section .study > div > p:not(.study-index):not(.context-note) { font-size: 1rem; line-height: 1.75; }
+  .studies-section :global(.research-summary) { margin-block: .5rem 1rem; }
+  .studies-section :global(.evidence-block) { margin-top: 1.25rem; padding: 1rem 0; }
+  .studies-section :global(.evidence-block + .evidence-block) { margin-top: .25rem; }
+  .studies-section :global(.evidence-block h3) { font: 600 1.125rem/1.5 var(--sans); margin-bottom: .5rem; }
+  .studies-section :global(.evidence-claim) { font-size: .95rem; margin-block: .5rem .75rem; }
+  .studies-section :global(.metric-list) { margin-top: .75rem; }
+  .studies-section :global(.metric-list dd) { font-size: 1.25rem; }
+  .studies-section :global(.metric-display) { font-size: 1rem; margin-top: .75rem; }
+  .studies-section :global(.context-note) { margin-block: .75rem; }
+  .studies-section :global(.text-link) { margin-top: .75rem; }
+  .study-column-right { display: grid; gap: 1.75rem; min-width: 0; }
   .study-evidence {
-    margin-top: clamp(1.5rem, 3vw, 2.5rem);
-    padding-top: clamp(1rem, 2vw, 1.5rem);
+    padding-top: 1rem;
     border-top: 1px solid var(--line);
   }
+  .study-evidence .small-label { margin-bottom: .75rem; }
   .study-evidence :global(.figure-frame) {
     max-width: 52rem;
     margin-inline: auto;
@@ -287,6 +320,7 @@ const approachStages = [
     max-height: none;
   }
   .study-evidence :global(figcaption) {
-    max-width: 80ch;
+    font-size: .82rem;
+    line-height: 1.65;
   }
 </style>

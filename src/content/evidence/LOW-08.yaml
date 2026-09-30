@@ -4,9 +4,9 @@ claim:
   zh: 当前控制流程削弱明显能量捷径后仍有可识别结构信息。
 metric:
   name:
-    zh: 定性主张；不新增或复制 F1 数值。
+    zh: 能量捷径控制后的结构信息
   display:
-    zh: 定性主张；不新增或复制 F1 数值。
+    zh: 此项为当前控制条件下的定性说明；本页未列出 F1 数值。
   unit: 不适用。
   observations: []
 protocolContext:

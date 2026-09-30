@@ -1,10 +1,10 @@
 id: EVM-04
 project: emvision
 claim:
-  zh: frozen protocol 下的 path-order summary。
+  zh: 当前固定协议下的路径顺序摘要。
 metric:
   name:
-    zh: C
+    zh: 协议路径顺序摘要
   display:
     zh: C=0.39550642504774985；G=0.2955653776540127；P=0.11222440824215636。
   unit: 冻结协议定义下的路径顺序摘要；不解释为物理因果贡献。
