@@ -47,7 +47,7 @@ nodes:
   method:
     zh: 全因子配对实验、交互分析与负对照。
   evidenceTeaser:
-    zh: 端点对比有公开摘要；冻结原始结果为私有 canonical source。
+    zh: 端点对比提供公开证据摘要；基准结果文件保存在私有仓库。
   evidenceTeaserId: EVM-02
   sequence: 3
   relationship: THEME_EVOLUTION
@@ -57,7 +57,7 @@ nodes:
   role:
     zh: 独立自主系统分支
   question:
-    zh: 只改变控制器消费的观测来源，闭环姿态行为如何变化？
+    zh: 只改变控制器使用的观测来源，闭环姿态行为如何变化？
   method:
     zh: 确定性配对实验与 Layer A/B 审计。
   evidenceTeaser:

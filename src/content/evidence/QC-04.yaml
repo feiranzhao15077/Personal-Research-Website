@@ -1,7 +1,7 @@
 id: QC-04
 project: quadcontrol-lab
 claim:
-  zh: 冻结误差预算账本的 prefix 与 closure 检查通过。
+  zh: 当前固定协议下的误差预算记录通过前缀累计与闭合检查。
 metric:
   name:
     zh: 误差预算累计与闭合检查

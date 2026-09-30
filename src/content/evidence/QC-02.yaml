@@ -1,7 +1,7 @@
 id: QC-02
 project: quadcontrol-lab
 claim:
-  zh: 输入层机制诊断支持。
+  zh: 当前合成输入条件下的机制诊断得到支持。
 metric:
   name:
     zh: 输入层机制检查

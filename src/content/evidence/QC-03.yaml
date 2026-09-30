@@ -1,7 +1,7 @@
 id: QC-03
 project: quadcontrol-lab
 claim:
-  zh: 当前 parent artifact 可重放且检查通过。
+  zh: 原始实验记录在当前确定性协议下可重放，一致性检查通过。
 metric:
   name:
     zh: 实验记录重放与一致性检查

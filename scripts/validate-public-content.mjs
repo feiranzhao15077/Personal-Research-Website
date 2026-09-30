@@ -8,6 +8,8 @@ const scanDist = process.argv.includes('--dist');
 const directories = scanDist ? ['dist'] : ['src', 'public'];
 const problems = [];
 const approvedEmail = YAML.parse(fs.readFileSync(path.join(root, 'src/content/site/profile.yaml'), 'utf8')).publicEmail;
+// Reject editorial handoff notes while allowing genuine research uncertainty.
+const editorialPlaceholder = /个人分工(?:描述|措辞)?(?:尚)?待|(?:措辞|文案)(?:尚)?待(?:核对|确认)|最终\s*CV\s*版本仍待确认|正式\s*CV\s*待版本确定后补入|(?:CV\s*)?版本待确认|具体字段须等\s*raw\s*JSON|访问状态仍需分别核实|原始结果包尚未逐项核验|(?:zh:\s*|>)未明确[。.]?(?:\s*$|<)/m;
 const patterns = [
   [/raw\.githubusercontent\.com\/feiranzhao15077\/(?:EMvision|LowAlt-MD|EM-Trace|QuadControl-Lab)(?:\/|\b)/i, 'private raw artifact URL'],
   [/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bgh[pousr]_[A-Za-z0-9]{20,}|\bgithub_pat_[A-Za-z0-9_]{20,}/, 'credential material'],
@@ -22,6 +24,7 @@ function walk(directory) {
     if (item.isDirectory()) walk(relative);
     else if (/\.(?:md|yaml|yml|html|xml|txt|svg|json|js|css)$/i.test(item.name)) {
       const text = fs.readFileSync(path.join(root, relative), 'utf8');
+      if (editorialPlaceholder.test(text)) problems.push(`${relative}: editorial placeholder in public content`);
       if (release && scanDist && /\bTBD\b|\.invalid\b|PLACEHOLDER|版本待确认|正式 CV 待版本确定后补入|最终 CV 版本仍待确认/.test(text)) problems.push(`${relative}: unresolved release placeholder`);
       for (const email of text.matchAll(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g)) if (email[0] !== approvedEmail) problems.push(`${relative}: unapproved email`);
       for (const [regex, label] of patterns) if (regex.test(text)) problems.push(`${relative}: ${label}`);

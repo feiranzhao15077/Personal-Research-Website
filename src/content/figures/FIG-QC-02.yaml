@@ -4,13 +4,13 @@ path: /evidence/originals/FIG-QC-02-71f22914.png
 title:
   zh: 观测来源配对架构
 caption:
-  zh: 配对实验只改变控制器消费的观测来源；其余冻结条件保持一致。
+  zh: 配对实验只改变控制器使用的观测来源；其余冻结条件保持一致。
 alt:
-  zh: 观测来源配对架构；配对实验只改变控制器消费的观测来源；其余冻结条件保持一致。
+  zh: 观测来源配对架构；配对实验只改变控制器使用的观测来源；其余冻结条件保持一致。
 type: SCHEMATIC
 assetClass: SCHEMATIC
 scientificPurpose:
-  zh: 配对实验只改变控制器消费的观测来源；其余冻结条件保持一致。
+  zh: 配对实验只改变控制器使用的观测来源；其余冻结条件保持一致。
 sourceRef: research-portfolio-public-copy
 sourceProject: Research-Portfolio
 sourceCommit: 93f5725609b5f162f57b0068029ea8ecb39c6472

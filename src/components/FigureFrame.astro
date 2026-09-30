@@ -6,7 +6,7 @@ const { figure, priority = false } = Astro.props;
 const f = figure.data;
 ---
 <figure class="figure-frame" id={f.id.toLowerCase()}>
-  <a class="figure-image-link" href={sitePath(f.path)} target="_blank" rel="noopener" data-figure-title={f.title.zh} aria-label={`放大查看 ${f.title.zh}；无脚本时打开原图`}>
+  <a class="figure-image-link" href={sitePath(f.path)} target="_blank" rel="noopener" data-figure-title={f.title.zh} aria-label={`放大查看 ${f.title.zh}`}>
     <img src={sitePath(f.webDerivative[0]?.path ?? f.path)} width={f.width} height={f.height} alt={f.alt.zh} loading={priority ? 'eager' : 'lazy'} decoding="async" />
     <span class="open-figure">点击放大；原图可在查看器中打开 ↗</span>
   </a>

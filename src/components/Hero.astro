@@ -104,7 +104,7 @@ const crossingContours = Array.from({ length: 9 }, (_, i) => (
           <div class="simple-portrait-wrapper">
             <img
               src="/hero-portrait.jpg"
-              alt="赵斐然 / Feiran Zhao"
+              alt={`${profile.publicName.zh}头像`}
               class="simple-portrait"
               loading="eager"
             />
@@ -182,7 +182,7 @@ const crossingContours = Array.from({ length: 9 }, (_, i) => (
           <!-- Interactive Effects Elements -->
           <div class="drone-hud-tooltip">
             <span class="hud-label">ASSET_INSPECT //</span>
-            <span class="hud-desc">SolidWorks CAD 构建的机体数字孪生模型，用于基础动力学仿真与参数化分析。</span>
+            <span class="hud-desc">SolidWorks 四旋翼参数化 CAD 模型，展示机体几何与装配结构。</span>
           </div>
           <div class="drone-scan-plane"></div>
           <div class="drone-target-corners">

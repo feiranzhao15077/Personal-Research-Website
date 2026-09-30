@@ -19,7 +19,7 @@ whyItMatters:
 methods:
 - zh: 参数化 CAD → STEP AP214 → CST 频域求解 → 复远场提取 → 坐标与极化核查 → Python 慢时间与 STFT 处理。核查项包括坐标、极化、网格敏感性、计算域敏感性与信号处理链。
 contributions:
-- zh: 冻结项目总结记录了参数化 CAD、STEP 至 CST 接口、复场提取、Python 信号处理链和方向及数值敏感性审计；个人分工措辞待最终 CV 核对。
+- zh: 使用 CST Studio Suite 与 Python 搭建 CAD—全波仿真—复场提取链路，通过坐标、方向与极化审计修正后向散射解释。
 representativeResults: &id001
 - EMT-01
 - EMT-04

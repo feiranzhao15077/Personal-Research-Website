@@ -14,5 +14,5 @@ export const ordered = <T extends { id: string; data?: { id?: string } }>(ids: s
 };
 export const statusLabel: Record<string, string> = {
   SUPPORTED: '支持', INTERNALLY_VERIFIED: '内部核验', NEGATIVE_RESULT: '负结果',
-  CORRECTED: '已更正', WITHDRAWN: '已撤回', UNRESOLVED: '待解决'
+  CORRECTED: '已更正', WITHDRAWN: '已撤回', UNRESOLVED: '尚无定论'
 };

@@ -165,23 +165,23 @@ const sketchRotors = [
         <aside class="maxwell-notes" aria-label="麦克斯韦方程组">
           <div class="maxwell-equations">
             <div class="maxwell-row">
-              <math class="maxwell-equation" aria-label="D 的散度等于自由电荷密度 rho">
-                <mrow><mo>∇</mo><mo>·</mo><mi mathvariant="bold">D</mi><mo>=</mo><mi>ρ</mi></mrow>
+              <math class="maxwell-equation" aria-label="矢量 D 的散度等于自由电荷密度 rho">
+                <mrow><mo>∇</mo><mo>·</mo><mover accent="true"><mi>D</mi><mo>→</mo></mover><mo>=</mo><mi>ρ</mi></mrow>
               </math>
             </div>
             <div class="maxwell-row">
-              <math class="maxwell-equation" aria-label="B 的散度等于零">
-                <mrow><mo>∇</mo><mo>·</mo><mi mathvariant="bold">B</mi><mo>=</mo><mn>0</mn></mrow>
+              <math class="maxwell-equation" aria-label="矢量 B 的散度等于零">
+                <mrow><mo>∇</mo><mo>·</mo><mover accent="true"><mi>B</mi><mo>→</mo></mover><mo>=</mo><mn>0</mn></mrow>
               </math>
             </div>
             <div class="maxwell-row">
-              <math class="maxwell-equation" aria-label="E 的旋度等于 B 对时间偏导数的负值">
-                <mrow><mo>∇</mo><mo>×</mo><mi mathvariant="bold">E</mi><mo>=</mo><mo>−</mo><mfrac><mrow><mo>∂</mo><mi mathvariant="bold">B</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac></mrow>
+              <math class="maxwell-equation" aria-label="矢量 E 的旋度等于矢量 B 对时间偏导数的负值">
+                <mrow><mo>∇</mo><mo>×</mo><mover accent="true"><mi>E</mi><mo>→</mo></mover><mo>=</mo><mo>−</mo><mfrac><mrow><mo>∂</mo><mover accent="true"><mi>B</mi><mo>→</mo></mover></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac></mrow>
               </math>
             </div>
             <div class="maxwell-row">
-              <math class="maxwell-equation" aria-label="H 的旋度等于自由电流密度 J 加 D 对时间的偏导数">
-                <mrow><mo>∇</mo><mo>×</mo><mi mathvariant="bold">H</mi><mo>=</mo><mi mathvariant="bold">J</mi><mo>+</mo><mfrac><mrow><mo>∂</mo><mi mathvariant="bold">D</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac></mrow>
+              <math class="maxwell-equation" aria-label="矢量 H 的旋度等于自由电流密度矢量 J 加矢量 D 对时间的偏导数">
+                <mrow><mo>∇</mo><mo>×</mo><mover accent="true"><mi>H</mi><mo>→</mo></mover><mo>=</mo><mover accent="true"><mi>J</mi><mo>→</mo></mover><mo>+</mo><mfrac><mrow><mo>∂</mo><mover accent="true"><mi>D</mi><mo>→</mo></mover></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac></mrow>
               </math>
             </div>
           </div>

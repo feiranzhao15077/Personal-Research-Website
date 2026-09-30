@@ -14,7 +14,7 @@ protocolContext:
 uncertainty:
   kind: CONTEXT
   detail:
-    zh: 旧解释已被当前冻结口径替换或撤回。
+    zh: 旧解释已根据当前核验结果修订或撤回。
 status: WITHDRAWN
 boundary:
   zh: 旧数字作为有效后向结果重新出现。
