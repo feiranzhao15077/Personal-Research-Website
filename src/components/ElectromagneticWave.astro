@@ -1,0 +1,81 @@
+---
+// Normalized ideal plane wave: E along +y, B along +z, E × B along +x.
+// Field relationships: OpenStax, University Physics Vol. 2, §16.2.
+// Independently drawn illustration; no project measurements are represented.
+const project = (x: number, y: number, z: number) => [70 + x - .65 * z, 128 - .08 * x - y + .35 * z];
+const wave = (x: number) => 46 * Math.sin(4 * Math.PI * x / 280);
+const coordinate = (point: number[]) => point.map((value) => value.toFixed(2)).join(' ');
+const samples = Array.from({ length: 161 }, (_, index) => 280 * index / 160);
+const electric = samples.map((x) => project(x, wave(x), 0));
+const magnetic = samples.map((x) => project(x, 0, wave(x)));
+const path = (points: number[][]) => points.map((point, index) => `${index ? 'L' : 'M'} ${coordinate(point)}`).join(' ');
+const electricPath = path(electric);
+const magneticPath = path(magnetic);
+const fieldVectors = Array.from({ length: 33 }, (_, index) => 280 * index / 32)
+  .filter((x) => Math.abs(wave(x)) > 1)
+  .map((x) => ({ origin: project(x, 0, 0), e: project(x, wave(x), 0), b: project(x, 0, wave(x)) }));
+---
+
+<figure class="em-wave-figure">
+  <svg class="em-wave-diagram" viewBox="0 0 430 205" role="img" aria-labelledby="approach-wave-title approach-wave-description">
+    <title id="approach-wave-title">三维坐标中的电磁波传播示意</title>
+    <desc id="approach-wave-description">理想平面电磁波：电场 E 沿 y 方向、磁场 B 沿 z 方向同相振荡，沿正 x 方向传播。两种场的显示振幅分别归一化，仅作概念示意。</desc>
+    <defs>
+      <marker id="approach-wave-axis" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="5" markerHeight="5" orient="auto">
+        <path d="M 0 0 L 6 3 L 0 6" fill="none" stroke="var(--ink-soft)" stroke-width="1" />
+      </marker>
+      <marker id="approach-wave-electric" viewBox="0 0 5 5" refX="4" refY="2.5" markerWidth="4" markerHeight="4" orient="auto">
+        <path d="M 0 0 L 5 2.5 L 0 5 Z" fill="var(--blue)" />
+      </marker>
+      <marker id="approach-wave-magnetic" viewBox="0 0 5 5" refX="4" refY="2.5" markerWidth="4" markerHeight="4" orient="auto">
+        <path d="M 0 0 L 5 2.5 L 0 5 Z" fill="#8a6a51" />
+      </marker>
+    </defs>
+    <g class="wave-axes" fill="none" marker-end="url(#approach-wave-axis)">
+      <path d="M 45 130 L 397 101.84" />
+      <path d="M 70 161 L 70 43" />
+      <path d="M 103 110.23 L 16 157.08" />
+    </g>
+    <g class="wave-magnetic">
+      <path class="wave-plane" d={`${magneticPath} L ${coordinate(project(0, 0, 0))} Z`} />
+      <g class="wave-vectors" marker-end="url(#approach-wave-magnetic)">
+        {fieldVectors.map(({ origin, b }) => <path d={`M ${coordinate(origin)} L ${coordinate(b)}`} />)}
+      </g>
+      <path class="wave-curve" d={magneticPath} />
+    </g>
+    <g class="wave-electric">
+      <path class="wave-plane" d={`${electricPath} L ${coordinate(project(0, 0, 0))} Z`} />
+      <g class="wave-vectors" marker-end="url(#approach-wave-electric)">
+        {fieldVectors.map(({ origin, e }) => <path d={`M ${coordinate(origin)} L ${coordinate(e)}`} />)}
+      </g>
+      <path class="wave-curve" d={electricPath} />
+    </g>
+    <g class="wave-axis-labels">
+      <text x="405" y="108">x</text>
+      <text x="66" y="33">y</text>
+      <text x="8" y="174">z</text>
+      <text x="324" y="90">k</text>
+    </g>
+    <text class="wave-field-label wave-electric" x="120" y="72">E</text>
+    <text class="wave-field-label wave-magnetic" x="229" y="150">B</text>
+  </svg>
+</figure>
+
+<style>
+  .em-wave-figure { width: 100%; margin: 0; }
+  .em-wave-diagram { display: block; width: 100%; height: auto; overflow: visible; }
+  .wave-axes { stroke: var(--ink-soft); stroke-width: .85; opacity: .55; }
+  .wave-electric { color: var(--blue); }
+  .wave-magnetic { color: #8a6a51; }
+  .wave-plane { fill: currentColor; opacity: .055; }
+  .wave-vectors { fill: none; stroke: currentColor; stroke-width: .7; opacity: .3; }
+  .wave-curve { fill: none; stroke: currentColor; stroke-width: 1.5; opacity: .8; transition: opacity .25s ease; }
+  .wave-axis-labels { fill: var(--ink-soft); font: italic 15px 'Cambria Math', var(--serif); }
+  .wave-field-label { fill: currentColor; font: italic 19px 'Cambria Math', var(--serif); }
+  @media (hover: hover) and (pointer: fine) {
+    .em-wave-figure:hover .wave-curve { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wave-curve { transition: none; }
+  }
+</style>

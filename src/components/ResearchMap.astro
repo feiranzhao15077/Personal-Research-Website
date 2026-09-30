@@ -2,6 +2,9 @@
 import type { CollectionEntry } from 'astro:content';
 import { projectUrl } from '../lib/content';
 import ResearchSummary from './ResearchSummary.astro';
+import { Image } from 'astro:assets';
+import droneBase from '../assets/research-drone-base.png';
+import dronePropeller from '../assets/research-drone-propeller.png';
 
 interface Props {
   map: CollectionEntry<'maps'>;
@@ -28,6 +31,14 @@ const phaseLabels: Record<string, { step: string; phase: string }> = {
   emvision: { step: 'PHASE 03', phase: '逆向归因与边界' },
   'quadcontrol-lab': { step: 'PARALLEL', phase: '闭环动力学隔离' }
 };
+
+// Illustration coordinates only; these overlays are not research measurements.
+const sketchRotors = [
+  { cx: 307, cy: 321, rx: 187, ry: 130, pivotX: 308, pivotY: 300, diameter: 570, projection: .65, angle: -41 },
+  { cx: 944, cy: 321, rx: 187, ry: 130, pivotX: 944, pivotY: 300, diameter: 570, projection: .65, angle: 41 },
+  { cx: 264, cy: 848, rx: 189, ry: 161, pivotX: 267, pivotY: 815, diameter: 540, projection: .81, angle: 34 },
+  { cx: 982, cy: 848, rx: 189, ry: 161, pivotX: 987, pivotY: 815, diameter: 540, projection: .81, angle: -34 },
+];
 ---
 
 <section class="blueprint-section" id="research-map" aria-labelledby="map-heading">
@@ -77,6 +88,60 @@ const phaseLabels: Record<string, { step: string; phase: string }> = {
           );
         })}
 
+        <figure class="map-aircraft">
+          <div class="aircraft-drawing">
+            <Image
+              src={droneBase}
+              alt="四旋翼无人机的手绘工程示意图"
+              class="map-aircraft-image"
+              width={720}
+              widths={[240, 480, 720]}
+              sizes="(max-width: 900px) 230px, (max-width: 1200px) 28vw, 360px"
+              format="webp"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="aircraft-propellers" aria-hidden="true">
+              {sketchRotors.map((rotor) => (
+                <div class="propeller-plane" style={`--rotor-x: ${rotor.pivotX / 1254 * 100}%; --rotor-y: ${rotor.pivotY / 1254 * 100}%; --rotor-size: ${rotor.diameter / 1254 * 100}%; --rotor-projection: ${rotor.projection}; --rotor-angle: ${rotor.angle}deg;`}>
+                  <Image
+                    src={dronePropeller}
+                    alt=""
+                    class="aircraft-propeller"
+                    data-rotor-angle={rotor.angle}
+                    width={320}
+                    widths={[160, 320]}
+                    sizes="(max-width: 900px) 110px, 164px"
+                    format="webp"
+                    loading="eager"
+                    decoding="async"
+                  />
+                </div>
+              ))}
+            </div>
+            <svg class="aircraft-annotations" viewBox="0 0 1254 1254" fill="none" aria-hidden="true" focusable="false">
+              <g class="aircraft-layer aircraft-coordinates">
+                <path d="M 627 613 L 627 374 M 627 613 L 857 613 M 627 613 L 466 764" />
+                <circle cx="627" cy="613" r="9" />
+                <path d="M 617 390 L 627 374 L 637 390 M 841 603 L 857 613 L 841 623" />
+              </g>
+              <g class="aircraft-layer aircraft-propagation">
+                <path d="M 425 361 Q 627 249 829 361 M 322 293 Q 627 102 932 293 M 220 229 Q 627 -42 1034 229" />
+                <path d="M 307 321 L 627 613 L 944 321" stroke-dasharray="4 7" />
+              </g>
+              <g class="aircraft-layer aircraft-observation">
+                <path d="M 513 511 V 446 H 578 M 678 446 H 743 V 511 M 743 698 V 763 H 678 M 578 763 H 513 V 698" />
+                <circle cx="627" cy="605" r="16" />
+                <path d="M 627 578 V 593 M 627 617 V 632 M 600 605 H 615 M 639 605 H 654" />
+              </g>
+              <g class="aircraft-layer aircraft-rotors">
+                {sketchRotors.map(({ cx, cy, rx, ry }) => <ellipse cx={cx} cy={cy} rx={rx} ry={ry} />)}
+              </g>
+            </svg>
+          </div>
+          <figcaption>四旋翼工程草图 <span aria-hidden="true">·</span> 视觉示意</figcaption>
+        </figure>
+
         <!-- Track 2: Autonomous Branch -->
         {branchNode && (
           <div class="b-node branch-node gs-fade-up">
@@ -96,6 +161,31 @@ const phaseLabels: Record<string, { step: string; phase: string }> = {
             </article>
           </div>
         )}
+
+        <aside class="maxwell-notes" aria-label="麦克斯韦方程组">
+          <div class="maxwell-equations">
+            <div class="maxwell-row">
+              <math class="maxwell-equation" aria-label="D 的散度等于自由电荷密度 rho">
+                <mrow><mo>∇</mo><mo>·</mo><mi mathvariant="bold">D</mi><mo>=</mo><mi>ρ</mi></mrow>
+              </math>
+            </div>
+            <div class="maxwell-row">
+              <math class="maxwell-equation" aria-label="B 的散度等于零">
+                <mrow><mo>∇</mo><mo>·</mo><mi mathvariant="bold">B</mi><mo>=</mo><mn>0</mn></mrow>
+              </math>
+            </div>
+            <div class="maxwell-row">
+              <math class="maxwell-equation" aria-label="E 的旋度等于 B 对时间偏导数的负值">
+                <mrow><mo>∇</mo><mo>×</mo><mi mathvariant="bold">E</mi><mo>=</mo><mo>−</mo><mfrac><mrow><mo>∂</mo><mi mathvariant="bold">B</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac></mrow>
+              </math>
+            </div>
+            <div class="maxwell-row">
+              <math class="maxwell-equation" aria-label="H 的旋度等于自由电流密度 J 加 D 对时间的偏导数">
+                <mrow><mo>∇</mo><mo>×</mo><mi mathvariant="bold">H</mi><mo>=</mo><mi mathvariant="bold">J</mi><mo>+</mo><mfrac><mrow><mo>∂</mo><mi mathvariant="bold">D</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac></mrow>
+              </math>
+            </div>
+          </div>
+        </aside>
       </div>
 
     </div>
@@ -191,6 +281,139 @@ const phaseLabels: Record<string, { step: string; phase: string }> = {
   .main-node.node-3 { grid-column: 3; grid-row: 1; }
   .branch-node      { grid-column: 2; grid-row: 2; } /* Placed under Phase 2 for symmetry */
 
+  /* A typeset margin note balances the engineering sketch across the branch. */
+  .maxwell-notes {
+    grid-column: 3;
+    grid-row: 2;
+    align-self: center;
+    min-width: 0;
+    padding: .75rem 0 .75rem 2.75rem;
+    border-left: 1px solid color-mix(in srgb, var(--blue) 22%, transparent);
+    color: var(--blue);
+  }
+  .maxwell-equations { display: grid; gap: 1.75rem; }
+  .maxwell-row {
+    position: relative;
+    display: grid;
+    width: fit-content;
+    max-width: 100%;
+    transition: transform .25s cubic-bezier(.16, 1, .3, 1);
+  }
+  .maxwell-equation {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    font-family: 'Cambria Math', 'STIX Two Math', serif;
+    font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+    transform-origin: center;
+    transition: color .25s ease;
+  }
+  .blueprint-container:has(.card-link:focus-visible) .maxwell-equation { color: var(--ink); }
+  .maxwell-converging .maxwell-equation { opacity: 0; }
+  @media (hover: hover) and (pointer: fine) {
+    .blueprint-container:has(.card-link:hover) .maxwell-equation { color: var(--ink); }
+    .maxwell-row:hover { transform: translate(3px, -2px); }
+    .maxwell-row:hover .maxwell-equation { color: var(--ink); }
+  }
+  .maxwell-row:active .maxwell-equation { color: var(--ink); }
+  :global(.maxwell-flight-layer) {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    pointer-events: none;
+    overflow: hidden;
+    color: var(--blue);
+  }
+  :global(.maxwell-flight-equation) { position: absolute; margin: 0; will-change: transform, opacity; }
+  :global(.maxwell-convergence-point) {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    margin: -7px 0 0 -7px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: 0;
+  }
+
+  /* The supplied pencil drawing occupies the lower-left open grid cell. */
+  .map-aircraft {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: center;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+  .aircraft-drawing { position: relative; background: var(--paper); isolation: isolate; }
+  .map-aircraft-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    opacity: .8;
+    mix-blend-mode: multiply;
+    transition: opacity .3s ease;
+  }
+  .aircraft-propellers { position: absolute; inset: 0; pointer-events: none; }
+  .propeller-plane {
+    position: absolute;
+    left: var(--rotor-x);
+    top: var(--rotor-y);
+    width: var(--rotor-size);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%) scaleY(var(--rotor-projection));
+  }
+  .aircraft-propeller {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: rotate(var(--rotor-angle));
+    transform-origin: center;
+    opacity: .84;
+    transition: opacity .2s ease;
+  }
+  .rotors-running .aircraft-propeller { will-change: transform; opacity: .72; }
+  .map-aircraft figcaption {
+    margin-top: .5rem;
+    color: var(--ink-soft);
+    text-align: center;
+    font-size: .75rem;
+    letter-spacing: .04em;
+  }
+  .aircraft-annotations {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    color: var(--blue);
+  }
+  .aircraft-layer {
+    stroke: currentColor;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0;
+    transition: opacity .28s ease;
+  }
+  .aircraft-layer > * { vector-effect: non-scaling-stroke; }
+  .blueprint-container:has(.node-1:focus-within) .aircraft-coordinates,
+  .blueprint-container:has(.node-2:focus-within) .aircraft-propagation,
+  .blueprint-container:has(.node-3:focus-within) .aircraft-observation,
+  .blueprint-container:has(.branch-node:focus-within) .aircraft-rotors { opacity: .85; }
+  .blueprint-container:has(.b-node:focus-within) .map-aircraft-image { opacity: .96; }
+  @media (hover: hover) and (pointer: fine) {
+    .blueprint-container:has(.node-1 .card-link:hover) .aircraft-coordinates,
+    .blueprint-container:has(.node-2 .card-link:hover) .aircraft-propagation,
+    .blueprint-container:has(.node-3 .card-link:hover) .aircraft-observation,
+    .blueprint-container:has(.branch-node .card-link:hover) .aircraft-rotors { opacity: .85; }
+    .blueprint-container:has(.card-link:hover) .map-aircraft-image { opacity: .96; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .aircraft-layer, .map-aircraft-image, .aircraft-propeller { transition: none; }
+    .maxwell-equation, .maxwell-row { transition: none; }
+    .maxwell-row:hover { transform: none; }
+  }
+
   .b-node {
     display: flex;
     flex-direction: column;
@@ -271,13 +494,13 @@ const phaseLabels: Record<string, { step: string; phase: string }> = {
     z-index: 0;
   }
 
-  .b-card:hover {
+  .b-card:hover, .b-card:focus-within {
     transform: translateY(-8px);
     box-shadow: 0 15px 35px rgba(0,0,0,0.06), 0 5px 15px color-mix(in srgb, var(--accent) 15%, transparent);
     border-color: transparent; /* Hide original border to let pseudo-element shine */
   }
 
-  .b-card:hover::before {
+  .b-card:hover::before, .b-card:focus-within::before {
     box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--accent) 60%, transparent), 
                 inset 0 0 20px color-mix(in srgb, var(--accent) 10%, transparent);
   }
@@ -394,7 +617,11 @@ const phaseLabels: Record<string, { step: string; phase: string }> = {
     .main-node.node-1 { grid-column: 1; grid-row: 1; }
     .main-node.node-2 { grid-column: 1; grid-row: 2; }
     .main-node.node-3 { grid-column: 1; grid-row: 3; }
-    .branch-node      { grid-column: 1; grid-row: 4; }
+    .map-aircraft     { grid-column: 1; grid-row: 4; max-width: 230px; }
+    .branch-node      { grid-column: 1; grid-row: 5; }
+    .maxwell-notes    { grid-column: 1; grid-row: 6; width: 100%; max-width: 420px; margin: 0 auto; padding: 1.5rem 0 0 1rem; border-left: 0; border-top: 1px solid color-mix(in srgb, var(--blue) 22%, transparent); }
+    .maxwell-equations { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem .75rem; }
+    .maxwell-equation { font-size: 1.25rem; }
     
     .blueprint-lines {
       display: none; /* Hide SVG lines on mobile, rely on cards */
@@ -403,11 +630,16 @@ const phaseLabels: Record<string, { step: string; phase: string }> = {
       margin-bottom: 1rem;
     }
   }
+  @media (max-width: 360px) {
+    .maxwell-equations { grid-template-columns: 1fr; }
+  }
 </style>
 
 <script>
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { setupRotorInteraction } from '../lib/rotor-interaction';
+  import { setupMaxwellTransition } from '../lib/maxwell-transition';
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -447,6 +679,11 @@ const phaseLabels: Record<string, { step: string; phase: string }> = {
 
   // Run on first load
   initMap();
+  const rotorMap = document.querySelector<HTMLElement>('#research-map');
+  if (rotorMap) {
+    setupRotorInteraction(rotorMap);
+    setupMaxwellTransition(rotorMap);
+  }
   
   // Re-run on View Transitions
   document.addEventListener('astro:page-load', initMap);

@@ -8,6 +8,7 @@ import ResearchMap from '../components/ResearchMap.astro';
 import EvidenceBlock from '../components/EvidenceBlock.astro';
 import FigureFrame from '../components/FigureFrame.astro';
 import FlagshipResult from '../components/FlagshipResult.astro';
+import ElectromagneticWave from '../components/ElectromagneticWave.astro';
 import { byId, projectUrl } from '../lib/content';
 
 const [projects, evidence, figures, materials, maps, sites] = await Promise.all([
@@ -21,6 +22,16 @@ const cv = m.get(profile.cvMaterialId)?.data;
 const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.publicUrl) : undefined;
 const initialRelease = import.meta.env.RELEASE_MODE === 'production' && import.meta.env.RELEASE_TARGET === 'initial';
 const emvision = p.get('emvision')!, lowalt = p.get('lowalt-md')!, emtrace = p.get('em-trace')!, quad = p.get('quadcontrol-lab')!;
+
+// Decorative geometries describe the method stages, not experimental measurements.
+const approachStages = [
+  { title: '物理问题', text: 'LowAlt-MD · 低空传播如何改变谱结构', paths: ['M 2 20 H 6 C 11 20 11 8 16 8 S 21 32 26 32 S 31 20 36 20 H 38'], dots: [] },
+  { title: '数学建模', text: 'LowAlt-MD · M0–M3 分层机制', paths: ['M 4 28 Q 20 0 36 28', 'M 10 31 L 20 12 L 30 31'], dots: [] },
+  { title: '数值实现', text: 'EM-Trace · CAD、CST 与复场提取', paths: ['M 6 27 L 15 16 L 25 23 L 34 10'], dots: [[6, 27], [15, 16], [25, 23], [34, 10]] },
+  { title: '受控实验', text: 'EMvision · C/G/P 全因子配对', paths: ['M 5 12 H 35 M 5 20 H 35 M 5 28 H 35', 'M 13 9 V 15 M 25 17 V 23 M 19 25 V 31'], dots: [] },
+  { title: '证据审计', text: 'EM-Trace · 方向与极化纠错', paths: ['M 20 6 V 34 M 6 20 H 34', 'M 12 9 H 9 V 12 M 28 9 H 31 V 12 M 9 28 V 31 H 12 M 31 28 V 31 H 28'], dots: [[20, 20]] },
+  { title: '可复核工程', text: '公开摘要与精选代码；不等于完整复现包', paths: ['M 29 9 H 9 V 31 H 29', 'M 16 16 H 25 M 16 23 H 25 M 33 15 V 25'], dots: [] },
+];
 ---
 <BaseLayout title="应用物理 · 计算电磁 · 智能感知" description="围绕电磁感知与无人系统，以可审计的物理模型、受控实验和明确的证据边界呈现四个研究项目。">
   <Hero profile={profile} />
@@ -28,8 +39,27 @@ const emvision = p.get('emvision')!, lowalt = p.get('lowalt-md')!, emtrace = p.g
   <ResearchMap map={map} />
 
   <section class="section approach-section" id="approach" aria-labelledby="approach-heading"><div class="shell">
-    <div class="section-intro"><p class="eyebrow">02 / Approach</p><h2 id="approach-heading">研究方法是一条可追溯的链。</h2><p>从问题定义到证据审计，每一环都对应具体项目中的工作。</p></div>
-    <ol class="approach-grid"><li><span>01</span><h3>物理问题</h3><p>LowAlt-MD · 低空传播如何改变谱结构</p></li><li><span>02</span><h3>数学建模</h3><p>LowAlt-MD · M0–M3 分层机制</p></li><li><span>03</span><h3>数值实现</h3><p>EM-Trace · CAD、CST 与复场提取</p></li><li><span>04</span><h3>受控实验</h3><p>EMvision · C/G/P 全因子配对</p></li><li><span>05</span><h3>证据审计</h3><p>EM-Trace · 方向与极化纠错</p></li><li><span>06</span><h3>可复核工程</h3><p>公开摘要与精选代码；不等于完整复现包</p></li></ol>
+    <div class="approach-heading-layout">
+      <div class="section-intro"><p class="eyebrow">02 / Approach</p><h2 id="approach-heading">研究方法是一条可追溯的链。</h2><p>从问题定义到证据审计，每一环都对应具体项目中的工作。</p></div>
+      <div class="approach-wave"><ElectromagneticWave /></div>
+    </div>
+    <ol class="approach-grid">
+      {approachStages.map((stage, index) => (
+        <li tabindex="0">
+          <svg class="approach-track" viewBox="0 0 240 36" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path class="approach-track-base" d="M 0 18 H 240" />
+            <path class="approach-track-pulse" d="M 0 18 H 240" pathLength="1" />
+          </svg>
+          <svg class="approach-symbol" viewBox="0 0 40 40" fill="none" aria-hidden="true" focusable="false">
+            {stage.paths.map((path) => <path d={path} />)}
+            {stage.dots.map(([cx, cy]) => <circle cx={cx} cy={cy} r="2" />)}
+          </svg>
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <h3>{stage.title}</h3>
+          <p>{stage.text}</p>
+        </li>
+      ))}
+    </ol>
   </div></section>
 
   <section class="section flagship-section" id="projects" aria-labelledby="flagship-heading"><div class="shell">
@@ -55,6 +85,99 @@ const emvision = p.get('emvision')!, lowalt = p.get('lowalt-md')!, emtrace = p.g
 </BaseLayout>
 
 <style>
+  .approach-heading-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    margin-bottom: clamp(2rem, 5vw, 4rem);
+  }
+  .approach-heading-layout .section-intro { margin-bottom: 0; }
+  .approach-wave { min-width: 0; }
+  @media (min-width: 701px) and (max-width: 1000px) {
+    .approach-heading-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 280px); gap: 1.25rem; }
+  }
+  .approach-grid li {
+    position: relative;
+    min-width: 0;
+    border-top: 0;
+    padding-top: 3rem;
+  }
+  .approach-track {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: calc(100% + 1rem);
+    height: 36px;
+    fill: none;
+    stroke: var(--blue);
+    pointer-events: none;
+  }
+  .approach-grid li:last-child .approach-track { width: 100%; }
+  .approach-track-base { stroke-width: 1; opacity: .25; }
+  .approach-track-pulse {
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: .012 .988;
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  .approach-symbol {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    background: var(--paper-deep);
+    color: var(--blue);
+    stroke: currentColor;
+    stroke-width: 1.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transform-origin: center;
+    transition: color .25s ease, transform .25s cubic-bezier(.16, 1, .3, 1);
+    pointer-events: none;
+  }
+  .approach-symbol circle { fill: var(--paper-deep); }
+  .approach-grid li:focus-visible { outline: 1px solid var(--blue); outline-offset: 6px; }
+  .approach-grid li:focus-visible .approach-symbol { color: var(--blue-deep); transform: scale(1.08); }
+  .approach-grid li:focus-visible .approach-track-pulse { animation: approach-trace .45s ease-out both; }
+  @media (hover: hover) and (pointer: fine) {
+    .approach-grid li:hover .approach-symbol { color: var(--blue-deep); transform: scale(1.08); }
+    .approach-grid li:hover .approach-track-pulse { animation: approach-trace .45s ease-out both; }
+  }
+  @keyframes approach-trace {
+    0% { stroke-dashoffset: 1; opacity: 0; }
+    15% { opacity: .9; }
+    80% { opacity: .9; }
+    100% { stroke-dashoffset: 0; opacity: 0; }
+  }
+  @media (max-width: 1100px) {
+    .approach-grid li:nth-child(3) .approach-track { width: 100%; }
+  }
+  @media (max-width: 700px) {
+    .approach-heading-layout { grid-template-columns: 1fr; gap: .75rem; }
+    .approach-wave { width: min(100%, 340px); justify-self: end; }
+    .approach-grid li { padding: 0 0 0 3.5rem; }
+    .approach-track { display: none; }
+    .approach-grid li::before {
+      content: '';
+      position: absolute;
+      left: 17.5px;
+      top: 18px;
+      bottom: calc(-1.5rem - 18px);
+      border-left: 1px solid color-mix(in srgb, var(--blue) 25%, transparent);
+      pointer-events: none;
+    }
+    .approach-grid li:last-child::before { display: none; }
+    .approach-grid li:focus-visible .approach-symbol { transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .approach-symbol { transition: none; }
+    .approach-grid li:hover .approach-symbol,
+    .approach-grid li:focus-visible .approach-symbol { transform: none; }
+    .approach-track-pulse { display: none; }
+  }
   @media (min-width: 1024px) {
     .materials-section > .shell {
       display: grid;
