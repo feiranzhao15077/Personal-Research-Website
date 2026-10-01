@@ -1,0 +1,104 @@
+---
+import { Image } from 'astro:assets';
+import far from '../assets/flight/cloud-far.png';
+import middle from '../assets/flight/cloud-middle.png';
+import near from '../assets/flight/cloud-near.png';
+---
+
+<figure class="cloud-flight">
+  <button class="flight-scene" type="button" aria-label="歼-16穿云插画，播放一次随机飞行动作" aria-describedby="flight-instructions">
+    <span class="flight-art" aria-hidden="true">
+      <span class="flight-cloud flight-cloud-far" data-cloud>
+        <Image src={far} alt="" width={1000} format="webp" quality={78} loading="lazy" />
+        <Image src={far} alt="" width={1000} format="webp" quality={78} loading="lazy" />
+      </span>
+      <span class="flight-cloud flight-cloud-middle" data-cloud>
+        <Image src={middle} alt="" width={1000} format="webp" quality={78} loading="lazy" />
+        <Image src={middle} alt="" width={1000} format="webp" quality={78} loading="lazy" />
+      </span>
+      <span class="flight-jet">
+        <span class="flight-jet-bank">
+          <svg class="jet-drawing" viewBox="0 0 320 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+              <!-- Swept wings, twin engines and twin fins retain the aircraft silhouette. -->
+              <path d="M121 87 204 24 246 26 187 88Z" fill="#e4edf0" />
+              <path d="m124 107 86 63 45-6-67-62Z" fill="#d8e5eb" />
+              <path d="m224 82 64-7 5 12-63 9m-6 15 64 6 5 13-67-4" fill="#b8ceda" />
+              <path d="m287 75 15 2 2 11-11-1m-6 29 16 4-1 12-9-2" fill="#7e9ead" />
+              <path d="M17 100c24-5 44-19 66-23l76-4 104 12 21 11-17 9-111 18-68-2c-24-2-48-16-71-21Z" fill="#edf2f3" />
+              <path d="m135 102 125-7 24 1-17 9-111 18-68-2-30-10 66 2Z" fill="#c9dbe3" stroke="none" />
+              <path d="m87 82 19-7 39 1 12 10-58 6Z" fill="#a9c6d6" />
+              <path d="m112 76 7 13m-36-8 9 12m64-7 81 1M29 99l52-7m80 10 90-6" opacity=".65" />
+              <path d="m205 84 44-57 18 2-22 61Z" fill="#d4e1e7" />
+              <path d="m213 117 48-46 17 4-22 55Z" fill="#b5cbd6" />
+              <path d="m249 27-13 55m25-11-19 46m-79-40 43-40m-40 74 47 43" opacity=".5" />
+              <path d="m257 96 18 2m-101-3 15-1" />
+              <path d="m219 54 18-1m-11 91 15-3" opacity=".6" />
+            </g>
+          </svg>
+        </span>
+      </span>
+      <span class="flight-cloud-veil">
+        <span class="flight-cloud flight-cloud-near" data-cloud>
+          <Image src={near} alt="" width={1000} format="webp" quality={78} loading="lazy" />
+          <Image src={near} alt="" width={1000} format="webp" quality={78} loading="lazy" />
+        </span>
+      </span>
+    </span>
+  </button>
+  <figcaption id="flight-instructions">
+    <span class="flight-hint">悬停 / 点按 · 随机机动</span>
+    <span class="flight-static-hint">静态插画</span>
+    <span class="flight-art-note">航空插画</span>
+    <button class="flight-pause" type="button" aria-pressed="false" aria-label="暂停飞行动画">暂停</button>
+  </figcaption>
+</figure>
+
+<style>
+  .cloud-flight { margin: 0; width: 100%; min-width: 0; color: var(--blue); }
+  .flight-scene {
+    display: block; position: relative; width: 100%; height: clamp(250px, 24vw, 330px);
+    padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer;
+    overflow: hidden; touch-action: pan-y; -webkit-tap-highlight-color: transparent;
+  }
+  .flight-scene:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+  .flight-scene[aria-disabled="true"] { cursor: default; }
+  .flight-art {
+    position: absolute; inset: 0; display: block; pointer-events: none;
+    mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 38%, transparent 74%);
+    mask-image: radial-gradient(ellipse at center, #000 38%, transparent 74%);
+  }
+  .flight-cloud {
+    position: absolute; display: flex; pointer-events: none; filter: grayscale(1);
+  }
+  .jet-drawing { display: block; width: 100%; height: auto; user-select: none; }
+  .flight-cloud img { display: block; width: 50%; flex: 0 0 50%; height: auto; user-select: none; }
+  .flight-cloud-far { z-index: 0; top: 1%; left: 0; width: 260%; opacity: .42; }
+  .flight-cloud-middle { z-index: 1; top: 42%; left: 0; width: 240%; opacity: .34; }
+  .flight-jet {
+    --jet-width: clamp(100px, 10vw, 140px);
+    position: absolute; display: block; z-index: 2; width: var(--jet-width);
+    left: calc(50% - var(--jet-width) / 2); top: calc(46% - var(--jet-width) * .297);
+    transform-origin: 52% 52%;
+  }
+  .flight-jet-bank { display: block; transform-origin: 52% 52%; }
+  .flight-cloud-veil { position: absolute; z-index: 3; inset: 0; display: block; opacity: .32; pointer-events: none; }
+  .flight-cloud-near { top: 61%; left: 0; width: 260%; }
+  figcaption { display: flex; align-items: center; gap: .75rem; font: .72rem/1.6 var(--sans); color: var(--ink-soft); padding: 0 .75rem; }
+  .flight-art-note { margin-left: auto; }
+  .flight-pause { min-height: 44px; min-width: 44px; border: 0; padding: .25rem .4rem; background: transparent; color: var(--blue); font: inherit; text-decoration: underline; text-underline-offset: .3em; cursor: pointer; }
+  .flight-pause:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .flight-static-hint { display: none; }
+  @media (max-width: 700px) { .flight-scene { height: clamp(205px, 57vw, 280px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .flight-hint, .flight-pause { display: none; }
+    .flight-static-hint { display: inline; }
+    figcaption { min-height: 44px; }
+  }
+</style>
+
+<script>
+  import { setupCloudFlight } from '../lib/cloud-flight';
+  document.querySelectorAll<HTMLElement>('.cloud-flight').forEach(setupCloudFlight);
+</script>

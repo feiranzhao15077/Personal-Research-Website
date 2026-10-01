@@ -1,0 +1,75 @@
+---
+import { sitePath } from '../lib/urls';
+import '../styles/personal-space.css';
+
+// Empty slots, not personal works or records. Real content will be supplied later.
+const slots = [
+  { title: '自由作品', label: '作品位置', color: 'coral', shape: 'orbit', layer: 2, tilt: -7 },
+  { title: '生活记录', label: '记录位置', color: 'blue', shape: 'window', layer: 1, tilt: 6 },
+  { title: '自由作品', label: '作品位置', color: 'lemon', shape: 'fold', layer: 0, tilt: -5 },
+  { title: '生活记录', label: '记录位置', color: 'pink', shape: 'orbit', layer: 2, tilt: 5 },
+  { title: '自由作品', label: '作品位置', color: 'blue', shape: 'fold', layer: 0, tilt: 7 },
+  { title: '生活记录', label: '记录位置', color: 'lemon', shape: 'window', layer: 1, tilt: -6 },
+  { title: '自由作品', label: '作品位置', color: 'pink', shape: 'window', layer: 0, tilt: -8 },
+  { title: '生活记录', label: '记录位置', color: 'coral', shape: 'fold', layer: 1, tilt: 5 },
+  { title: '自由作品', label: '作品位置', color: 'lemon', shape: 'orbit', layer: 2, tilt: -4 },
+];
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="description" content="赵斐然的个人空间，自由作品与生活记录的独立画廊。" />
+    <link rel="icon" href={sitePath('/favicon.svg')} type="image/svg+xml" />
+    <title>个人空间 · 赵斐然</title>
+  </head>
+  <body>
+    <a class="space-skip" href="#space-main">跳到个人空间</a>
+    <header class="space-nav">
+      <a class="space-back" href={`${sitePath('/')}#about`}>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m10 5-7 7 7 7M3 12h18" /></svg>
+        返回科研主页
+      </a>
+      <span class="space-owner">赵斐然</span>
+    </header>
+    <main id="space-main">
+      <div class="space-intro">
+        <h1>个人空间<span aria-hidden="true">.</span></h1>
+        <p>自由作品，生活片段。</p>
+      </div>
+      <section class="space-stage" aria-label="作品与生活记录画廊" aria-describedby="space-help">
+        <ol class="space-cards">
+          {slots.map((slot, index) => (
+            <li class="space-card" data-layer={slot.layer} data-tilt={slot.tilt} data-color={slot.color} data-slot={index}>
+              <button type="button" class="space-card-button" data-open-card aria-haspopup="dialog" aria-label={`${slot.title}，第 ${index + 1} 个空白位置，点击展开`}>
+                <span class:list={['card-art', `art-${slot.shape}`]} aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="card-copy"><span class="card-slot-label">{slot.label}</span><strong>{slot.title}</strong><span class="card-empty">内容待加入</span></span>
+              </button>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <footer class="space-controls">
+        <p id="space-help">按住拖动，松开滑行。点击卡片展开。</p>
+        <div class="space-buttons">
+          <button type="button" data-space-step="-1" aria-label="向右浏览卡片"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m14 5-7 7 7 7" /></svg></button>
+          <button type="button" data-space-pause aria-pressed="false">暂停漂浮</button>
+          <button type="button" data-space-step="1" aria-label="向左浏览卡片"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m10 5 7 7-7 7" /></svg></button>
+        </div>
+      </footer>
+      <noscript><p class="space-noscript">当前为静态卡片视图，作品和生活记录尚未加入。</p></noscript>
+    </main>
+    <dialog class="space-dialog" aria-labelledby="space-dialog-title" aria-describedby="space-dialog-description">
+      <button type="button" class="dialog-close" data-space-close aria-label="关闭卡片"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg></button>
+      <div class="dialog-art" aria-hidden="true"><span></span></div>
+      <div class="dialog-copy"><p>空白位置</p><h2 id="space-dialog-title">自由作品</h2><p id="space-dialog-description">这里将放入你的作品或生活记录。</p></div>
+    </dialog>
+    <script>
+      import { setupPersonalSpace } from '../lib/personal-space';
+      setupPersonalSpace();
+    </script>
+  </body>
+</html>

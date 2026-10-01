@@ -1,0 +1,24 @@
+---
+import { sitePath } from '../lib/urls';
+---
+<a class="personal-space-entry" href={sitePath('/space/')}>
+  <span><strong>个人空间</strong><small>自由作品与生活记录</small></span>
+  <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 26 26 6M7 6h19v19" /></svg>
+</a>
+<style>
+  .personal-space-entry {
+    display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+    min-height: clamp(220px, 18vw, 280px); margin-top: 2rem;
+    margin-bottom: calc(-1 * clamp(3.5rem, 6.5vw, 6rem)); padding: 2rem 1rem 2rem 0;
+    color: var(--blue); text-decoration: none; border-top: 1px solid var(--line);
+    transition: background-color .25s ease;
+  }
+  .personal-space-entry strong { display: block; font: 500 clamp(2rem, 3vw, 2.65rem)/1.4 var(--serif); }
+  .personal-space-entry small { display: block; margin-top: .35rem; color: var(--ink-soft); font-size: .92rem; }
+  .personal-space-entry svg { width: 36px; height: 36px; flex: 0 0 36px; stroke: currentColor; stroke-width: 1.5; transition: transform .25s ease; }
+  .personal-space-entry:hover, .personal-space-entry:focus-visible { background-color: rgb(33 79 115 / .035); }
+  .personal-space-entry:hover svg, .personal-space-entry:focus-visible svg { transform: translate(4px, -4px); }
+  .personal-space-entry:hover strong { text-decoration: underline; text-underline-offset: .3em; text-decoration-thickness: 1px; }
+  @media (max-width: 650px) { .personal-space-entry { min-height: 190px; gap: 1.25rem; } }
+  @media (prefers-reduced-motion: reduce) { .personal-space-entry, .personal-space-entry svg { transition: none; } }
+</style>
