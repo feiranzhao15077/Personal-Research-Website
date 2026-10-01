@@ -86,6 +86,14 @@ export function setupWaveInteraction(control: HTMLButtonElement) {
   const leave = () => {
     if (hovered) { hovered = false; toggled = false; pausedByClick = false; update(); }
   };
+  // Returning to a window / restored page does not necessarily fire pointerenter.
+  const syncHover = () => {
+    hovered = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+      && control.matches(':hover');
+  };
+  const move = (event: PointerEvent) => {
+    if (!hovered && event.pointerType === 'mouse') enter(event);
+  };
   const click = () => {
     if (reduced.matches) return;
     if (hovered) pausedByClick = !pausedByClick;
@@ -98,18 +106,23 @@ export function setupWaveInteraction(control: HTMLButtonElement) {
     update();
   };
   const blur = () => { windowActive = false; hovered = false; update(); };
-  const focus = () => { windowActive = true; update(); };
-  const pageShow = () => { suspended = false; update(); };
+  const focus = () => { windowActive = true; syncHover(); update(); };
+  const pageShow = () => { suspended = false; syncHover(); update(); };
+  const visibility = () => {
+    if (!document.hidden) syncHover();
+    update();
+  };
   const observer = new IntersectionObserver(([entry]) => {
     visible = entry.isIntersecting;
     update();
   }, { threshold: .1 });
   observer.observe(control);
   control.addEventListener('pointerenter', enter, { passive: true });
+  control.addEventListener('pointermove', move, { passive: true });
   control.addEventListener('pointerleave', leave);
   control.addEventListener('click', click);
   control.addEventListener('blur', focusOut);
-  document.addEventListener('visibilitychange', update);
+  document.addEventListener('visibilitychange', visibility);
   reduced.addEventListener('change', preference);
   window.addEventListener('blur', blur);
   window.addEventListener('focus', focus);
@@ -121,10 +134,11 @@ export function setupWaveInteraction(control: HTMLButtonElement) {
       stop();
       observer.disconnect();
       control.removeEventListener('pointerenter', enter);
+      control.removeEventListener('pointermove', move);
       control.removeEventListener('pointerleave', leave);
       control.removeEventListener('click', click);
       control.removeEventListener('blur', focusOut);
-      document.removeEventListener('visibilitychange', update);
+      document.removeEventListener('visibilitychange', visibility);
       reduced.removeEventListener('change', preference);
       window.removeEventListener('blur', blur);
       window.removeEventListener('focus', focus);
