@@ -1,0 +1,66 @@
+---
+import { getImage } from 'astro:assets';
+import { sitePath } from '../lib/urls';
+import { dreamPlanets } from '../lib/dream-universe';
+import boySource from '../assets/space-opening/boy.png';
+import rocketSource from '../assets/space-opening/rocket.png';
+import planetsSource from '../assets/space-opening/planets.png';
+import groundSource from '../assets/space-opening/ground.png';
+import nightSource from '../assets/space-opening/night.png';
+import effectsSource from '../assets/space-opening/effects.png';
+import '../styles/personal-space-opening.css';
+
+const [boy, rocket, planets, ground, night, effects] = await Promise.all([
+  getImage({ src: boySource, width: 480, format: 'webp', quality: 82 }),
+  getImage({ src: rocketSource, width: 520, format: 'webp', quality: 82 }),
+  getImage({ src: planetsSource, width: 768, format: 'webp', quality: 80 }),
+  getImage({ src: groundSource, width: 1440, format: 'webp', quality: 76 }),
+  getImage({ src: nightSource, width: 1440, format: 'webp', quality: 76 }),
+  getImage({ src: effectsSource, width: 768, format: 'webp', quality: 82 }),
+]);
+const spritePosition = (index: number) => `--sprite-x:${index % 2 ? '-100%' : '0%'};--sprite-y:${index % 4 > 1 ? '-100%' : '0%'}`;
+---
+<dialog class="space-opening" aria-labelledby="opening-title" aria-describedby="opening-story">
+  <h2 id="opening-title" class="opening-sr">把梦想画进宇宙</h2>
+  <p id="opening-story" class="opening-sr">一个彩笔画的小男孩点亮手里的星星，把梦想变成火箭，飞向写满人物与原理的星空。麦克斯韦、牛顿、爱因斯坦、图灵、安培、高斯与更多知识星球环绕他，最终化作光汇入他的身上。一颗流星带你进入个人空间。</p>
+  <div class="opening-art" aria-hidden="true">
+    <img class="opening-ground" data-opening-src={ground.src} width="1440" height={ground.attributes.height} alt="" decoding="async" />
+    <img class="opening-night" data-opening-src={night.src} width="1440" height={night.attributes.height} alt="" decoding="async" />
+    <div class="opening-fire-wash"></div>
+    <div class="opening-boy">
+      <span class="opening-dream-light"></span>
+      <img data-opening-src={boy.src} width="480" height="720" alt="" decoding="async" />
+      <span class="opening-hand-flame opening-effect"><img data-opening-src={effects.src} width="768" height="384" alt="" decoding="async" /></span>
+    </div>
+    <div class="opening-rocket">
+      <span class="opening-flame opening-effect"><img data-opening-src={effects.src} width="768" height="384" alt="" decoding="async" /></span>
+      <img class="opening-rocket-picture" data-opening-src={rocket.src} width="520" height="780" alt="" decoding="async" />
+      <span class="opening-heart-light"></span>
+    </div>
+    <div class="opening-planets">
+      {dreamPlanets.map((planet, index) => (
+        <div class="opening-planet" data-tier={planet.tier} data-family={planet.family} data-planet-index={index}>
+          <span class="opening-planet-picture" style={spritePosition(index)}>
+            <img data-opening-src={planets.src} width="768" height="768" alt="" decoding="async" />
+          </span>
+          <span class="opening-planet-name">{planet.name}</span>
+        </div>
+      ))}
+    </div>
+    <svg class="opening-light-paths" fill="none" aria-hidden="true">
+      {dreamPlanets.slice(0, 6).map((planet) => <path data-family={planet.family} />)}
+    </svg>
+    <div class="opening-meteor opening-effect"><img data-opening-src={effects.src} width="768" height="384" alt="" decoding="async" /></div>
+    <div class="opening-wipe"></div>
+  </div>
+  <header class="opening-controls">
+    <a class="space-back" href={`${sitePath('/')}#about`} aria-label="返回科研主页">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg><span>返回</span>
+    </a>
+    <div class="opening-actions">
+      <button type="button" data-opening-pause aria-pressed="false" disabled>暂停</button>
+      <button type="button" data-opening-skip>跳过开场</button>
+    </div>
+  </header>
+  <p class="opening-caption" aria-live="polite" aria-atomic="true">正在打开这幅画……</p>
+</dialog>

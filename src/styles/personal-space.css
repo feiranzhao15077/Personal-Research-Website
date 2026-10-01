@@ -20,8 +20,16 @@ svg { display: block; width: 24px; height: 24px; stroke: currentColor; stroke-wi
   justify-content: space-between; gap: 1rem; padding: 18px clamp(20px, 4vw, 64px);
   background: var(--space-paper);
 }
-.space-back { display: inline-flex; align-items: center; gap: .7rem; min-height: 44px; color: var(--space-ink); font-size: .9rem; text-decoration: none; }
-.space-back:hover { text-decoration: underline; text-underline-offset: .3em; }
+.space-back {
+  display: inline-flex; align-items: center; gap: .5rem; min-height: 44px;
+  padding: .75rem 1.5rem; border-radius: 2rem; background: #214f73; color: #fffefa;
+  font-size: .95rem; font-weight: 500; line-height: 1.78; text-decoration: none;
+  box-shadow: 0 4px 12px rgb(22 65 102 / .2);
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.space-back svg { width: 20px; height: 20px; flex-shrink: 0; stroke-width: 2; }
+.space-back:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgb(22 65 102 / .3); }
+.space-back:focus-visible { outline-color: #075fad; outline-offset: 2px; }
 .space-owner { font-family: var(--space-serif); font-size: 1.2rem; }
 .space-intro { margin: 100px clamp(20px, 4vw, 64px) 0; position: relative; z-index: 2; pointer-events: none; }
 .space-intro h1 { margin: 0; font: 500 clamp(2.7rem, 5vw, 4.5rem)/1.25 var(--space-serif); letter-spacing: -.03em; }
@@ -37,9 +45,13 @@ svg { display: block; width: 24px; height: 24px; stroke: currentColor; stroke-wi
   position: relative; display: flex; flex-direction: column; width: 100%; height: 100%; min-height: 245px;
   padding: 0; border: 0; border-radius: 14px; overflow: hidden;
   color: var(--card-ink); background: var(--card-color); text-align: left;
-  box-shadow: 0 15px 28px rgb(63 38 26 / .12); transition: box-shadow .25s ease;
+  box-shadow: 0 15px 28px rgb(63 38 26 / .12);
 }
-.space-card-button:hover, .space-card-button:focus-visible { box-shadow: 0 22px 40px rgb(63 38 26 / .22); }
+.space-card-button::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  box-shadow: inset 0 0 0 2px currentColor; opacity: 0; transition: opacity .2s ease;
+}
+.space-card-button:hover::after, .space-card-button:focus-visible::after { opacity: .5; }
 .card-art { position: relative; display: block; flex: 1; min-height: 125px; overflow: hidden; }
 .card-art i { display: block; position: absolute; border: 1px solid currentColor; opacity: .6; }
 .art-orbit i { width: 65%; aspect-ratio: 1; border-radius: 50%; top: 10%; left: 18%; }
@@ -67,13 +79,17 @@ svg { display: block; width: 24px; height: 24px; stroke: currentColor; stroke-wi
 .space-buttons button:hover { background: #eadfce; }
 .space-buttons [data-space-pause]:hover { background: #4d443b; }
 .space-noscript { padding: 1rem 2rem; }
-.space-enhanced .space-stage { height: max(550px, calc(100svh - 320px)); padding: 0; overflow: hidden; touch-action: pan-y; cursor: grab; }
+.space-enhanced .space-stage { min-height: 0; height: max(470px, calc(100svh - 300px)); padding: 0; overflow: hidden; overflow: clip; touch-action: pan-y; cursor: grab; }
 .space-enhanced .space-stage.is-dragging { cursor: grabbing; }
 .space-enhanced .space-cards { display: block; }
-.space-enhanced .space-card { position: absolute; left: 0; top: 0; width: var(--card-width); height: var(--card-height); }
+.space-enhanced .space-card {
+  position: absolute; left: 0; top: 0; width: var(--card-width); height: var(--card-height);
+  contain: layout style; will-change: transform; transform-origin: center;
+}
 .space-enhanced .space-card-button { min-height: 0; user-select: none; }
 .space-enhanced .card-art { min-height: 0; }
 .space-enhanced .is-dragging .space-card-button { cursor: grabbing; }
+.space-enhanced .is-pressing .space-card-button::after { opacity: 0; transition: none; }
 .space-dialog {
   width: min(820px, calc(100% - 40px)); max-height: calc(100dvh - 40px); padding: 0;
   border: 0; border-radius: 16px; color: var(--space-ink); background: var(--space-paper);
@@ -91,12 +107,12 @@ svg { display: block; width: 24px; height: 24px; stroke: currentColor; stroke-wi
 .dialog-copy h2 { margin: .4rem 0 1rem; font: 500 2rem/1.4 var(--space-serif); }
 .dialog-copy p { margin: 0; }
 .dialog-copy > p:first-child { font-size: .85rem; }
+@media (max-width: 768px) { .space-back { padding: .6rem 1.2rem; } }
 @media (max-width: 650px) {
   .space-nav { padding-block: 10px; }
-  .space-back { font-size: .8rem; gap: .4rem; }
   .space-owner { font-size: 1rem; }
   .space-intro { margin-top: 88px; }
-  .space-enhanced .space-stage { height: max(550px, calc(100svh - 285px)); }
+  .space-enhanced .space-stage { height: max(420px, calc(100svh - 290px)); }
   .space-controls { flex-direction: column; gap: 10px; align-items: stretch; padding-block: 12px; }
   .space-controls p { font-size: .76rem; }
   .space-buttons { justify-content: flex-end; }
@@ -105,4 +121,7 @@ svg { display: block; width: 24px; height: 24px; stroke: currentColor; stroke-wi
   .dialog-art { min-height: 230px; }
   .dialog-copy { padding: 24px; }
 }
-@media (prefers-reduced-motion: reduce) { .space-card-button { transition: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .space-card-button::after, .space-back { transition: none; }
+  .space-back:hover { transform: none; }
+}

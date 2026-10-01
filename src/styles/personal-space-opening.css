@@ -1,0 +1,84 @@
+.space-opening {
+  position: fixed; inset: 0; width: 100%; max-width: none; height: 100%; max-height: none;
+  margin: 0; padding: 0; border: 0; overflow: hidden; color: #302b25; background: #fff8ee;
+  font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+}
+.space-opening::backdrop { background: #fff8ee; }
+.space-opening-pending .space-opening { display: block; z-index: 100; }
+.space-opening-pending, .space-opening-active { overflow: hidden; }
+.opening-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.opening-art { position: absolute; inset: 0; overflow: hidden; pointer-events: none; opacity: 0; }
+.opening-art img { display: block; user-select: none; }
+.opening-ground, .opening-night { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.opening-ground { object-position: center bottom; }
+.opening-night { opacity: 0; }
+.opening-fire-wash { position: absolute; inset: 0; background: #ffe9b4; opacity: 0; }
+.opening-boy, .opening-rocket { position: absolute; top: 0; left: 0; width: 200px; transform-origin: 50% 53%; }
+.opening-boy > img, .opening-rocket-picture { position: relative; z-index: 1; width: 100%; height: auto; }
+.opening-rocket { opacity: 0; }
+.opening-dream-light { position: absolute; left: 56%; top: 44%; z-index: 2; width: 24%; aspect-ratio: 1; border-radius: 50%; background: #ffe86c; opacity: 0; mix-blend-mode: screen; }
+.opening-heart-light { position: absolute; z-index: 3; left: 46%; top: 57%; width: 12%; aspect-ratio: 1; border-radius: 50%; background: #fff29a; opacity: 0; }
+.opening-effect { display: block; position: absolute; width: 100px; aspect-ratio: 1; overflow: hidden; }
+.opening-effect img { position: absolute; width: 200%; height: 100%; max-width: none; }
+.opening-flame { width: 40%; left: 30%; top: 88%; transform-origin: 50% 0; opacity: 0; }
+.opening-flame img { left: 0; }
+.opening-hand-flame { left: 53%; top: 31%; width: 28%; z-index: 3; opacity: 0; transform-origin: 50% 100%; }
+.opening-hand-flame img { left: 0; transform: rotate(180deg); transform-origin: 25% 50%; }
+.opening-meteor { opacity: 0; width: clamp(150px, 27vw, 380px); }
+.opening-meteor img { left: -100%; }
+.opening-planets { position: absolute; inset: 0; }
+.opening-planet { position: absolute; left: 0; top: 0; width: 100px; opacity: 0; transform-origin: 50% 50%; }
+.opening-planet-picture { display: block; width: 100%; aspect-ratio: 1; position: relative; overflow: hidden; }
+.opening-planet-picture img { position: absolute; width: 200%; height: 200%; max-width: none; left: var(--sprite-x); top: var(--sprite-y); }
+.opening-planet-name {
+  position: absolute; top: 100%; left: 50%; transform: translateX(-50%); width: max-content;
+  max-width: 160px; text-align: center; color: #fff8ee; font-size: 16px; font-weight: 600;
+  line-height: 1.35; text-shadow: 0 2px 4px #082351; white-space: nowrap;
+}
+.opening-planet[data-tier='near'] { z-index: 4; }
+.opening-planet[data-tier='near'] .opening-planet-name { font-size: clamp(15px, 1.4vw, 20px); }
+.opening-planet[data-tier='middle'] { z-index: 2; }
+.opening-planet[data-tier='middle'] .opening-planet-name { opacity: 0; font-size: 14px; }
+.opening-planet[data-tier='far'] { z-index: 1; }
+.opening-planet[data-tier='far'] .opening-planet-name { opacity: 0; font-size: 14px; }
+.opening-light-paths { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 5; stroke-width: 3; overflow: visible; }
+.opening-light-paths path { stroke: #fff097; opacity: 0; stroke-linecap: round; }
+.opening-light-paths path[data-family='field'] { stroke: #96f1d8; }
+.opening-light-paths path[data-family='thought'] { stroke: #f9b8d7; }
+.opening-wipe { position: absolute; inset: 0; background: #fff8ee; transform: translateX(-105%); z-index: 7; }
+.opening-controls {
+  position: absolute; inset: 0 0 auto; z-index: 10; display: flex; align-items: center;
+  justify-content: space-between; gap: 12px; padding: 18px clamp(20px, 4vw, 64px);
+}
+.opening-actions { display: flex; gap: 8px; }
+.opening-actions button {
+  min-height: 44px; min-width: 60px; padding: 8px 14px; border: 1px solid #67594b;
+  border-radius: 8px; color: #302b25; background: #fff8ee; font-size: .875rem;
+}
+.opening-actions button:hover { background: #f2e5cd; }
+.opening-actions button:disabled { opacity: .55; cursor: default; }
+.space-opening.is-night .opening-actions button { color: #fff8ee; background: #102c60; border-color: #9cb7e0; }
+.space-opening.is-night .opening-actions button:hover { background: #23417a; }
+.opening-caption {
+  position: absolute; z-index: 9; left: 20px; right: 20px; bottom: max(24px, env(safe-area-inset-bottom));
+  margin: 0; text-align: center; font-size: clamp(16px, 1.6vw, 22px); font-weight: 500;
+  line-height: 1.6; color: #302b25; pointer-events: none;
+}
+.space-opening.is-night .opening-caption { color: #fff8ee; }
+.space-replay { display: none; }
+.space-opening-ready .space-replay { display: inline-flex; }
+.space-buttons .space-replay { padding-inline: 12px; font-size: .85rem; }
+@media (max-width: 650px) {
+  .opening-controls { padding: max(10px, env(safe-area-inset-top)) 16px 10px; gap: 8px; }
+  .opening-actions { gap: 6px; }
+  .opening-actions button { padding-inline: 10px; min-width: 52px; font-size: .8rem; }
+  .opening-planet-name { max-width: 120px; }
+  .opening-caption { left: 14px; right: 14px; bottom: max(25px, env(safe-area-inset-bottom)); font-size: 16px; }
+  .space-buttons { flex-wrap: wrap; }
+  .space-opening-ready .space-buttons { gap: 6px; }
+  .space-opening-ready .space-buttons [data-space-pause] { min-width: 96px; }
+  .space-buttons .space-replay { margin-right: auto; padding-inline: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-opening button, .space-opening a { transition: none; }
+}

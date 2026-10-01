@@ -1,4 +1,4 @@
-/** Local gallery framework: empty slots with a draggable, depth-layered card field. */
+/** Empty content slots arranged along a draggable, continuous gallery arc. */
 export function setupPersonalSpace() {
   const stage = document.querySelector<HTMLElement>('.space-stage');
   const pause = document.querySelector<HTMLButtonElement>('[data-space-pause]');
@@ -9,64 +9,84 @@ export function setupPersonalSpace() {
   if (!stage || !pause || !dialog || !close || !heading || !items.length) return;
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const counts = [0, 0, 0];
-  const cards = items.map((element) => {
-    const layer = Number(element.dataset.layer);
-    return { element, layer, ordinal: counts[layer]++, tilt: Number(element.dataset.tilt), x: 0,
-      width: 0, height: 0, period: 0, lane: 0, depth: [.42, .7, 1][layer] };
-  });
-  let width = 0, offset = 0, inertia = 0, clock = 0;
+  const cards = items.map((element, index) => ({ element, index, distance: 0, elevation: 0 }));
+  let width = 0, height = 0, cardWidth = 0, cardHeight = 0, spacing = 0, period = 0;
+  let offset = 0, inertia = 0, clock = 0;
   let manualPause = false, focusPause = false, hoverPause = false, visible = true;
-  let drag: { id: number; originX: number; originY: number; lastX: number; lastTime: number; active: boolean } | undefined;
+  let drag: { id: number; originX: number; originY: number; lastX: number; lastTime: number;
+    startOffset: number; active: boolean } | undefined;
+  let settle: { from: number; to: number; started: number } | undefined;
   let blockClickUntil = 0, raf = 0, previousTime = 0;
   let opener: HTMLButtonElement | undefined;
   let keyboardMode = false, lastFocusedIndex = 0;
+  let pendingOffset: number | undefined, needsRender = false, coasting = false;
 
-  const isPaused = () => manualPause || focusPause || hoverPause || dialog.open;
+  const opening = document.querySelector<HTMLDialogElement>('.space-opening');
+  const isPaused = () => manualPause || focusPause || (hoverPause && !coasting) || dialog.open || opening?.open || document.documentElement.classList.contains('space-opening-pending');
   const render = () => {
     if (reduced.matches) return;
     cards.forEach((card) => {
-      const phase = (width < 650 ? [.35, .82, .58] : [.22, .5, .12])[card.layer] * width;
-      const position = card.ordinal * card.period / counts[card.layer] + phase + offset * card.depth;
-      card.x = ((position % card.period) + card.period) % card.period - card.width;
-      const sway = Math.sin(clock * .55 + card.ordinal * 2 + card.layer) * [3, 5, 7][card.layer];
-      const tilt = card.tilt + Math.sin(clock * .35 + card.ordinal) * .7;
-      card.element.style.transform = `translate3d(${card.x}px, ${card.lane + sway}px, 0) rotate(${tilt}deg)`;
+      const position = card.index * spacing + offset + period / 2;
+      card.distance = ((position % period) + period) % period - period / 2;
+      const depth = card.distance / spacing;
+      const recession = 1 - Math.exp(-depth * depth * .55);
+      const scale = 1 - recession * .28;
+      const sway = Math.sin(clock * .6 + card.index * 1.7) * 1.5;
+      const x = width / 2 + card.distance - cardWidth / 2;
+      const y = height * .54 - cardHeight / 2 - recession * 64 + sway;
+      const tilt = Math.max(-9, Math.min(9, depth * 4));
+      card.element.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${tilt}deg) scale(${scale})`;
+      const elevation = Math.round(30 - Math.min(Math.abs(depth), 4) * 4);
+      if (elevation !== card.elevation) {
+        card.element.style.zIndex = String(elevation); card.elevation = elevation;
+      }
     });
   };
   const measure = () => {
     if (reduced.matches) return;
+    const previousSpacing = spacing;
     width = stage.clientWidth;
-    const height = stage.clientHeight;
+    height = stage.clientHeight;
     const compact = width < 650;
-    cards.forEach((card) => {
-      card.width = (compact ? [130, 160, 185] : [165, 205, 240])[card.layer];
-      card.height = Math.round(card.width * 1.3);
-      card.period = Math.max(width + card.width * 2, counts[card.layer] * card.width * 1.9);
-      card.lane = (height - card.height) * [.06, .45, .91][card.layer];
-      card.element.style.setProperty('--card-width', `${card.width}px`);
-      card.element.style.setProperty('--card-height', `${card.height}px`);
-      card.element.style.zIndex = String(card.layer + 1);
-    });
+    cardWidth = compact ? Math.min(260, width * .66) : Math.min(288, Math.max(238, width * .2));
+    cardHeight = Math.round(cardWidth * 1.35);
+    spacing = cardWidth + (compact ? 24 : 32);
+    period = cards.length * spacing;
+    if (previousSpacing) offset *= spacing / previousSpacing;
+    settle = undefined; pendingOffset = undefined;
+    stage.style.setProperty('--card-width', `${cardWidth}px`);
+    stage.style.setProperty('--card-height', `${cardHeight}px`);
     render();
   };
   const tick = (time: number) => {
     raf = 0;
     const dt = Math.min((time - previousTime) / 1000, .05);
     previousTime = time;
-    if (!isPaused() && !drag?.active) {
-      offset += (-22 + inertia) * dt;
-      inertia *= Math.exp(-2.3 * dt);
-      clock += dt;
-      render();
+    if (pendingOffset !== undefined) {
+      offset = pendingOffset; pendingOffset = undefined; needsRender = true;
     }
-    if (visible && !document.hidden && !reduced.matches && !isPaused() && !drag?.active) raf = requestAnimationFrame(tick);
+    if (settle) {
+      const progress = Math.min(1, (time - settle.started) / 380);
+      offset = settle.from + (settle.to - settle.from) * (1 - Math.pow(1 - progress, 4));
+      if (progress === 1) settle = undefined;
+      needsRender = true;
+    } else if (!isPaused() && !drag) {
+      offset += (-18 + inertia) * dt;
+      inertia *= Math.exp(-2.3 * dt);
+      if (Math.abs(inertia) < 4) { inertia = 0; coasting = false; }
+      clock += dt;
+      needsRender = true;
+    }
+    if (needsRender) { render(); needsRender = false; }
+    if (visible && !document.hidden && !reduced.matches && (settle || (!isPaused() && !drag))) raf = requestAnimationFrame(tick);
   };
   const wake = () => {
-    if (raf || !visible || document.hidden || reduced.matches || isPaused() || drag?.active) return;
+    if (raf || !visible || document.hidden || reduced.matches) return;
+    if (!needsRender && pendingOffset === undefined && !settle && (isPaused() || drag)) return;
     previousTime = performance.now();
     raf = requestAnimationFrame(tick);
   };
+  const queueRender = () => { needsRender = true; wake(); };
   const syncPause = () => {
     pause.textContent = reduced.matches ? '静态浏览' : manualPause ? '继续漂浮' : '暂停漂浮';
     pause.setAttribute('aria-pressed', String(manualPause || reduced.matches));
@@ -74,7 +94,8 @@ export function setupPersonalSpace() {
     wake();
   };
   const motionChange = () => {
-    cancelAnimationFrame(raf); raf = 0; inertia = 0;
+    cancelAnimationFrame(raf); raf = 0; inertia = 0; coasting = false; settle = undefined;
+    pendingOffset = undefined;
     document.body.classList.toggle('space-enhanced', !reduced.matches);
     if (reduced.matches) cards.forEach(({ element }) => { element.style.transform = ''; });
     else measure();
@@ -83,9 +104,12 @@ export function setupPersonalSpace() {
 
   const pointerDown = (event: PointerEvent) => {
     if (reduced.matches || (event.pointerType === 'mouse' && event.button !== 0)) return;
+    if (drag) return;
     drag = { id: event.pointerId, originX: event.clientX, originY: event.clientY,
-      lastX: event.clientX, lastTime: performance.now(), active: false };
-    inertia = 0;
+      lastX: event.clientX, lastTime: performance.now(), startOffset: offset,
+      active: false };
+    inertia = 0; coasting = false; settle = undefined;
+    stage.classList.add('is-pressing');
   };
   const pointerMove = (event: PointerEvent) => {
     if (!drag || drag.id !== event.pointerId) return;
@@ -97,28 +121,32 @@ export function setupPersonalSpace() {
     }
     const now = performance.now();
     const dx = event.clientX - drag.lastX;
-    const dt = Math.max((now - drag.lastTime) / 1000, .008);
-    offset += dx;
-    inertia = Math.max(-1500, Math.min(1500, inertia * .5 + dx / dt * .5));
+    const dt = Math.max((now - drag.lastTime) / 1000, .004);
+    pendingOffset = drag.startOffset + totalX;
+    const blend = 1 - Math.exp(-22 * dt);
+    inertia = Math.max(-1500, Math.min(1500, inertia * (1 - blend) + dx / dt * blend));
     drag.lastX = event.clientX; drag.lastTime = now;
-    render();
+    queueRender();
   };
   const pointerEnd = (event: PointerEvent) => {
     if (!drag || drag.id !== event.pointerId) return;
     if (drag.active) {
+      // A stationary hold before release should stop the deck, not launch an old velocity.
+      inertia *= Math.exp(-Math.max(0, performance.now() - drag.lastTime - 50) / 70);
       blockClickUntil = performance.now() + 300;
       if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
     }
     if (event.type === 'pointercancel' || manualPause) inertia = 0;
+    coasting = drag.active && Math.abs(inertia) >= 4;
     drag = undefined; hoverPause = false;
-    stage.classList.remove('is-dragging'); wake();
+    stage.classList.remove('is-dragging', 'is-pressing'); wake();
   };
   const openCard = (event: MouseEvent) => {
     const target = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-open-card]');
     if (!target || performance.now() < blockClickUntil) return;
     const card = target.closest<HTMLElement>('.space-card');
     if (!card) return;
-    opener = target; inertia = 0;
+    opener = target; inertia = 0; coasting = false; settle = undefined;
     heading.textContent = card.querySelector('strong')?.textContent || '自由作品';
     dialog.dataset.color = card.dataset.color;
     dialog.showModal(); close.focus();
@@ -129,8 +157,9 @@ export function setupPersonalSpace() {
     if (!card) return;
     lastFocusedIndex = items.indexOf(card.element);
     if (reduced.matches || !keyboardMode) return;
-    focusPause = true; inertia = 0;
-    offset += (width / 2 - card.width / 2 - card.x) / card.depth;
+    focusPause = true; inertia = 0; coasting = false; settle = undefined;
+    offset -= card.distance;
+    // Center before native focus scrolling can try to reveal a distant card.
     render();
   };
   const focusOut = (event: FocusEvent) => {
@@ -141,7 +170,11 @@ export function setupPersonalSpace() {
     hoverPause = Boolean((event.target as HTMLElement).closest('[data-open-card]'));
     wake();
   };
-  const pointerLeave = () => { hoverPause = false; wake(); };
+  const pointerLeave = () => {
+    hoverPause = false;
+    if (drag && !drag.active) { drag = undefined; stage.classList.remove('is-pressing'); }
+    wake();
+  };
   const keyboardInput = () => { keyboardMode = true; };
   const pointerInput = () => { keyboardMode = false; focusPause = false; };
   const resize = new ResizeObserver(measure);
@@ -156,7 +189,7 @@ export function setupPersonalSpace() {
   stage.addEventListener('focusin', revealFocusedCard);
   stage.addEventListener('focusout', focusOut);
   stage.addEventListener('click', openCard);
-  pause.addEventListener('click', () => { manualPause = !manualPause; inertia = 0; syncPause(); });
+  pause.addEventListener('click', () => { manualPause = !manualPause; inertia = 0; coasting = false; syncPause(); });
   document.querySelectorAll<HTMLButtonElement>('[data-space-step]').forEach((button) => {
     button.addEventListener('click', () => {
       if (reduced.matches) {
@@ -164,14 +197,16 @@ export function setupPersonalSpace() {
         items[index].querySelector<HTMLButtonElement>('button')?.focus();
         return;
       }
-      offset -= Number(button.dataset.spaceStep) * Math.min(width * .45, 320);
-      inertia = 0; render();
+      const target = Math.round(offset / spacing) * spacing - Number(button.dataset.spaceStep) * spacing;
+      settle = { from: offset, to: target, started: performance.now() };
+      inertia = 0; coasting = false; queueRender();
     });
   });
   close.addEventListener('click', () => dialog.close());
   dialog.addEventListener('close', dialogClosed);
   dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
   document.addEventListener('visibilitychange', wake);
+  document.addEventListener('space:opening-change', wake);
   document.addEventListener('keydown', keyboardInput);
   document.addEventListener('pointerdown', pointerInput, { capture: true, passive: true });
   reduced.addEventListener('change', motionChange);
@@ -180,6 +215,7 @@ export function setupPersonalSpace() {
     if (event.persisted) return;
     resize.disconnect(); intersection.disconnect();
     document.removeEventListener('visibilitychange', wake);
+    document.removeEventListener('space:opening-change', wake);
     document.removeEventListener('keydown', keyboardInput);
     document.removeEventListener('pointerdown', pointerInput, { capture: true });
     reduced.removeEventListener('change', motionChange);

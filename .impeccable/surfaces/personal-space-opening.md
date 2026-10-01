@@ -1,0 +1,31 @@
+# Personal space opening
+
+Mode: Experience. Scope: opening and replay controls on `/space/`.
+
+Confirmed story: a little boy lights his dream; after the fire close-up, a rocket grows directly from the light with the boy already visible in its window and flies into space. There is no return to the grassland or boarding action. A large knowledge sky surrounds him. Its planets become light and gather into him; a meteor leads into the existing card gallery. The opening runs for approximately 23 seconds. Automatic first visit only, skippable and replayable. Local preview first.
+
+The user rejected realistic watercolor picture-book assets. Pinned visual material is a child's broad felt-tip pen drawing: uneven thick lines, flat bright fills, overlapping strokes, missed white gaps, a round-headed boy with dot eyes and a curved smile. Dark blue space looks colored in with markers. No realistic faces, lighting or polished volumetric rendering.
+
+Forty named planets: six near foreground figures (Maxwell, Newton, Einstein, Turing, Ampere, Gauss), twelve middle planets, twenty-two farther ones. All have a scientist or principle identity. Six near names remain readable; other names reveal in groups. Sizes express camera depth and personal narrative, not scientific rank or dependency. Names are live HTML, never baked into an illustration.
+
+FIRST VIEWPORT: a panoramic marker-drawn grassland, with a tiny orange-shirted boy just beyond the horizon. Hold the wide view for about one second, then approach for about three seconds until his face and hand-held dream are visible. The existing rocket story follows. The opening fully covers the gallery before first paint when automatic playback is due. Return, pause and skip controls remain accessible.
+
+Signature motion: after approaching the boy, the camera briefly frames the hand-held star and marker flame in close-up. The flame swells, the boy's drawing disappears behind its light, and a chubby paper-like rocket grows from the same focal point. The boy is already in the window. The rocket rises into marker night. Foreground planets circle the rocket with a shallow orbit; distant planets drift at different speeds. Far lights arrive first and six clear foreground light paths arrive last. A single meteor wipe exposes the gallery. Removing the return shot and boarding beat shortens the sequence to 22.55 seconds.
+
+Implementation: authored raster marker sprites and scenery, existing GSAP, transform/opacity-led timelines. No new dependency, no WebGL. Freeze the gallery while the opening is visible and freeze the opening while the document is hidden. Native dialog handles focus and Escape. Reduced motion skips automatic playback and offers a still scene on explicit replay. Failed JavaScript returns to the static gallery. Preserve existing research routes and gallery content.
+
+## Finished implementation
+
+The local opening is implemented in `PersonalSpaceOpening.astro`, `personal-space-opening.css`, `personal-space-opening.ts` and `dream-universe.ts`, with a small integration in the existing space page and gallery controller. The 22.55-second GSAP timeline begins with a four-second grassland panorama and camera approach, then carries the confirmed story through the fire close-up, rocket growth, launch, knowledge sky, gathering light and meteor handoff. Forty live HTML names remain divided into six near, twelve middle and twenty-two far planets; their placement conveys depth and composition.
+
+First eligible browser entry uses `zfr-personal-opening-v1` in local storage. A pending dialog covers the gallery before first paint, with a 4.5-second module fallback. GSAP is imported lazily and image `src` values are populated from `data-opening-src` only when playback starts; asset loading also has a 4.5-second fallback. Native dialog controls support pause, skip, Escape and replay. The gallery pauses while the opening is active, and page visibility pauses the story. Reduced motion bypasses autoplay and gives explicit replay a still knowledge sky.
+
+Six marker assets are optimized to WebP, totaling 432,326 bytes. Image generation sources and prompts are recorded in `src/assets/space-opening/generation-prompts.json`. The warm ivory sheet and existing sans-serif controls extend the incumbent personal-space surface; the child's marker imagery belongs to this opening. The shallow gallery arc and its empty content slots remain the established destination. This is an ordinary local extension, with no visual-system revision.
+
+## Recorded evidence
+
+The direct fire-to-rocket refinement reuses the existing effects atlas and adds no image resource or dependency; the unused boarding window cover is removed. The current build passed, with desktop and mobile captures saved in `.impeccable/review/space-rocket-birth/`. Earlier fire close-up and grassland-camera frames remain in `.impeccable/review/space-fire/` and `.impeccable/review/space-approach/`. The earlier full-opening review and behavior evidence below refer to the preceding version.
+
+The completed review disposition is **ship**. The eight supplied captures support the child-marker material and story, readable six foreground names, a single gallery-control row at 320px, and a static scene under reduced motion. Saved behavior evidence is in `.impeccable/review/space-opening/behavior.json`: 1440 × 900, 390 × 844 and 320 × 700 views show no horizontal overflow or JavaScript errors; completed handoff returns to `scrollY: 0`; repeat entry loads zero opening image `src` values; replay/skip and reduced-motion Escape close the dialog.
+
+Recorded build, content, public-privacy and release-identity checks passed. Typecheck reports zero errors and zero warnings, with one pre-existing unused `i` hint in `ResearchMap`. The asset metadata scan records six rasters and no missing assets. The finished result is available at `http://127.0.0.1:4324/space/`; it has not been deployed.
