@@ -5,7 +5,9 @@ export function setupPersonalSpace() {
   const dialog = document.querySelector<HTMLDialogElement>('.space-dialog');
   const close = document.querySelector<HTMLButtonElement>('[data-space-close]');
   const heading = document.querySelector<HTMLElement>('#space-dialog-title');
-  const photo = document.querySelector<HTMLImageElement>('[data-space-photo]');
+  const caption = document.querySelector<HTMLElement>('[data-space-caption]');
+  let photo = document.querySelector<HTMLImageElement>('[data-space-photo]');
+  let photoRequest = 0;
   let photoIndex = 0;
   const items = Array.from(document.querySelectorAll<HTMLElement>('.space-card'));
   if (!stage || !pause || !dialog || !close || !heading || !items.length) return;
@@ -148,7 +150,31 @@ export function setupPersonalSpace() {
     const card = items[photoIndex];
     heading.textContent = card.querySelector('strong')?.textContent || '照片';
     dialog.dataset.color = card.dataset.color;
-    if (photo) { photo.src = card.dataset.photoSrc || ''; photo.alt = card.dataset.photoAlt || ''; }
+    if (caption) caption.textContent = card.dataset.photoCaption || '';
+    if (!photo) return;
+    const request = ++photoRequest;
+    const thumbnail = card.querySelector<HTMLImageElement>('.card-photo');
+    // A fresh node cannot retain the previously displayed image during loading.
+    const preview = new Image();
+    preview.className = 'dialog-photo';
+    preview.dataset.spacePhoto = '';
+    preview.alt = card.dataset.photoAlt || '';
+    preview.src = thumbnail?.currentSrc || thumbnail?.src || card.dataset.photoSrc || '';
+    if (thumbnail) { preview.width = Number(thumbnail.getAttribute('width')); preview.height = Number(thumbnail.getAttribute('height')); }
+    photo.replaceWith(preview);
+    photo = preview;
+
+    const full = new Image();
+    full.className = preview.className;
+    full.dataset.spacePhoto = '';
+    full.alt = preview.alt;
+    full.src = card.dataset.photoSrc || preview.src;
+    void full.decode().then(() => {
+      // Rapid switching or closing must invalidate older image completions.
+      if (request !== photoRequest || !dialog.open || !photo) return;
+      photo.replaceWith(full);
+      photo = full;
+    }).catch(() => { /* Keep the matching thumbnail if the full image fails. */ });
   };
   const openCard = (event: MouseEvent) => {
     const target = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-open-card]');
@@ -159,7 +185,7 @@ export function setupPersonalSpace() {
     showPhoto(items.indexOf(card));
     dialog.showModal(); close.focus();
   };
-  const dialogClosed = () => { opener?.focus({ preventScroll: true }); wake(); };
+  const dialogClosed = () => { photoRequest++; opener?.focus({ preventScroll: true }); wake(); };
   const revealFocusedCard = (event: FocusEvent) => {
     const card = cards.find(({ element }) => element.contains(event.target as Node));
     if (!card) return;

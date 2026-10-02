@@ -6,10 +6,30 @@ import '../styles/personal-space.css';
 
 const photoImports = import.meta.glob<{ default: import('astro').ImageMetadata }>('../assets/personal/photo-*.jpg', { eager: true });
 const descriptions = ['蓝天下的花枝', '物理实验竞赛获奖证书', '写着跑步文字的鞋子', '运动奖牌与证书', '开发板与电脑上的程序', '运动及活动证书拼图', '编程语言对比图', '书法作品', '赵斐然手写签名', '机动车驾驶证封面', '羽毛球比赛荣誉证书', '跑步记录截图', '云雾中的山峰与松树', '金黄色树木与道路', '山前的飞机展品', '叠放的书籍', '室内的飞机模型展品', '身穿校服的人像'];
+const captions = [
+  "花开有时，抬头恰好。",
+  "格物穷理，从一次实验开始。",
+  "我跑，故我在。",
+  "奖牌会褪色，热爱不会。",
+  "让几行代码，在真实世界里亮起来。",
+  "把热爱，留成一页页青春。",
+  "语言各异，创造相通。",
+  "心随笔走，墨自成章。",
+  "一笔一画，写下自己的名字。",
+  "握住方向盘，也握住新的方向。",
+  "一拍一球，都是热爱的回声。",
+  "一步一步，把日常跑成远方。",
+  "松间有雾，山外有天。",
+  "秋天把路，铺成了金色。",
+  "山在身后，天空在前。",
+  "翻开书页，世界又大了一点。",
+  "还未起飞，想象已抵达天空。",
+  "少年意气，藏在安静的片刻里。"
+];
 const colors = ['coral', 'blue', 'lemon', 'pink'];
 const slots = await Promise.all(Object.entries(photoImports).sort(([a], [b]) => a.localeCompare(b)).map(async ([, asset], index) => ({
   title: `照片 ${String(index + 1).padStart(2, '0')}`,
-  alt: descriptions[index], color: colors[index % colors.length],
+  alt: descriptions[index], caption: captions[index], color: colors[index % colors.length],
   thumbnail: await getImage({ src: asset.default, width: Math.min(640, asset.default.width), format: 'webp' }),
   full: await getImage({ src: asset.default, width: Math.min(1920, asset.default.width), format: 'webp' }),
 })));
@@ -55,10 +75,10 @@ const slots = await Promise.all(Object.entries(photoImports).sort(([a], [b]) => 
       <section class="space-stage" aria-label="作品与生活记录画廊" aria-describedby="space-help">
         <ol class="space-cards">
           {slots.map((slot, index) => (
-            <li class="space-card" data-color={slot.color} data-slot={index} data-photo-src={slot.full.src} data-photo-alt={slot.alt}>
+            <li class="space-card" data-color={slot.color} data-slot={index} data-photo-src={slot.full.src} data-photo-alt={slot.alt} data-photo-caption={slot.caption}>
               <button type="button" class="space-card-button" data-open-card aria-haspopup="dialog" aria-label={`${slot.title}，${slot.alt}，点击查看大图`}>
                 <img class="card-photo" src={slot.thumbnail.src} width={slot.thumbnail.attributes.width} height={slot.thumbnail.attributes.height} alt={slot.alt} loading={index < 3 ? "eager" : "lazy"} decoding="async" draggable="false" />
-                <span class="card-copy"><strong>{slot.title}</strong><span class="card-photo-hint">点击查看大图</span></span>
+                <span class="card-copy"><span class="card-title-line"><strong>{slot.title}</strong><span class="card-photo-hint">点击查看大图</span></span><span class="card-photo-caption">{slot.caption}</span></span>
               </button>
             </li>
           ))}
@@ -75,10 +95,10 @@ const slots = await Promise.all(Object.entries(photoImports).sort(([a], [b]) => 
       </footer>
       <noscript><div class="space-noscript"><p>直接打开照片：</p>{slots.map((slot) => <a href={slot.full.src}>{slot.title} </a>)}</div></noscript>
     </main>
-    <dialog class="space-dialog" aria-labelledby="space-dialog-title" >
+    <dialog class="space-dialog" aria-labelledby="space-dialog-title" aria-describedby="space-photo-caption">
       <button type="button" class="dialog-close" data-space-close aria-label="关闭卡片"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg></button>
       <img class="dialog-photo" data-space-photo src={slots[0].full.src} alt={slots[0].alt} />
-      <div class="dialog-photo-footer"><h2 id="space-dialog-title">照片</h2><div class="dialog-photo-actions"><button type="button" data-photo-step="-1" aria-label="上一张照片">上一张</button><button type="button" data-photo-step="1" aria-label="下一张照片">下一张</button></div></div>
+      <div class="dialog-photo-footer"><div class="dialog-photo-description"><h2 id="space-dialog-title">照片</h2><p id="space-photo-caption" data-space-caption></p></div><div class="dialog-photo-actions"><button type="button" data-photo-step="-1" aria-label="上一张照片">上一张</button><button type="button" data-photo-step="1" aria-label="下一张照片">下一张</button></div></div>
     </dialog>
     <PersonalSpaceOpening />
     <script>
