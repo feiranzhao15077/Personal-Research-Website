@@ -125,3 +125,21 @@ svg { display: block; width: 24px; height: 24px; stroke: currentColor; stroke-wi
   .space-card-button::after, .space-back { transition: none; }
   .space-back:hover { transform: none; }
 }
+
+/* Supplied photographs lead the existing floating gallery. */
+.card-photo { display: block; width: 100%; height: 100%; flex: 1; min-height: 0; object-fit: cover; pointer-events: none; }
+.space-card-button:has(.card-photo) { background: var(--space-paper); color: var(--space-ink); }
+.space-card-button:has(.card-photo) .card-copy { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: 14px 16px; flex: 0 0 auto; }
+.space-card-button:has(.card-photo) strong { font-size: 1.1rem; }
+.card-photo-hint { font-size: .75rem; color: #514b41; }
+.space-dialog:has(.dialog-photo) { width: min(1100px, calc(100% - 24px)); overflow: auto; }
+.dialog-photo { display: block; width: 100%; height: auto; max-height: calc(100dvh - 130px); object-fit: contain; background: var(--space-paper); }
+.dialog-photo-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; }
+.dialog-photo-footer h2 { margin: 0; font: 500 1.2rem/1.4 var(--space-serif); }
+.dialog-photo-actions { display: flex; gap: 8px; }
+.dialog-photo-actions button { min-height: 44px; padding: 8px 12px; border: 1px solid #aca294; border-radius: 8px; background: transparent; }
+.dialog-photo-actions button:hover { background: #eadfce; }
+@media (max-width: 650px) {
+  .space-card-button:has(.card-photo) .card-copy { padding: 12px; flex-direction: column; align-items: flex-start; gap: 2px; }
+  .dialog-photo-footer { padding: 12px; }
+}

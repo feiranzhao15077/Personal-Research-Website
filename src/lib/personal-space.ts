@@ -1,10 +1,12 @@
-/** Empty content slots arranged along a draggable, continuous gallery arc. */
+/** Photos arranged along a draggable, continuous gallery arc. */
 export function setupPersonalSpace() {
   const stage = document.querySelector<HTMLElement>('.space-stage');
   const pause = document.querySelector<HTMLButtonElement>('[data-space-pause]');
   const dialog = document.querySelector<HTMLDialogElement>('.space-dialog');
   const close = document.querySelector<HTMLButtonElement>('[data-space-close]');
   const heading = document.querySelector<HTMLElement>('#space-dialog-title');
+  const photo = document.querySelector<HTMLImageElement>('[data-space-photo]');
+  let photoIndex = 0;
   const items = Array.from(document.querySelectorAll<HTMLElement>('.space-card'));
   if (!stage || !pause || !dialog || !close || !heading || !items.length) return;
 
@@ -141,14 +143,20 @@ export function setupPersonalSpace() {
     drag = undefined; hoverPause = false;
     stage.classList.remove('is-dragging', 'is-pressing'); wake();
   };
+  const showPhoto = (index: number) => {
+    photoIndex = (index + items.length) % items.length;
+    const card = items[photoIndex];
+    heading.textContent = card.querySelector('strong')?.textContent || '照片';
+    dialog.dataset.color = card.dataset.color;
+    if (photo) { photo.src = card.dataset.photoSrc || ''; photo.alt = card.dataset.photoAlt || ''; }
+  };
   const openCard = (event: MouseEvent) => {
     const target = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-open-card]');
     if (!target || performance.now() < blockClickUntil) return;
     const card = target.closest<HTMLElement>('.space-card');
     if (!card) return;
     opener = target; inertia = 0; coasting = false; settle = undefined;
-    heading.textContent = card.querySelector('strong')?.textContent || '自由作品';
-    dialog.dataset.color = card.dataset.color;
+    showPhoto(items.indexOf(card));
     dialog.showModal(); close.focus();
   };
   const dialogClosed = () => { opener?.focus({ preventScroll: true }); wake(); };
@@ -201,6 +209,14 @@ export function setupPersonalSpace() {
       settle = { from: offset, to: target, started: performance.now() };
       inertia = 0; coasting = false; queueRender();
     });
+  });
+  document.querySelectorAll<HTMLButtonElement>('[data-photo-step]').forEach((button) => {
+    button.addEventListener('click', () => showPhoto(photoIndex + Number(button.dataset.photoStep)));
+  });
+  dialog.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.preventDefault(); showPhoto(photoIndex + (event.key === 'ArrowRight' ? 1 : -1));
+    }
   });
   close.addEventListener('click', () => dialog.close());
   dialog.addEventListener('close', dialogClosed);
