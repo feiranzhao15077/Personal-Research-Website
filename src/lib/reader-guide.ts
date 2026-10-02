@@ -1,8 +1,9 @@
 import type { ReaderGuideContent } from './reader-guide-content';
 import { setupGuidePosition } from './reader-guide-position';
 import { setupGuideHints } from './reader-guide-hints';
+import { setupGuideQuestions } from './reader-guide-questions';
 
-/** Small frame animations and approved reading prompts. No AI requests in this preview. */
+/** Reviewed prompts, small character animations and server-backed questions. */
 export function setupReaderGuide() {
   const root = document.querySelector<HTMLElement>('[data-reader-guide]');
   if (!root) return;
@@ -20,6 +21,7 @@ export function setupReaderGuide() {
   const pause = root.querySelector<HTMLButtonElement>('[data-guide-pause]')!;
   const modes = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-guide-mode]'));
   const content: ReaderGuideContent = JSON.parse(root.querySelector('[data-guide-content]')!.textContent!);
+  setupGuideQuestions(root);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const compact = matchMedia('(max-width: 700px)');
   let open = false, paused = reduced.matches, gestureTimer = 0, greetingTimer = 0, greetingShown = false;
@@ -53,6 +55,7 @@ export function setupReaderGuide() {
     read.hidden = mode !== 'read'; ask.hidden = mode !== 'ask';
     modes.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.guideMode === mode)));
     gesture('wave');
+    positioning.layout();
   };
   const setOpen = (value: boolean, focus = true) => {
     open = value; panel.hidden = !value; trigger.setAttribute('aria-expanded', String(value));

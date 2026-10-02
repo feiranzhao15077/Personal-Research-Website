@@ -79,7 +79,7 @@ const sketchRotors = [
                     <span class="phase-step">{pInfo.step}</span>
                     {isFlagship && <span class="flagship-mark">★ FLAGSHIP</span>}
                   </header>
-                  <h5 class="project-title">{names[node.projectId]}</h5><ResearchSummary projectId={node.projectId} compact />
+                  <h3 class="project-title">{names[node.projectId]}</h3><ResearchSummary projectId={node.projectId} compact />
                   <p class="project-phase">{pInfo.phase}</p>
                   <p class="q-text">{node.question.zh}</p>
                 </a>
@@ -154,7 +154,7 @@ const sketchRotors = [
                   <span class="phase-step auto-step">{phaseLabels[branchNode.projectId].step}</span>
                   <span class="branch-stamp">独立沙盒</span>
                 </header>
-                <h5 class="project-title">{names[branchNode.projectId]}</h5><ResearchSummary projectId={branchNode.projectId} compact />
+                <h3 class="project-title">{names[branchNode.projectId]}</h3><ResearchSummary projectId={branchNode.projectId} compact />
                 <p class="project-phase">{phaseLabels[branchNode.projectId].phase}</p>
                 <p class="q-text">{branchNode.question.zh}</p>
               </a>
@@ -636,55 +636,15 @@ const sketchRotors = [
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { setupMapEntrance } from '../lib/research-map-entrance';
   import { setupRotorInteraction } from '../lib/rotor-interaction';
   import { setupMaxwellTransition } from '../lib/maxwell-transition';
 
-  gsap.registerPlugin(ScrollTrigger);
-
-  const initMap = () => {
-    // Simple fade up for elements
-    gsap.utils.toArray('.gs-fade-up').forEach((el: any, i) => {
-      gsap.fromTo(el,
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      );
-    });
-
-    // Draw lines animation
-    gsap.fromTo(".blueprint-lines line, .blueprint-lines path",
-      { strokeDasharray: "0 1000" },
-      {
-        strokeDasharray: "6 6",
-        duration: 2,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".blueprint-container",
-          start: "top 70%"
-        }
-      }
-    );
-  };
-
-  // Run on first load
-  initMap();
   const rotorMap = document.querySelector<HTMLElement>('#research-map');
   if (rotorMap) {
+    setupMapEntrance(rotorMap);
     setupRotorInteraction(rotorMap);
     setupMaxwellTransition(rotorMap);
   }
   
-  // Re-run on View Transitions
-  document.addEventListener('astro:page-load', initMap);
 </script>

@@ -56,7 +56,7 @@ npm run dry-run
 
 最终 CV 文件为 `public/documents/Zhaofeiran_CV.pdf`。其 `src/content/materials/cv.yaml` 条目记录 `accessStatus: PUBLIC`、`approvalStatus: APPROVED`、稳定 `publicUrl`、原文件 SHA-256 `sourceHash` 与字节数 `sourceSize`。About、导航与资料区提供 CV 入口；Hero 保持不显示 CV 按钮。
 
-Cloudflare Pages 连接公开源码仓库 `feiranzhao15077/Personal-Research-Website` 的 `main` 分支。构建命令 `npm run build`，输出目录 `dist`，Node 24.20.0；生产环境变量为 `RELEASE_MODE=production`、`RELEASE_TARGET=initial`、`PUBLIC_SITE_URL=https://zhaofeiran.pages.dev`、`PUBLIC_BASE_PATH=/`。不需要 Astro Cloudflare adapter、SSR、Pages Functions 或 Workers。`npm run dry-run` 对当前 `dist/` 进行本地静态服务浏览器预检。
+Cloudflare Pages 连接公开源码仓库 `feiranzhao15077/Personal-Research-Website` 的 `main` 分支。构建命令 `npm run build`，输出目录 `dist`，Node 24.20.0；当前完整生产环境使用 `RELEASE_MODE=production`、`RELEASE_TARGET=full`、`PUBLIC_SITE_URL=https://zhaofeiran.pages.dev`、`PUBLIC_BASE_PATH=/`。科研页面为静态输出，不需要 Astro Cloudflare adapter 或 SSR；阅读向导问答由 `functions/api/guide.ts` 提供，生产环境需配置服务端 Secret `DEEPSEEK_API_KEY`，说明见 `functions/README.md`。`npm run dry-run` 对当前 `dist/` 进行本地静态服务浏览器预检。
 
 ## 安全与资产
 

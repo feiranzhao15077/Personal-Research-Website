@@ -2,7 +2,6 @@
 import { sitePath } from '../../lib/urls';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import ResearchSummary from '../../components/ResearchSummary.astro';
 import { projectNarratives } from '../../lib/projectNarratives';
 import EvidenceBlock from '../../components/EvidenceBlock.astro';
 import FigureFrame from '../../components/FigureFrame.astro';
@@ -38,7 +37,6 @@ const materialTypes: Record<string, string> = { CV: 'CV', RESEARCH_OVERVIEW: '�
           <p class="eyebrow">Research Project / {roleLabels[d.role]}</p>
           <h1>{d.title.zh}</h1>
           <p class="project-subtitle">{projectNarratives[d.slug]?.title ?? d.subtitle.zh}</p>
-          <ResearchSummary projectId={d.slug} showTitle={false} />
           <p class="lead">{d.summary.zh}</p>
         </div>
         <div class="project-meta">
@@ -49,13 +47,11 @@ const materialTypes: Record<string, string> = { CV: 'CV', RESEARCH_OVERVIEW: '�
     </div>
   </div>
 
-  {project.id === 'emvision' && <section class="project-highlight" aria-labelledby="highlight-heading"><div class="shell"><h2 id="highlight-heading">研究速览</h2><dl class="highlight-grid"><div><dt>研究问题</dt><dd>固定合成测试域中，训练端 C/G/P 匹配如何影响识别与协议内归因？</dd></div><div><dt>方法</dt><dd>C/G/P 三因素全因子配对实验，使用 20 个配对随机种子。</dd></div><div><dt>主要结果</dt><dd>当前冻结协议内的合成识别端点对比，且存在条件依赖与交互。</dd></div><div><dt>边界</dt><dd>结论限于固定合成测试域，不代表实测雷达或跨域性能。</dd></div></dl></div></section>}
-
   <section class="section project-section" aria-labelledby="question-heading"><div class="shell project-two-column"><div class="project-side"><p class="eyebrow">01 / Question</p><h2 id="question-heading">研究问题</h2></div><div><p class="large-question">{d.researchQuestion.zh}</p><p>{d.whyItMatters.zh}</p></div></div></section>
 
   <section class="section project-section method-section" aria-labelledby="method-heading"><div class="shell project-two-column"><div class="project-side"><p class="eyebrow">02 / Method</p><h2 id="method-heading">方法与协议</h2></div><div><ol class="method-list">{d.methods.map((method, index) => <li><span>{String(index+1).padStart(2, '0')}</span><p>{method.zh}</p></li>)}</ol></div></div></section>
 
-  <section class="section project-section" id="evidence" aria-labelledby="evidence-heading"><div class="shell"><div class="section-intro"><p class="eyebrow">03 / Evidence</p><h2 id="evidence-heading">代表结果与解释边界</h2><p>每项证据同时列出结果、实验协议、来源与解释边界。负结果、更正与撤回记录一并保留。</p></div><div class="evidence-grid">{mainEvidence.map((item) => <EvidenceBlock evidence={item} />)}</div>
+  <section class="section project-section" id="evidence" aria-labelledby="evidence-heading"><div class="shell"><div class="section-intro"><p class="eyebrow">03 / Evidence</p><h2 id="evidence-heading">代表结果与解释边界</h2><p>每项证据同时列出结果、实验协议、来源与解释边界。负结果、更正与撤回记录一并保留。</p></div><div class:list={['evidence-grid', { 'evidence-grid-odd': mainEvidence.length > 1 && mainEvidence.length % 2 === 1 }]}>{mainEvidence.map((item) => <EvidenceBlock evidence={item} />)}</div>
     {deepEvidence.length > 0 && <details class="deep-evidence"><summary>展开审计细节与补充证据 <span aria-hidden="true">＋</span></summary><div class="evidence-grid">{deepEvidence.map((item) => <EvidenceBlock evidence={item} />)}</div></details>}
   </div></section>
 

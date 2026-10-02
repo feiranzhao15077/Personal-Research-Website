@@ -68,6 +68,7 @@ const evidence = defineCollection({
       display: z.string().optional()
     }).optional(),
     protocolContext: localized,
+    auditDetail: localized.optional(),
     uncertainty: z.object({
       kind: z.enum(['NONE', 'INTERVAL', 'CONTEXT']),
       detail: localized,

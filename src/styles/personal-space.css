@@ -135,12 +135,13 @@ svg { display: block; width: 24px; height: 24px; stroke: currentColor; stroke-wi
 .card-photo-caption { font: .85rem/1.6 var(--space-serif); color: #514b41; overflow-wrap: anywhere; }
 .card-photo-hint { font-size: .75rem; color: #514b41; }
 .space-dialog:has(.dialog-photo) { width: min(1100px, calc(100% - 24px)); overflow: auto; }
-.dialog-photo { display: block; width: 100%; height: auto; max-height: calc(100dvh - 130px); object-fit: contain; background: var(--space-paper); }
+.dialog-photo-stage { position: relative; width: 100%; height: min(70dvh, 700px); overflow: hidden; background: var(--space-paper); }
+.dialog-photo { display: block; position: absolute; left: 50%; top: 50%; max-width: none; max-height: none; object-fit: contain; transform: translate(-50%, -50%); }
 .dialog-photo-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; }
 .dialog-photo-description { min-width: 0; }
 .dialog-photo-description p { margin: 6px 0 0; font: 1rem/1.7 var(--space-serif); color: #514b41; }
 .dialog-photo-footer h2 { margin: 0; font: 500 1.2rem/1.4 var(--space-serif); }
-.dialog-photo-actions { display: flex; gap: 8px; }
+.dialog-photo-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
 .dialog-photo-actions button { min-height: 44px; padding: 8px 12px; border: 1px solid #aca294; border-radius: 8px; background: transparent; }
 .dialog-photo-actions button:hover { background: #eadfce; }
 @media (max-width: 650px) {

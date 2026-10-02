@@ -79,6 +79,15 @@
 .guide-ask textarea { width: 100%; min-height: 104px; resize: vertical; max-height: 200px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 16px; caret-color: var(--blue); }
 .guide-ask textarea::placeholder { color: var(--ink-faint); }
 .guide-submit { display: flex; justify-content: center; align-items: center; gap: 12px; width: 100%; min-height: 44px; margin-top: 10px; border: 0; border-radius: 8px; background: var(--blue-pale); color: var(--ink-soft); }
+.guide-submit:not(:disabled) { background: var(--blue); color: var(--white); }
+.guide-submit:not(:disabled):hover { background: var(--blue-deep); }
+.guide-message { margin-block: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line-soft); }
+.guide-message strong { font-size: 13px; color: var(--blue); }
+.guide-message p { margin: 6px 0 0; white-space: pre-wrap; font-size: 16px; line-height: 1.75; }
+.guide-message-user p { color: var(--ink-soft); }
+.guide-ask-status { margin: 8px 0 0; color: var(--ink-soft); font-size: 14px; }
+.guide-request-actions { display: flex; flex-wrap: wrap; gap: 16px; }
+.guide-request-actions button { min-height: 44px; padding: 0; border: 0; background: transparent; color: var(--blue); font-size: 14px; }
 .guide-ask #guide-question-note { margin-top: 8px; font-size: 13px; color: var(--ink-soft); }
 .guide-return-read { min-height: 44px; margin-top: 12px; border: 0; padding: 0; color: var(--blue); background: transparent; text-decoration: underline; text-underline-offset: .2em; }
 .guide-footer { margin-top: 22px; padding-top: 12px; border-top: 1px solid var(--line-soft); }
@@ -89,8 +98,15 @@
   .guide-perch { width: 112px; height: 56px; }
 }
 @media (max-width: 700px) {
-  .reader-guide { --frame-width: 60px; --frame-height: 65px; left: max(12px, env(safe-area-inset-left, 0px)); bottom: calc(78px + env(safe-area-inset-bottom, 0px)); }
-  .guide-trigger { min-height: 44px; padding-inline: 0; }
+  body:has([data-reader-guide]) { padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px)); }
+  .guide-mobile-dock {
+    position: fixed; inset: auto 0 0; z-index: 99;
+    height: calc(4rem + env(safe-area-inset-bottom, 0px));
+    background: var(--paper); border-top: 1px solid var(--line);
+    pointer-events: none;
+  }
+  .reader-guide { --frame-width: 40px; --frame-height: 43.33px; left: max(12px, env(safe-area-inset-left, 0px)); bottom: calc(8px + env(safe-area-inset-bottom, 0px)); }
+  .reader-guide .guide-trigger { flex-direction: row; min-height: 48px; padding: 0; cursor: pointer; touch-action: manipulation; }
   .guide-trigger-label { font-size: 12px; padding-inline: 6px; }
   .guide-greeting { font-size: 14px; }
   .guide-panel { width: 360px; max-width: calc(100vw - 24px); max-height: calc(100dvh - 200px - env(safe-area-inset-bottom, 0px)); padding: 18px; }

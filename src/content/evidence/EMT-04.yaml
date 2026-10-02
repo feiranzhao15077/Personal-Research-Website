@@ -10,7 +10,7 @@ metric:
   unit: 不适用。
   observations: []
 protocolContext:
-  zh: 静态角度快照驱动；原始观察方位 φ=0°；48 个新增角度未保留 native far-field。
+  zh: 静态角度快照驱动；原始观察方位 φ=0°；48 个新增角度未保留原生远场结果。
 uncertainty:
   kind: CONTEXT
   detail:

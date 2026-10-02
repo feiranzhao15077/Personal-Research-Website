@@ -59,7 +59,8 @@ if (current) {
 }
 const data = JSON.stringify(content).replace(/</g, '\\u003c');
 ---
-<aside class="reader-guide" data-reader-guide data-ready="false" data-state="idle" data-sprite-url={sheet.src} data-perch-url={perch.src} aria-label="阅读向导">
+<div class="guide-mobile-dock" aria-hidden="true"></div>
+<aside class="reader-guide" data-reader-guide data-ready="false" data-state="idle" data-sprite-url={sheet.src} data-perch-url={perch.src} data-guide-endpoint={sitePath('/api/guide')} data-guide-path={path} aria-label="阅读向导">
   <div class="guide-greeting" role="status" aria-live="polite" aria-atomic="true" hidden>
     <p data-guide-speech-text>你好，我来陪你读一读。点我看导读，也可以按住我，挪到你喜欢的位置哦。</p>
     <button type="button" data-guide-greeting-close aria-label="关闭提示"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg></button>
@@ -82,12 +83,17 @@ const data = JSON.stringify(content).replace(/</g, '\\u003c');
       </div>
     </div>
     <div class="guide-ask" data-guide-ask hidden>
-      <p class="guide-preview-note">自由问答暂未开放</p>
-      <p>之后可以在这里提问、追问。现在先试试看提问界面。</p>
-      <label for="guide-question">想问什么？</label>
-      <textarea id="guide-question" rows="3" maxlength="400" placeholder={current ? `例如：${current.data.title.zh} 的研究结论有哪些适用条件？` : '例如：EMvision 与 LowAlt-MD 有什么联系？'} aria-describedby="guide-question-note"></textarea>
-      <button class="guide-submit" type="button" disabled>发送问题 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></button>
-      <p id="guide-question-note">当前为界面预览，问题不会发送。</p>
+      <p>想了解项目、物理概念或阅读顺序？我来陪你一起梳理。</p>
+      <div class="guide-conversation" role="log" aria-label="与向导的对话" aria-live="polite" aria-relevant="additions" data-guide-conversation></div>
+      <form data-guide-question-form>
+        <label for="guide-question">想问什么？</label>
+        <textarea id="guide-question" rows="3" maxlength="400" required placeholder={current ? `例如：${current.data.title.zh} 的研究结论有哪些适用条件？` : '例如：EMvision 与 LowAlt-MD 有什么联系？'} aria-describedby="guide-question-note"></textarea>
+        <button class="guide-submit" type="submit">发送问题 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></button>
+        <p class="guide-ask-status" data-guide-ask-status role="status"></p>
+        <div class="guide-request-actions"><button type="button" data-guide-ask-cancel hidden>停止等待</button><button type="button" data-guide-ask-retry hidden>重试问题</button><button type="button" data-guide-ask-clear>新对话</button></div>
+      </form>
+      <p id="guide-question-note">问题与最近的对话会发送给 DeepSeek。AI 回答仅供导读，研究结论请核对证据原文。请勿输入隐私信息。</p>
+      <noscript><p>开启 JavaScript 后即可提问，也可以继续阅读预写导读。</p></noscript>
       <button class="guide-return-read" type="button" data-guide-return-read>先看看阅读导读</button>
     </div>
     <footer class="guide-footer">
@@ -98,7 +104,7 @@ const data = JSON.stringify(content).replace(/</g, '\\u003c');
   <button class="guide-trigger" type="button" data-guide-trigger aria-expanded="false" aria-controls="reader-guide-panel" aria-label="打开阅读向导" aria-describedby="reader-guide-controls" title="单击看导读，按住拖动">
     <span class="guide-sprite" aria-hidden="true"></span><span class="guide-perch" aria-hidden="true"></span><span class="guide-trigger-label">阅读向导</span>
   </button>
-  <p class="guide-instructions" id="reader-guide-controls">单击打开导读；按住拖动位置。键盘方向键也可以移动，Home 键恢复自动选位，Escape 键关闭提示。</p>
+  <p class="guide-instructions" id="reader-guide-controls">点按打开导读；电脑上可按住拖动或用方向键移动，Home 键恢复自动选位，Escape 键关闭提示。手机上向导停靠在底栏。</p>
   <script type="application/json" data-guide-content set:html={data} />
 </aside>
 <script>

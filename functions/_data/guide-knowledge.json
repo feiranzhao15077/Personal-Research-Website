@@ -1,0 +1,399 @@
+{
+  "name": "赵斐然",
+  "school": "西安邮电大学理学院应用物理学",
+  "identity": "应用物理 · 计算电磁 · 智能感知",
+  "projects": [
+    {
+      "slug": "em-trace",
+      "title": "EM-Trace",
+      "summary": "沿参数化 CAD、CST、复场提取与 Python 处理链审计坐标、方向、极化和结果来源的一致性。",
+      "question": "如何让几何建模 → 坐标系 → 入射与观测方向 → 极化 → 复场提取 → 信号处理保持一致、可追溯、可审计？",
+      "methods": [
+        "参数化 CAD → STEP AP214 → CST 频域求解 → 复远场提取 → 坐标与极化核查 → Python 慢时间与 STFT 处理。核查项包括坐标、极化、网格敏感性、计算域敏感性与信号处理链。"
+      ],
+      "limitations": [
+        "未包含实测雷达；没有稳定的、完整且正确后向的定量微动链。",
+        "不主张高精度 RCS 收敛；M1 单旋翼姿态网格稳定性未达门限。",
+        "A3 显示计算域敏感性；不同计算域之间的结构增量解释已撤回。",
+        "Stage 7 仅作流程展示；不能将历史前向快照解释为后向微多普勒。",
+        "不把预置周期产生的频率峰值当作独立物理验证。"
+      ],
+      "evidence": [
+        {
+          "id": "EMT-01",
+          "claim": "审计并更正现有工程中的方向与极化约定及相关处理链。",
+          "result": "本项记录模型约定与处理链校正，不提供定量性能指标。",
+          "observations": [],
+          "protocol": "PlaneWave.Normal=(+1,0,0)；10 GHz、HH、E 沿全局 +Y；CST 局部球坐标基换算。",
+          "uncertainty": {
+            "kind": "CONTEXT",
+            "detail": {
+              "zh": "方向语义与基矢约定经工程设置和脚本核查；不代表所有历史 CSV 已重新求解或提取。"
+            }
+          },
+          "status": "CORRECTED",
+          "boundary": "历史 φ=0° 数据是后向结果；所有旧数据已重算。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/em-trace/evidence/engineering_audit.md"
+        },
+        {
+          "id": "EMT-04",
+          "claim": "建模—求解—复场处理—信号处理的工程流程能力。",
+          "result": "本项展示工程流程，不提供可用于性能结论的定量指标。",
+          "observations": [],
+          "protocol": "静态角度快照驱动；原始观察方位 φ=0°；48 个新增角度未保留原生远场结果。",
+          "uncertainty": {
+            "kind": "CONTEXT",
+            "detail": {
+              "zh": "流程展示；无正确后向完整结果。"
+            }
+          },
+          "status": "SUPPORTED",
+          "boundary": "正确后向微多普勒定量验证、独立叶频验证、真实旋翼物理结论。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/em-trace/evidence/engineering_audit.md"
+        },
+        {
+          "id": "EMT-05",
+          "claim": "解释纠错如何改变可支持结论。",
+          "result": "无。",
+          "observations": [],
+          "protocol": "涉及方向定义、数值收敛、计算域与历史前向 Stage 7 数据。",
+          "uncertainty": {
+            "kind": "CONTEXT",
+            "detail": {
+              "zh": "旧解释已根据当前核验结果修订或撤回。"
+            }
+          },
+          "status": "WITHDRAWN",
+          "boundary": "旧数字作为有效后向结果重新出现。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/em-trace/evidence/engineering_audit.md"
+        }
+      ]
+    },
+    {
+      "slug": "emvision",
+      "title": "EMvision",
+      "summary": "在固定合成测试域中，控制训练端通道、生成器族与参数分布匹配，检查识别变化及因素交互。",
+      "question": "在固定合成测试域上，训练端的通道匹配（C）、生成器族匹配（G）与参数分布匹配（P）如何影响识别表现及协议内归因？",
+      "methods": [
+        "C / G / P 三个训练端干预组成 2×2×2 全因子设计。",
+        "固定合成测试域；8 个角点共享测试目标。",
+        "20 个配对随机种子；配对自助法；交互分析；负对照。",
+        "固定 MLP 仅作为测量工具，不是方法创新。",
+        "测试数据不用于拟合或选择。"
+      ],
+      "limitations": [
+        "仅限合成数据与固定测试域。",
+        "仅使用一组 7 维特征与一个固定 MLP 测量工具。",
+        "不包含实测雷达、CST 单站外部验证或完整物理模型不确定性；没有实测雷达或真实等离子体验证。",
+        "所有归因只适用于冻结协议与测试域，不能解释为物理因果关系或普适的重要性排序。",
+        "n=20 基准 JSON 文件位于私有仓库，不能匿名下载；公开复核入口为 Research-Portfolio 证据摘要。v011 与负对照实验原始审计材料未提供经核验的公开下载入口。"
+      ],
+      "evidence": [
+        {
+          "id": "EVM-02",
+          "claim": "当前冻结协议内的合成识别端点对比。",
+          "result": "Macro-F1：0.1864 → 0.9897；配对差 Δ=0.8033。",
+          "observations": [
+            {
+              "label": {
+                "zh": "v000 Macro-F1"
+              },
+              "value": "0.18636504445114288",
+              "display": "0.1864"
+            },
+            {
+              "label": {
+                "zh": "v111 Macro-F1"
+              },
+              "value": "0.9896612553950618",
+              "display": "0.9897"
+            },
+            {
+              "label": {
+                "zh": "配对差 Δ"
+              },
+              "value": "0.803296210943919",
+              "display": "0.8033"
+            }
+          ],
+          "protocol": "EVM-01 的固定合成测试域；2×2×2 全因子实验；20 个配对随机种子。",
+          "uncertainty": {
+            "kind": "INTERVAL",
+            "detail": {
+              "zh": "配对自助法，重复 50,000 次；95% 置信区间为 [0.7729, 0.8299]。"
+            },
+            "lower": "0.7729484234878651",
+            "upper": "0.8298827006172669",
+            "display": "[0.7729, 0.8299]"
+          },
+          "status": "SUPPORTED",
+          "boundary": "实测识别率、跨域真实性能、方法普适提升。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/emvision/evidence/key_results.md"
+        },
+        {
+          "id": "EVM-03",
+          "claim": "说明当前协议中存在条件依赖与交互。",
+          "result": "CP|G=0 = −0.17128515971171093；CP|G=1 = 0.4212459318570664；C×G×P = 0.5925310915687774。",
+          "observations": [],
+          "protocol": "EVM-01；解释只针对冻结因子编码和路径协议。",
+          "uncertainty": {
+            "kind": "INTERVAL",
+            "detail": {
+              "zh": "C×G×P 的 paired bootstrap 95% CI [0.5260405821940503, 0.6619881113621384]；公开展示四舍五入为 [0.5260, 0.6620]。"
+            }
+          },
+          "status": "SUPPORTED",
+          "boundary": "物理因果分解、普适因素重要性排序。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/emvision/evidence/key_results.md"
+        },
+        {
+          "id": "EVM-05",
+          "claim": "当前协议中一个角点出现严重退化。",
+          "result": "17/20 种子为单类预测；这些种子的 Macro-F1=0.1667。",
+          "observations": [],
+          "protocol": "EVM-01 synthetic fixed test protocol；中间角点 v011。",
+          "uncertainty": {
+            "kind": "INTERVAL",
+            "detail": {
+              "zh": "未报告区间。"
+            }
+          },
+          "status": "SUPPORTED",
+          "boundary": "宣称所有中间配置失败或模型通常不稳定。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/emvision/evidence/key_results.md"
+        },
+        {
+          "id": "EVM-06",
+          "claim": "在当前合成协议中进行了负对照检查。",
+          "result": "负对照表现接近三分类随机基准；本页未列出具体数值。",
+          "observations": [],
+          "protocol": "EVM-01 合成协议。",
+          "uncertainty": {
+            "kind": "CONTEXT",
+            "detail": {
+              "zh": "公开证据摘要未明确报告不确定性信息。"
+            }
+          },
+          "status": "SUPPORTED",
+          "boundary": "据此宣称无数据泄漏、无 shortcut 或因果唯一性。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/emvision/evidence/key_results.md"
+        }
+      ]
+    },
+    {
+      "slug": "lowalt-md",
+      "title": "LowAlt-MD",
+      "summary": "用受控物理模型检查低空传播相位如何改变旋翼微多普勒，并审计结构特征跨环境迁移的边界。",
+      "question": "低空传播中的路径相位、逐散射单元复权重与相干叠加，如何改变旋翼微多普勒结构？在受控特征流程下，这些变化如何影响跨环境识别？",
+      "methods": [
+        "Physics Model v2；M0–M3 分层验证。",
+        "M0 自由空间基线；M1 受限共同复增益；M2 逐单元有效两项机制近似（proxy）；M3 明确 DD / DR / RD / RR 四路径。",
+        "Fresnel 反射、逐单元路径相位与复权重。",
+        "对路径场相干聚合，再与非相干功率记录比较。",
+        "R2/R2.1 核查识别特征、捷径与置乱对照；R3 同时匹配不重复潜在状态数量与波形数量的预算。"
+      ],
+      "limitations": [
+        "仅限合成数据、平坦有损地面与低阶镜面多径。",
+        "各向同性点散射体近似；无实测雷达、经标定的叶片 RCS、粗糙表面或全波环境验证。",
+        "M2 为有效两项机制桥接，不是严格 DD/DR/RD/RR；需要与 M3 的范围区分。",
+        "M1 命题不覆盖时变/频率选择性共同算子、加性噪声或接近零增益。",
+        "不把 R3 推广为多环境训练普遍无效；仅限定当前 Physics Model v2、结构特征、20/40→80 m 与简单联合训练。"
+      ],
+      "evidence": [
+        {
+          "id": "LOW-01",
+          "claim": "M1 受限共同复增益条件下的数学与实现性质。",
+          "result": "归一化谱 L2 差为 4.2423×10^-17。",
+          "observations": [
+            {
+              "label": {
+                "zh": "M1 归一化谱 L2 差"
+              },
+              "value": "4.2423e-17",
+              "display": "约 4.24×10^-17"
+            }
+          ],
+          "protocol": "当前无噪声、非零且时间不变的条件；所有散射单元共享同一复增益。",
+          "uncertainty": {
+            "kind": "INTERVAL",
+            "detail": {
+              "zh": "数值检查，不提供统计置信区间。"
+            }
+          },
+          "status": "SUPPORTED",
+          "boundary": "所有多径都不改变微多普勒结构。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/lowalt-md/evidence/validation_summary.md"
+        },
+        {
+          "id": "LOW-02",
+          "claim": "当前代理模型下，逐单元、非共同的复权重可以改变归一化谱形。",
+          "result": "0.025246。",
+          "observations": [
+            {
+              "label": {
+                "zh": "M2 归一化谱 L2 差"
+              },
+              "value": "0.025246",
+              "display": "0.025246"
+            }
+          ],
+          "protocol": "200 m、beta=0.15；M2 是逐单元有效两项代理模型，不是 DD/DR/RD/RR 完整四路径全波场。",
+          "uncertainty": {
+            "kind": "INTERVAL",
+            "detail": {
+              "zh": "单一冻结算例，不提供统计置信区间。"
+            }
+          },
+          "status": "SUPPORTED",
+          "boundary": "真实叶片 RCS 或完整目标—地面全波耦合已得到验证。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/lowalt-md/evidence/validation_summary.md"
+        },
+        {
+          "id": "LOW-04",
+          "claim": "当前配置呈相消倾向。",
+          "result": "0.4311。",
+          "observations": [],
+          "protocol": "200 m；flat lossy ground、single-station、isotropic point-scatterer proxy。",
+          "uncertainty": {
+            "kind": "INTERVAL",
+            "detail": {
+              "zh": "单一冻结工况；无统计 CI。"
+            }
+          },
+          "status": "SUPPORTED",
+          "boundary": "普适距离规律或真实环境预测。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/lowalt-md/evidence/validation_summary.md"
+        },
+        {
+          "id": "LOW-05",
+          "claim": "当前配置呈相长倾向。",
+          "result": "2.4181。",
+          "observations": [],
+          "protocol": "400 m；与 LOW-04 相同的模型边界。",
+          "uncertainty": {
+            "kind": "INTERVAL",
+            "detail": {
+              "zh": "单一冻结工况；无统计 CI。"
+            }
+          },
+          "status": "SUPPORTED",
+          "boundary": "距离增加必然从相消转为相长。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/lowalt-md/evidence/validation_summary.md"
+        },
+        {
+          "id": "LOW-06",
+          "claim": "当前冻结协议没有支持稳定的多环境训练增益；以下保留配对差与置信区间。",
+          "result": "200 m Track B multi−best-single：Logistic −0.0322 [−0.0676, 0.0033]；MLP −0.0434 [−0.0833, −0.0035]。400 m：Logistic −0.0158 [−0.0295, −0.0022]；MLP −0.0222 [−0.0511, 0.0068]。",
+          "observations": [],
+          "protocol": "20/40 m 训练 → 未见 80 m 测试；同时匹配 unique latent-state 与 waveform budget；Physics Model v2、Track B、当前简单联合训练。",
+          "uncertainty": {
+            "kind": "INTERVAL",
+            "detail": {
+              "zh": "上述配对 CI。"
+            }
+          },
+          "status": "NEGATIVE_RESULT",
+          "boundary": "多环境训练无效或域泛化普遍失败。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/lowalt-md/evidence/validation_summary.md"
+        },
+        {
+          "id": "LOW-08",
+          "claim": "当前控制流程削弱明显能量捷径后仍有可识别结构信息。",
+          "result": "此项为当前控制条件下的定性说明；本页未列出 F1 数值。",
+          "observations": [],
+          "protocol": "alpha_k=1/√N、RMS normalization、谱宽/谱熵/DC ratio 等结构特征；20/40 m 当前合成条件。",
+          "uncertainty": {
+            "kind": "CONTEXT",
+            "detail": {
+              "zh": "由 R2/R2.1 特定冻结 split 与 controls 限定。"
+            }
+          },
+          "status": "SUPPORTED",
+          "boundary": "所有 shortcut 已消除、无泄漏或唯一物理机制得到证明。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/lowalt-md/evidence/validation_summary.md"
+        }
+      ]
+    },
+    {
+      "slug": "quadcontrol-lab",
+      "title": "QuadControl-Lab",
+      "summary": "在确定性四旋翼仿真中只改变控制器的观测来源，比较闭环差异并检查姿态估计器的比力假设。",
+      "question": "在其他闭环条件一致时，仅改变控制器使用的观测来源，闭环姿态行为如何变化？MinimalAttitudeEstimator 基于比力的重力方向假设如何与估计器横滚行为关联？",
+      "methods": [
+        "13 维数值状态；ENU / FLU 坐标系；Hamilton q_wb 四元数。",
+        "Newton–Euler 动力学模型与 RK4 积分。",
+        "控制器、混控器、电机与执行器链。",
+        "SensorContext 与观测约定；IdealImu；MinimalAttitudeEstimator。",
+        "确定性调度、随机种子与结果文件溯源。",
+        "正式配对实验 → Layer A 输入层机制 → Layer B 全闭环重放与误差核算。"
+      ],
+      "limitations": [
+        "确定性合成实验；随机种子为 0 的配对实验；+10° 横滚 ATTITUDE_STEP；10 s。",
+        "无传感器噪声、偏置或外部扰动。",
+        "未包含硬件、硬件在环（HIL）、真实飞行、EKF 或全状态估计器。",
+        "无稳定性证明；不推断跨随机种子的统计泛化、真实传感器鲁棒性或飞行安全。",
+        "R_C 只是两项净累计估计器横滚误差预算的相对量，不是车辆轨迹的因果份额。",
+        "独立源代码仓库为私有仓库，需要授权访问，不能匿名下载；公开证据索引列出源提交记录与结果文件哈希值，仅据此不能确认原始结果包的完整性。"
+      ],
+      "evidence": [
+        {
+          "id": "QC-01",
+          "claim": "当前确定性协议中的两条闭环轨迹差异。",
+          "result": "真实姿态 RMS 配对角距离 1.096029 rad；真实机体角速度 RMS 配对差 0.201693 rad/s；最大姿态距离 1.969332 rad；最大角速度差 0.212150 rad/s；力矩指令 RMS 配对差 0.000441743 N·m；观测相对真实姿态的 RMS 误差：理想观测臂为 0 rad，估计观测臂为 1.184857 rad。",
+          "observations": [
+            {
+              "label": {
+                "zh": "真实姿态 RMS 配对角距离"
+              },
+              "value": "1.096029",
+              "display": "1.096029 rad"
+            }
+          ],
+          "protocol": "13 维被控对象；IdealImu 与 MinimalAttitudeEstimator；+10° 滚转姿态阶跃（ATTITUDE_STEP）；随机种子 0，10 s；两臂除观测来源外一致。",
+          "uncertainty": {
+            "kind": "INTERVAL",
+            "detail": {
+              "zh": "确定性、单一随机种子的配对协议；非总体统计区间。"
+            }
+          },
+          "status": "SUPPORTED",
+          "boundary": "真实飞行表现、稳定性、估计器泛化或实机性能。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/QuadControl-Lab/evidence/validation_summary.md"
+        },
+        {
+          "id": "QC-02",
+          "claim": "当前合成输入条件下的机制诊断得到支持。",
+          "result": "A1 终端误差 0 rad；A2 终端误差约 0.3354 rad；每组均通过 200/200 次公式核验。",
+          "observations": [],
+          "protocol": "输入层比较：陀螺仪输入、比力大小、时序与初始化相同，仅比力方向不同。",
+          "uncertainty": {
+            "kind": "CONTEXT",
+            "detail": {
+              "zh": "基于确定性合成输入的检查；公式核验通过。"
+            }
+          },
+          "status": "SUPPORTED",
+          "boundary": "完整被控对象的反事实结论、真实 IMU 结论或全局稳定性证明。",
+          "auditDetail": "A2 终端误差的完整数值为 0.3354319429327265 rad。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/QuadControl-Lab/evidence/validation_summary.md"
+        },
+        {
+          "id": "QC-04",
+          "claim": "当前固定协议下的误差预算记录通过前缀累计与闭合检查。",
+          "result": "B-2：999 次评估，前缀累计违规 0 次；B-3：闭合残差 0 rad。",
+          "observations": [],
+          "protocol": "全闭环 Layer B 检查；使用已冻结的确定性实验协议。",
+          "uncertainty": {
+            "kind": "CONTEXT",
+            "detail": {
+              "zh": "确定性重放与误差核算检查。"
+            }
+          },
+          "status": "SUPPORTED",
+          "boundary": "将闭合检查等同于轨迹因果分解或实机机制验证。",
+          "source": "https://github.com/feiranzhao15077/Research-Portfolio/blob/main/projects/QuadControl-Lab/evidence/validation_summary.md"
+        }
+      ]
+    }
+  ]
+}

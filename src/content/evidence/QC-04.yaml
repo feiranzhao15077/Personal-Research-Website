@@ -6,18 +6,18 @@ metric:
   name:
     zh: 误差预算累计与闭合检查
   display:
-    zh: B-2 999 evaluated / 0 prefix violations；B-3 closure residual 0 rad。
-  unit: evaluation count；rad。
+    zh: B-2：999 次评估，前缀累计违规 0 次；B-3：闭合残差 0 rad。
+  unit: 评估次数；rad。
   observations: []
 protocolContext:
-  zh: 全环 Layer B frozen deterministic experiment。
+  zh: 全闭环 Layer B 检查；使用已冻结的确定性实验协议。
 uncertainty:
   kind: CONTEXT
   detail:
-    zh: 确定性 replay and accounting checks。
+    zh: 确定性重放与误差核算检查。
 status: SUPPORTED
 boundary:
-  zh: 将 closure 等同于轨迹因果分解或实机机制验证。
+  zh: 将闭合检查等同于轨迹因果分解或实机机制验证。
 source:
   ref: quadcontrol-final-result-freeze
   revision: 427ed6a0ef3c45805b565f09369c2deb34888c7c

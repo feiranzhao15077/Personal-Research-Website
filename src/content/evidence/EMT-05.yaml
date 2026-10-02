@@ -10,7 +10,7 @@ metric:
   unit: 不适用。
   observations: []
 protocolContext:
-  zh: 涉及方向定义、数值收敛、calculation domain 与历史前向 Stage 7 数据。
+  zh: 涉及方向定义、数值收敛、计算域与历史前向 Stage 7 数据。
 uncertainty:
   kind: CONTEXT
   detail:

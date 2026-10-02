@@ -6,7 +6,7 @@ metric:
   name:
     zh: 受限共同增益下的归一化谱 L2 差
   display:
-    zh: normalized-spectrum L2 = 4.2423×10^-17。
+    zh: 归一化谱 L2 差为 4.2423×10^-17。
   unit: 无量纲 L2 差。
   observations:
   - label:
@@ -14,11 +14,11 @@ metric:
     value: '4.2423e-17'
     display: 约 4.24×10^-17
 protocolContext:
-  zh: 当前无噪声、非零、时间不变、scatterer-shared complex gain。
+  zh: 当前无噪声、非零且时间不变的条件；所有散射单元共享同一复增益。
 uncertainty:
   kind: INTERVAL
   detail:
-    zh: 数值检查，无统计 CI。
+    zh: 数值检查，不提供统计置信区间。
 status: SUPPORTED
 boundary:
   zh: 所有多径都不改变微多普勒结构。

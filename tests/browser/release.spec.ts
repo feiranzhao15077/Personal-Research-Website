@@ -1,13 +1,18 @@
 import { test, expect } from '@playwright/test';
 import fs from 'node:fs';
 
-test('release: nine widths, five routes, text reflow and semantic content', async ({ page }, info) => {
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => sessionStorage.setItem('hasSeenHeroIntro', '1'));
+});
+
+test('release: nine widths, eight routes, text reflow and semantic content', async ({ page }, info) => {
   test.skip(info.project.name !== 'chromium-desktop', 'One complete width matrix; engine smoke tests run separately');
-  test.setTimeout(90000);
+  test.setTimeout(120000);
+  await page.addInitScript(() => sessionStorage.setItem('zfr-personal-opening-session-v1', 'seen'));
   const measurements = [];
   for (const width of [320, 360, 375, 390, 430, 768, 1024, 1280, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const route of ['/', '/projects/emvision/', '/projects/lowalt-md/', '/projects/em-trace/', '/projects/quadcontrol-lab/']) {
+    for (const route of ['/', '/projects/emvision/', '/projects/lowalt-md/', '/projects/em-trace/', '/projects/quadcontrol-lab/', '/coursework/', '/space/', '/404.html']) {
       await page.goto(route);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
       measurements.push({ width, route, overflow });
@@ -15,31 +20,28 @@ test('release: nine widths, five routes, text reflow and semantic content', asyn
       await expect(page.locator('main h1')).toHaveCount(1);
       if (route === '/') {
         const order = await page.locator('main > section').evaluateAll((sections) => sections.slice(0, 4).map((section) => section.id || section.classList[0]));
-        expect(order).toEqual(['hero', 'research-map', 'approach', 'projects']);
-        const heroLinks = page.locator('.hero a');
+        expect(order).toEqual(['hero-section', 'research-map', 'approach', 'projects']);
+        const heroLinks = page.locator('.hero-section a');
         for (const link of await heroLinks.all()) {
           expect((await link.boundingBox())?.height).toBeGreaterThanOrEqual(44);
         }
         if ([320, 390, 768, 1024, 1440].includes(width)) {
           fs.mkdirSync('.screenshots', { recursive: true });
-          for (const link of await page.locator('#research-map .map-node-link').all()) {
+          for (const link of await page.locator('#research-map .card-link').all()) {
             expect((await link.boundingBox())?.height).toBeGreaterThanOrEqual(44);
           }
           await page.locator('#research-map').screenshot({ path: `.screenshots/phase8b21-map-${width}.png` });
           if (width === 1440) {
-            const connector = page.locator('.map-connector').first();
-            const idleColor = await connector.evaluate((el) => getComputedStyle(el).color);
-            await page.locator('.map-node-link').first().hover();
-            await expect.poll(() => connector.evaluate((el) => getComputedStyle(el).color)).not.toBe(idleColor);
-            await expect(page.locator('.map-node-link').nth(1).locator('.map-node-title')).toHaveCSS('color', 'rgb(75, 91, 100)');
+            await page.locator('.card-link').first().hover();
+            await expect(page.locator('.aircraft-coordinates')).toHaveCSS('opacity', '0.85');
             await page.mouse.move(0, 0);
-            await page.locator('.map-node-link').nth(2).focus();
-            await expect.poll(() => connector.evaluate((el) => getComputedStyle(el).color)).not.toBe(idleColor);
+            await page.locator('.card-link').nth(2).focus();
+            await expect(page.locator('.aircraft-observation')).toHaveCSS('opacity', '0.85');
             await page.locator('#research-map').screenshot({ path: '.screenshots/phase8b21-map-focus-1440.png' });
           }
         }
       }
-      await expect(page.locator('main')).toContainText('不支持以下解读');
+      if (route === '/' || route.startsWith('/projects/')) await expect(page.locator('main')).toContainText('不支持以下解读');
       for (const link of await page.locator('.site-nav a').all()) {
         const box = await link.boundingBox();
         expect(box?.height).toBeGreaterThanOrEqual(44);

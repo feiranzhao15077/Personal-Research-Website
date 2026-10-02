@@ -30,6 +30,8 @@ const colors = ['coral', 'blue', 'lemon', 'pink'];
 const slots = await Promise.all(Object.entries(photoImports).sort(([a], [b]) => a.localeCompare(b)).map(async ([, asset], index) => ({
   title: `照片 ${String(index + 1).padStart(2, '0')}`,
   alt: descriptions[index], caption: captions[index], color: colors[index % colors.length],
+  rotation: index === 1 ? -90 : index === 3 ? 90 : 0,
+  width: asset.default.width, height: asset.default.height,
   thumbnail: await getImage({ src: asset.default, width: Math.min(640, asset.default.width), format: 'webp' }),
   full: await getImage({ src: asset.default, width: Math.min(1920, asset.default.width), format: 'webp' }),
 })));
@@ -75,9 +77,9 @@ const slots = await Promise.all(Object.entries(photoImports).sort(([a], [b]) => 
       <section class="space-stage" aria-label="作品与生活记录画廊" aria-describedby="space-help">
         <ol class="space-cards">
           {slots.map((slot, index) => (
-            <li class="space-card" data-color={slot.color} data-slot={index} data-photo-src={slot.full.src} data-photo-alt={slot.alt} data-photo-caption={slot.caption}>
+            <li class="space-card" data-color={slot.color} data-slot={index} data-photo-src={slot.full.src} data-photo-alt={slot.alt} data-photo-caption={slot.caption} data-photo-thumbnail={slot.thumbnail.src} data-photo-width={slot.width} data-photo-height={slot.height} data-photo-rotation={slot.rotation}>
               <button type="button" class="space-card-button" data-open-card aria-haspopup="dialog" aria-label={`${slot.title}，${slot.alt}，点击查看大图`}>
-                <img class="card-photo" src={slot.thumbnail.src} width={slot.thumbnail.attributes.width} height={slot.thumbnail.attributes.height} alt={slot.alt} loading={index < 3 ? "eager" : "lazy"} decoding="async" draggable="false" />
+                {slot.rotation ? <svg class="card-photo" role="img" aria-label={slot.alt} viewBox={`0 0 ${slot.height} ${slot.width}`} preserveAspectRatio="xMidYMid slice"><image href={slot.thumbnail.src} width={slot.width} height={slot.height} transform={slot.rotation < 0 ? `translate(0 ${slot.width}) rotate(-90)` : `translate(${slot.height} 0) rotate(90)`} /></svg> : <img class="card-photo" src={slot.thumbnail.src} width={slot.thumbnail.attributes.width} height={slot.thumbnail.attributes.height} alt={slot.alt} loading={index < 3 ? "eager" : "lazy"} decoding="async" draggable="false" />}
                 <span class="card-copy"><span class="card-title-line"><strong>{slot.title}</strong><span class="card-photo-hint">点击查看大图</span></span><span class="card-photo-caption">{slot.caption}</span></span>
               </button>
             </li>
@@ -97,8 +99,8 @@ const slots = await Promise.all(Object.entries(photoImports).sort(([a], [b]) => 
     </main>
     <dialog class="space-dialog" aria-labelledby="space-dialog-title" aria-describedby="space-photo-caption">
       <button type="button" class="dialog-close" data-space-close aria-label="关闭卡片"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg></button>
-      <img class="dialog-photo" data-space-photo src={slots[0].full.src} alt={slots[0].alt} />
-      <div class="dialog-photo-footer"><div class="dialog-photo-description"><h2 id="space-dialog-title">照片</h2><p id="space-photo-caption" data-space-caption></p></div><div class="dialog-photo-actions"><button type="button" data-photo-step="-1" aria-label="上一张照片">上一张</button><button type="button" data-photo-step="1" aria-label="下一张照片">下一张</button></div></div>
+      <div class="dialog-photo-stage"><img class="dialog-photo" data-space-photo alt="" /></div>
+      <div class="dialog-photo-footer"><div class="dialog-photo-description"><h2 id="space-dialog-title">照片</h2><p id="space-photo-caption" data-space-caption></p></div><div class="dialog-photo-actions"><button type="button" data-photo-rotate aria-label="顺时针旋转照片">旋转</button><button type="button" data-photo-step="-1" aria-label="上一张照片">上一张</button><button type="button" data-photo-step="1" aria-label="下一张照片">下一张</button></div></div>
     </dialog>
     <PersonalSpaceOpening />
     <script>

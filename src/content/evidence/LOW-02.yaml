@@ -1,24 +1,24 @@
 id: LOW-02
 project: lowalt-md
 claim:
-  zh: 当前 proxy 下，element-wise 非共同复权重可以改变归一化谱形。
+  zh: 当前代理模型下，逐单元、非共同的复权重可以改变归一化谱形。
 metric:
   name:
     zh: 逐单元复权重下的归一化谱 L2 差
   display:
     zh: 0.025246。
-  unit: 无量纲 normalized-spectrum L2。
+  unit: 无量纲归一化谱 L2 差。
   observations:
   - label:
       zh: M2 归一化谱 L2 差
     value: '0.025246'
     display: '0.025246'
 protocolContext:
-  zh: 200 m、beta=0.15；M2 是逐单元有效两项 proxy，不是 DD/DR/RD/RR 完整四路径全波场。
+  zh: 200 m、beta=0.15；M2 是逐单元有效两项代理模型，不是 DD/DR/RD/RR 完整四路径全波场。
 uncertainty:
   kind: INTERVAL
   detail:
-    zh: 单一冻结算例，无统计 CI。
+    zh: 单一冻结算例，不提供统计置信区间。
 status: SUPPORTED
 boundary:
   zh: 真实叶片 RCS 或完整目标—地面全波耦合已得到验证。

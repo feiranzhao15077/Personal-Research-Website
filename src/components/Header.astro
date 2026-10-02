@@ -26,6 +26,11 @@ const cvUrl = cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? sitePath(cv.public
   </div>
 </header>
 
+<script>
+  import { setupHeaderOffset } from '../lib/header-offset';
+  setupHeaderOffset();
+</script>
+
 <style>
   .site-header {
     position: sticky;

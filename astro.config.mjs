@@ -10,5 +10,5 @@ export default defineConfig({
   base,
   output: 'static',
   trailingSlash: 'always',
-  integrations: [sitemap({ filter: (page) => !page.endsWith('/404/') && !page.endsWith('/404.html') })]
+  integrations: [sitemap({ filter: (page) => !page.endsWith('/404/') && !page.endsWith('/404.html') && !page.endsWith('/space/') })]
 });

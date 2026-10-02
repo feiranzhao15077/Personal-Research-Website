@@ -5,6 +5,8 @@ export function initRadarTracking() {
   const control = document.querySelector<HTMLButtonElement>('.radar-control');
   if (!control || control.dataset.ready) return;
   control.dataset.ready = 'true';
+  const pause = document.querySelector<HTMLButtonElement>('[data-radar-pause]');
+  let manualPause = false;
   const svg = control.querySelector<SVGSVGElement>('svg')!;
   const target = svg.querySelector<SVGGElement>('.radar-target')!;
   const dish = svg.querySelector<SVGGElement>('.radar-dish')!;
@@ -53,7 +55,12 @@ export function initRadarTracking() {
     },
   });
   const sync = () => {
-    const animated = visible && windowActive && !document.hidden && !reduced.matches;
+    const animated = visible && windowActive && !document.hidden && !reduced.matches && !manualPause;
+    if (pause) {
+      pause.disabled = reduced.matches;
+      pause.setAttribute('aria-pressed', String(manualPause || reduced.matches));
+      pause.textContent = reduced.matches ? '静态示意' : manualPause ? '继续巡航' : '暂停巡航';
+    }
     const interacting = pointerInside || keyboardActive || touchActive;
     if (!animated || interacting) {
       idle.pause();
@@ -77,7 +84,7 @@ export function initRadarTracking() {
     destination.y = clamp(y, 110, 285);
     idle.pause();
     control.classList.remove('is-flying');
-    if (reduced.matches || instant) {
+    if (reduced.matches || manualPause || instant) {
       moveX.tween.pause(); moveY.tween.pause();
       Object.assign(state, destination);
       render();
@@ -123,6 +130,7 @@ export function initRadarTracking() {
   window.addEventListener('blur', () => { windowActive = false; sync(); });
   window.addEventListener('focus', () => { windowActive = true; sync(); });
   reduced.addEventListener('change', sync);
+  pause?.addEventListener('click', () => { manualPause = !manualPause; sync(); });
   window.addEventListener('pagehide', (event) => {
     windowActive = false;
     clearTimeout(touchTimer);

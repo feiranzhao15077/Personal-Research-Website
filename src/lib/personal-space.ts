@@ -9,6 +9,8 @@ export function setupPersonalSpace() {
   let photo = document.querySelector<HTMLImageElement>('[data-space-photo]');
   let photoRequest = 0;
   let photoIndex = 0;
+  let photoRotation = 0;
+  const photoStage = document.querySelector<HTMLElement>('.dialog-photo-stage');
   const items = Array.from(document.querySelectorAll<HTMLElement>('.space-card'));
   if (!stage || !pause || !dialog || !close || !heading || !items.length) return;
 
@@ -145,24 +147,41 @@ export function setupPersonalSpace() {
     drag = undefined; hoverPause = false;
     stage.classList.remove('is-dragging', 'is-pressing'); wake();
   };
+  const fitPhoto = () => {
+    if (!photo || !photoStage || !dialog.open) return;
+    const card = items[photoIndex];
+    const nativeWidth = Number(card.dataset.photoWidth), nativeHeight = Number(card.dataset.photoHeight);
+    const sideways = Math.abs(photoRotation % 180) === 90;
+    const displayWidth = sideways ? nativeHeight : nativeWidth;
+    const displayHeight = sideways ? nativeWidth : nativeHeight;
+    const footerHeight = dialog.querySelector('.dialog-photo-footer')!.getBoundingClientRect().height;
+    const availableHeight = Math.max(100, window.innerHeight - footerHeight - 32);
+    const factor = Math.min(photoStage.clientWidth / displayWidth, availableHeight / displayHeight);
+    photoStage.style.height = `${displayHeight * factor}px`;
+    photo.style.width = `${nativeWidth * factor}px`;
+    photo.style.height = `${nativeHeight * factor}px`;
+    photo.style.transform = `translate(-50%, -50%) rotate(${photoRotation}deg)`;
+  };
   const showPhoto = (index: number) => {
     photoIndex = (index + items.length) % items.length;
     const card = items[photoIndex];
+    photoRotation = Number(card.dataset.photoRotation || 0);
     heading.textContent = card.querySelector('strong')?.textContent || '照片';
     dialog.dataset.color = card.dataset.color;
     if (caption) caption.textContent = card.dataset.photoCaption || '';
     if (!photo) return;
     const request = ++photoRequest;
-    const thumbnail = card.querySelector<HTMLImageElement>('.card-photo');
+    const thumbnail = card.querySelector<HTMLImageElement>('img.card-photo');
     // A fresh node cannot retain the previously displayed image during loading.
     const preview = new Image();
     preview.className = 'dialog-photo';
     preview.dataset.spacePhoto = '';
     preview.alt = card.dataset.photoAlt || '';
-    preview.src = thumbnail?.currentSrc || thumbnail?.src || card.dataset.photoSrc || '';
+    preview.src = card.dataset.photoThumbnail || thumbnail?.currentSrc || thumbnail?.src || card.dataset.photoSrc || '';
     if (thumbnail) { preview.width = Number(thumbnail.getAttribute('width')); preview.height = Number(thumbnail.getAttribute('height')); }
     photo.replaceWith(preview);
     photo = preview;
+    fitPhoto();
 
     const full = new Image();
     full.className = preview.className;
@@ -174,6 +193,7 @@ export function setupPersonalSpace() {
       if (request !== photoRequest || !dialog.open || !photo) return;
       photo.replaceWith(full);
       photo = full;
+      fitPhoto();
     }).catch(() => { /* Keep the matching thumbnail if the full image fails. */ });
   };
   const openCard = (event: MouseEvent) => {
@@ -183,7 +203,7 @@ export function setupPersonalSpace() {
     if (!card) return;
     opener = target; inertia = 0; coasting = false; settle = undefined;
     showPhoto(items.indexOf(card));
-    dialog.showModal(); close.focus();
+    dialog.showModal(); fitPhoto(); close.focus();
   };
   const dialogClosed = () => { photoRequest++; opener?.focus({ preventScroll: true }); wake(); };
   const revealFocusedCard = (event: FocusEvent) => {
@@ -245,6 +265,10 @@ export function setupPersonalSpace() {
     }
   });
   close.addEventListener('click', () => dialog.close());
+  document.querySelector('[data-photo-rotate]')?.addEventListener('click', () => { photoRotation = (photoRotation + 90) % 360; fitPhoto(); });
+  const photoResize = new ResizeObserver(fitPhoto);
+  if (photoStage) photoResize.observe(photoStage);
+  window.addEventListener('resize', fitPhoto);
   dialog.addEventListener('close', dialogClosed);
   dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
   document.addEventListener('visibilitychange', wake);
@@ -255,7 +279,8 @@ export function setupPersonalSpace() {
   const pageHide = (event: PageTransitionEvent) => {
     cancelAnimationFrame(raf); raf = 0;
     if (event.persisted) return;
-    resize.disconnect(); intersection.disconnect();
+    resize.disconnect(); intersection.disconnect(); photoResize.disconnect();
+    window.removeEventListener('resize', fitPhoto);
     document.removeEventListener('visibilitychange', wake);
     document.removeEventListener('space:opening-change', wake);
     document.removeEventListener('keydown', keyboardInput);

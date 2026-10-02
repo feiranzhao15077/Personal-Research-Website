@@ -43,6 +43,21 @@
 .project-page .related-links { margin-top: 1.25rem; }
 .project-return { display: contents; }
 
+@media (min-width: 901px) {
+  .project-page .evidence-grid-odd > .evidence-block:last-child {
+    grid-column: 1 / -1; display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2.5rem;
+    align-content: start;
+  }
+  .evidence-grid-odd > .evidence-block:last-child > .evidence-head { grid-column: 1 / -1; }
+  .evidence-grid-odd > .evidence-block:last-child > :not(.evidence-head):not(.evidence-details) { grid-column: 1; }
+  .project-page .evidence-grid-odd > .evidence-block:last-child > .evidence-details { grid-column: 2; grid-row: 2 / span 4; margin-top: 0; }
+}
+.evidence-precision { font-size: .85rem; color: var(--ink-soft); }
+.evidence-precision summary { min-height: 44px; padding-block: .5rem; color: var(--blue); cursor: pointer; }
+.evidence-precision dl { display: grid; gap: .5rem; }
+.evidence-precision dd { margin: 0; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+
 @media (max-width: 900px) {
   .project-overview { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
   .project-page .project-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }

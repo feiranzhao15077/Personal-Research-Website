@@ -6,7 +6,7 @@ metric:
   name:
     zh: Macro-F1 端点与配对差
   display:
-    zh: Macro-F1：0.1864 → 0.9897；paired Δ=0.8033。
+    zh: Macro-F1：0.1864 → 0.9897；配对差 Δ=0.8033。
   unit: Macro-F1 无量纲；差值为 Macro-F1 绝对差。
   observations:
   - label:
@@ -22,12 +22,11 @@ metric:
     value: '0.803296210943919'
     display: '0.8033'
 protocolContext:
-  zh: EVM-01 固定 synthetic test domain、2×2×2 factorial、20 paired seeds。
+  zh: EVM-01 的固定合成测试域；2×2×2 全因子实验；20 个配对随机种子。
 uncertainty:
   kind: INTERVAL
   detail:
-    zh: paired bootstrap，50,000 repetitions；精确 95% CI [0.7729484234878651, 0.8298827006172669]；展示值 [0.7729,
-      0.8299]。
+    zh: 配对自助法，重复 50,000 次；95% 置信区间为 [0.7729, 0.8299]。
   lower: '0.7729484234878651'
   upper: '0.8298827006172669'
   display: '[0.7729, 0.8299]'

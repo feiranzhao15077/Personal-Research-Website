@@ -6,18 +6,20 @@ metric:
   name:
     zh: 输入层机制检查
   display:
-    zh: A1 terminal error 0 rad；A2 0.3354319429327265 rad；每臂 200/200 formula checks。
-  unit: rad；formula checks count。
+    zh: A1 终端误差 0 rad；A2 终端误差约 0.3354 rad；每组均通过 200/200 次公式核验。
+  unit: rad；公式核验次数。
   observations: []
 protocolContext:
-  zh: 输入层比较；same gyro、specific-force magnitude、timing、initialization；direction 不同。
+  zh: 输入层比较：陀螺仪输入、比力大小、时序与初始化相同，仅比力方向不同。
+auditDetail:
+  zh: A2 终端误差的完整数值为 0.3354319429327265 rad。
 uncertainty:
   kind: CONTEXT
   detail:
-    zh: deterministic synthetic check；公式核验通过。
+    zh: 基于确定性合成输入的检查；公式核验通过。
 status: SUPPORTED
 boundary:
-  zh: 完整 plant 反事实、真实 IMU 结论或全局稳定性证明。
+  zh: 完整被控对象的反事实结论、真实 IMU 结论或全局稳定性证明。
 source:
   ref: quadcontrol-final-result-freeze
   revision: 427ed6a0ef3c45805b565f09369c2deb34888c7c

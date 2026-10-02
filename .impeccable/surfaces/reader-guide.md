@@ -2,13 +2,13 @@
 
 Mode: Read. A local extension of the existing research website, preserving its warm paper, deep blue, readable typography, research text, evidence and routes.
 
-The user selected Petdex No. 3547, deepseek酱 by fightingshine, and approved a hybrid of reviewed reading prompts and eventual free-form questions. No model service is available yet; this release is a local preview of the character, curated guidance and question interface. The question interface states that free answers are unavailable, disables sending and makes no network request. Publication of the reviewed version was authorized by the user on 2026-10-02; free-question answers remain unavailable.
+The user selected Petdex No. 3547, deepseek酱 by fightingshine, and approved reviewed reading prompts and free-form questions. On 2026-10-02 they explicitly approved connecting DeepSeek. The current local implementation sends questions through a Cloudflare Pages Function, using a server-only key and public project knowledge generated at build time. It supports recent conversation context, cancellation, retry and a new conversation. A real model response has been confirmed locally; this new implementation has not yet been published. Earlier preview outcomes below are historical.
 
 The character automatically chooses a quiet outer margin on desktop, separate from the existing return control. It breathes and blinks at rest, waves on greeting or opening, briefly jumps on a topic change and uses the review frames while guiding. The first desktop greeting is short and dismissible once per tab session. Phones retain the small closed entrance without an unsolicited greeting. The panel is nonmodal and can close with its button, Escape or an outside click; character motion can pause and the character can minimize.
 
 Build-time content comes from the current project collection, identity and approved material entries. Curated explanatory text directs readers to research relationships, source figures, protocols and limitations. It introduces no numerical claim. The personal-space gallery and its opening retain their own layout and behavior and do not mount this research guide.
 
-The sourced transparent 1536 × 1872 atlas is optimized to 768 × 936 WebP at build time and loaded after the first paint. The original attribution and source URLs are recorded in `src/assets/guide/source.json` and linked from the guide. Frame counts follow the selected pet's state viewer. CSS stepped frames and a small controller implement the preview, without a new dependency, model API, backend or change to the static deployment.
+The sourced transparent 1536 × 1872 atlas is optimized to 768 × 936 WebP at build time and loaded after the first paint. The original attribution and source URLs are recorded in `src/assets/guide/source.json` and linked from the guide. Frame counts follow the selected pet's state viewer. CSS stepped frames and a small controller implement the character; Pages Functions now provide its question backend while the research routes remain static.
 
 The guide hides during the homepage opening, native figure dialogs and hidden tabs, respects reduced motion and keeps its readable prompts available independently of its animation. Desktop and mobile panels fit within the viewport and scroll internally when needed.
 
@@ -40,4 +40,8 @@ Automatic placement scores the visible text, links, figures and navigation again
 `deepseek-perch.png` is an AI-generated derivative of the selected character, not an official Petdex frame. Its provenance is recorded in `src/assets/guide/source.json`; Astro produces a 400px transparent WebP (~28KB), loaded after the initial paint along with the atlas. No new dependency or model request in the website.
 
 Outcome: typecheck passed (0 errors/warnings, same existing ResearchMap hint); static build and its content/hash, privacy and release gates passed. One bounded preview pass confirmed desktop mouse perching, keyboard prompts, independent-branch perching, drag without panel opening, Escape returning to the edge, and contained mobile panels without horizontal page overflow at 390px/320px. Captures: `perched-desktop.jpg` and `quick-guide-mobile.jpg`. Local preview only; no commit, push or deployment.
+
+## Audit fixes and connected questions · 2026-10-02
+
+Phones now dock the entrance in a reserved bottom strip, beside the project return control; desktop dragging and perching remain. The user authorized real DeepSeek answers in this turn. A Cloudflare Pages Function keeps the key server-only, grounds answers in generated public project records and provides recent context, cancellation and retry. One real project question returned successfully in the local browser. Current typecheck has no errors, warnings or hints, and the static build succeeds. New regression coverage is added but has not been run. See `.impeccable/review/site-audit-2026-10-02/fixes.md`; publication is pending.
 

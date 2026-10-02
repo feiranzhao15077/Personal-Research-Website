@@ -3,6 +3,8 @@ import { spawnSync } from 'node:child_process';
 const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 const production = process.env.RELEASE_MODE === 'production';
 const target = process.env.RELEASE_TARGET === 'initial' ? 'initial' : 'full';
+const knowledge = spawnSync(process.execPath, ['scripts/generate-guide-knowledge.mjs'], { stdio: 'inherit' });
+if (knowledge.error || knowledge.status !== 0) process.exit(knowledge.status || 1);
 const steps = ['validate:content', 'validate:public', ...(production ? [target === 'initial' ? 'validate:initial' : 'validate:release'] : []), 'build:astro', 'validate:dist'];
 for (const script of steps) {
   const result = spawnSync(npm, ['run', script], { stdio: 'inherit', env: process.env, shell: process.platform === 'win32' });

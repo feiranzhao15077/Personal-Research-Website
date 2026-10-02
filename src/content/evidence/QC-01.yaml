@@ -6,9 +6,9 @@ metric:
   name:
     zh: 真实姿态 RMS 配对角距离
   display:
-    zh: true-attitude RMS paired angular distance 1.096029 rad；true-body-rate RMS paired difference 0.201693
-      rad/s；最大姿态距离 1.969332 rad；最大角速度差 0.212150 rad/s；torque-command RMS paired difference 0.000441743
-      N·m；IDEAL observation-to-truth RMS 0 rad，ESTIMATED 1.184857 rad。
+    zh: 真实姿态 RMS 配对角距离 1.096029 rad；真实机体角速度 RMS 配对差 0.201693
+      rad/s；最大姿态距离 1.969332 rad；最大角速度差 0.212150 rad/s；力矩指令 RMS 配对差 0.000441743
+      N·m；观测相对真实姿态的 RMS 误差：理想观测臂为 0 rad，估计观测臂为 1.184857 rad。
   unit: rad、rad/s、N·m。
   observations:
   - label:
@@ -16,12 +16,11 @@ metric:
     value: '1.096029'
     display: '1.096029 rad'
 protocolContext:
-  zh: 13D plant；IdealImu 与 MinimalAttitudeEstimator；+10° roll ATTITUDE_STEP；seed 0，10 s；两臂除 observation
-    source 外一致。
+  zh: 13 维被控对象；IdealImu 与 MinimalAttitudeEstimator；+10° 滚转姿态阶跃（ATTITUDE_STEP）；随机种子 0，10 s；两臂除观测来源外一致。
 uncertainty:
   kind: INTERVAL
   detail:
-    zh: 确定性单 seed 配对协议；非总体统计区间。
+    zh: 确定性、单一随机种子的配对协议；非总体统计区间。
 status: SUPPORTED
 boundary:
   zh: 真实飞行表现、稳定性、估计器泛化或实机性能。

@@ -45,7 +45,7 @@
       </g>
     </svg>
   </button>
-  <figcaption id="radar-instructions"><span><span class="radar-pointer-hint">移动指针</span><span class="radar-touch-hint">点按移动</span> · 雷达跟踪</span><span class="radar-note">视觉示意</span><span class="radar-sr-only">。键盘聚焦后使用方向键移动无人机，Escape 复位。</span></figcaption>
+  <figcaption id="radar-instructions"><span><span class="radar-pointer-hint">移动指针</span><span class="radar-touch-hint">点按移动</span> · 雷达跟踪</span><button type="button" class="radar-pause" data-radar-pause aria-pressed="false">暂停巡航</button><span class="radar-note">视觉示意</span><span class="radar-sr-only">。键盘聚焦后使用方向键移动无人机，Escape 复位。</span></figcaption>
 </figure>
 
 <style>
@@ -76,6 +76,8 @@
   .radar-control.is-tracking .radar-rotor { animation: radar-rotor .65s linear infinite; }
   .radar-figure figcaption { display: flex; align-items: baseline; gap: .3em; padding: 0 24px; font: .7rem/1.7 var(--sans); color: var(--ink-soft); letter-spacing: .04em; }
   .radar-note { margin-left: auto; color: var(--ink-faint); }
+  .radar-pause { min-height: 44px; padding: .3rem .5rem; margin-left: auto; border: 0; background: transparent; color: var(--blue); font: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: .2em; }
+  .radar-pause:disabled { color: var(--ink-faint); cursor: default; text-decoration: none; }
   .radar-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
   .radar-touch-hint { display: none; }
   @keyframes radar-transmission { to { stroke-dashoffset: -30; } }

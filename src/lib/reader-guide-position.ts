@@ -49,7 +49,7 @@ export function setupGuidePosition({ root, trigger, panel, speech, canAutoPlace,
       && rect.top > headerBottom + 150 && rect.top < height - 24 && rect.width >= 240;
     root.dataset.perched = String(perched);
     let anchor = trigger.getBoundingClientRect();
-    position = perched && rect ? { x: rect.right - anchor.width - 10, y: rect.top - anchor.height + 5 } : manual ?? rest;
+    position = compact.matches ? null : perched && rect ? { x: rect.right - anchor.width - 10, y: rect.top - anchor.height + 5 } : manual ?? rest;
     if (position) {
       position = { x: clamp(position.x, edge, width - anchor.width - edge),
         y: clamp(position.y, edge, height - anchor.height - bottomEdge()) };
@@ -133,6 +133,7 @@ export function setupGuidePosition({ root, trigger, panel, speech, canAutoPlace,
     layout(); autoPlace();
   };
   trigger.addEventListener('pointerdown', event => {
+    if (compact.matches) return;
     if (!event.isPrimary || event.button !== 0 || root.dataset.blocked === 'true') return;
     arrival?.cancel();
     const rect = trigger.getBoundingClientRect(), view = viewport();
@@ -170,6 +171,7 @@ export function setupGuidePosition({ root, trigger, panel, speech, canAutoPlace,
   window.addEventListener('blur', () => finishDrag(true));
   trigger.addEventListener('keydown', event => {
     if (event.key === 'Home') { event.preventDefault(); onMove(); reset(); return; }
+    if (compact.matches) return;
     const moves: Record<string, [number, number]> = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
     const direction = moves[event.key];
     if (!direction) return;
@@ -188,6 +190,7 @@ export function setupGuidePosition({ root, trigger, panel, speech, canAutoPlace,
   }, { passive: true });
   window.addEventListener('resize', () => { scheduleLayout(); window.clearTimeout(scrollTimer); scrollTimer = window.setTimeout(autoPlace, 140); });
   window.visualViewport?.addEventListener('resize', scheduleLayout);
+  compact.addEventListener('change', () => { finishDrag(true); layout(); autoPlace(); });
   document.addEventListener('transitionend', event => { if (event.target === card && event.propertyName === 'transform') scheduleLayout(); });
   window.addEventListener('pagehide', () => { window.clearTimeout(scrollTimer); cancelAnimationFrame(frame); arrival?.cancel(); });
   return { layout, restore, reset, perch, autoPlace, consumeClick: () => { const consumed = suppressClick; suppressClick = false; return consumed; } };

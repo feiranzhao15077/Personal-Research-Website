@@ -5,6 +5,8 @@ interface Props { evidence: Evidence; compact?: boolean; }
 const { evidence, compact = false } = Astro.props;
 const e = evidence.data;
 const supplementaryMetrics = e.id === 'QC-01' ? e.metric.display.zh.split('；').slice(1).join('；') : '';
+const preciseMetrics = e.metric.observations.filter(item => item.value !== item.display);
+const hasPrecision = preciseMetrics.length > 0 || !!e.uncertainty.lower || !!e.auditDetail;
 ---
 <article class:list={['evidence-block', { compact }]} id={e.id.toLowerCase()}>
   <div class="evidence-head"><span class="evidence-id">{e.id}</span><span class:list={['status', `status-${e.status.toLowerCase()}`]}>{statusLabel[e.status]}</span></div>
@@ -16,6 +18,7 @@ const supplementaryMetrics = e.id === 'QC-01' ? e.metric.display.zh.split('；')
   {!compact && <div class="evidence-details">
     <p><strong>协议 / 样本</strong>{e.protocolContext.zh}</p>
     <p><strong>{e.uncertainty.kind === 'CONTEXT' ? '适用条件与核验说明' : '不确定性'}</strong>{e.uncertainty.detail.zh}</p>
+    {hasPrecision && <details class="evidence-precision"><summary>查看完整数值</summary><dl>{preciseMetrics.map(item => <div><dt>{item.label.zh}</dt><dd>{item.value}</dd></div>)}{e.uncertainty.lower && e.uncertainty.upper && <div><dt>完整置信区间</dt><dd>[{e.uncertainty.lower}, {e.uncertainty.upper}]</dd></div>}</dl>{e.auditDetail && <p>{e.auditDetail.zh}</p>}</details>}
     <p class="boundary"><strong>不支持以下解读</strong>{e.boundary.zh}</p>
     <p class="source-note"><strong>来源状态</strong>{e.sourceVisibility === 'PRIVATE_CANONICAL_SOURCE' ? '基准结果已内部核验；公开页面提供摘要。' : '公开摘要；原始审计材料的访问状态见项目说明。'} {e.publicSource.url && <a href={e.publicSource.url} target="_blank" rel="noopener noreferrer">阅读公开证据摘要 ↗</a>}</p>
   </div>}
