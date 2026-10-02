@@ -29,7 +29,7 @@ const slots = [
     <script is:inline>
       (() => {
         let seen = false;
-        try { seen = localStorage.getItem('zfr-personal-opening-v1') === 'seen'; } catch {}
+        try { seen = sessionStorage.getItem('zfr-personal-opening-session-v1') === 'seen'; } catch {}
         if (seen || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         document.documentElement.classList.add('space-opening-pending');
         // Return to the readable gallery if the module fails to load.

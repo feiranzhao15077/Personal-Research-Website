@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import FigureViewer from '../components/FigureViewer.astro';
+import ReaderGuide from '../components/ReaderGuide.astro';
 import { sitePath } from '../lib/urls';
 interface Props { title: string; description: string; path?: string; }
 const { title, description, path = '/' } = Astro.props;
@@ -50,5 +51,6 @@ const pageTitle = `${title} · ${profile.publicName.zh}`;
     <main id="main"><slot /></main>
     <Footer />
     <FigureViewer />
+    {path !== '/404.html' && <ReaderGuide path={path} />}
   </body>
 </html>

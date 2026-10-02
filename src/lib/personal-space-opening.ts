@@ -1,11 +1,11 @@
-/** A marker-drawn, first-visit story. The gallery remains usable without it. */
+/** A marker-drawn, first-entry-per-session story. The gallery remains usable without it. */
 type AnimationEngine = typeof import('gsap')['gsap'];
 type StoryTimeline = ReturnType<AnimationEngine['timeline']>;
 type StoryContext = ReturnType<AnimationEngine['context']>;
 
 declare global { interface Window { spaceOpeningWatchdog?: number; } }
 
-const MEMORY_KEY = 'zfr-personal-opening-v1';
+const MEMORY_KEY = 'zfr-personal-opening-session-v1';
 const clamp = (value: number, low: number, high: number) => Math.max(low, Math.min(high, value));
 
 export function setupPersonalSpaceOpening() {
@@ -18,7 +18,10 @@ export function setupPersonalSpaceOpening() {
   if (!opening || !replay || !pause || !skip || !caption) return;
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const autoplay = root.classList.contains('space-opening-pending');
+  let seen = false;
+  try { seen = sessionStorage.getItem(MEMORY_KEY) === 'seen'; } catch {}
+  // The visual loading fallback must not erase eligibility when the module arrives late.
+  const autoplay = !seen && !reduced.matches;
   window.clearTimeout(window.spaceOpeningWatchdog);
   root.classList.add('space-opening-ready');
   let engine: AnimationEngine | undefined;
@@ -35,7 +38,7 @@ export function setupPersonalSpaceOpening() {
     opening.classList.remove('is-night');
     root.classList.remove('space-opening-pending', 'space-opening-active');
     if (opening.open) opening.close();
-    if (remember) { try { localStorage.setItem(MEMORY_KEY, 'seen'); } catch {} }
+    if (remember) { try { sessionStorage.setItem(MEMORY_KEY, 'seen'); } catch {} }
     if (restore) {
       const target = restoreFocus || document.querySelector<HTMLElement>('#space-main');
       if (target && target !== document.body) {

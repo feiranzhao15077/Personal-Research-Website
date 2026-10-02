@@ -175,7 +175,7 @@ const crossingContours = Array.from({ length: 9 }, (_, i) => (
           <p class="intro-motto">与其困于方寸，不如自成宇宙</p>
         </div>
 
-        <div class="drone-display" aria-hidden="true">
+        <div class="drone-display" role="img" tabindex="0" aria-label="SolidWorks 四旋翼参数化 CAD 模型，展示机体几何与装配结构">
           <!-- The Drone Image -->
           <img src="/hero-drone.png" alt="SolidWorks Drone Model" class="drone-model" />
           
@@ -201,6 +201,7 @@ const crossingContours = Array.from({ length: 9 }, (_, i) => (
 </section>
 
 <style>
+  .drone-display:focus-visible { outline: 2px solid var(--blue); outline-offset: 6px; }
   /* =========================================================
      HERO SECTION - ASYMMETRIC LAYOUT
      Left: Text + Simple Photo | Right: Open Dynamic Space

@@ -1,0 +1,13 @@
+{
+  "character": "deepseek酱",
+  "petdexNumber": 3547,
+  "creator": "fightingshine",
+  "page": "https://petdex.dev/pets/deepseek",
+  "manifest": "https://petdex.dev/api/manifest",
+  "spritesheet": "https://assets.petdex.dev/pets/deepseek-c3fa684cfe03/sprite.webp",
+  "metadata": "https://assets.petdex.dev/pets/deepseek-c3fa684cfe03/petjson.json",
+  "format": { "columns": 8, "rows": 9, "frameWidth": 192, "frameHeight": 208 },
+  "sourceNote": "User-selected community fan-art character. Petdex does not claim rights to underlying IP. Attribution retained in the guide.",
+  "derivatives": [{ "file": "deepseek-perch.png", "purpose": "Card-top prone pose", "method": "AI-generated derivative using the selected character as visual reference; not an official Petdex animation frame." }]
+}
+

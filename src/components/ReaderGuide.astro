@@ -1,0 +1,107 @@
+---
+import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import sprite from '../assets/guide/deepseek.webp';
+import perchSprite from '../assets/guide/deepseek-perch.png';
+import { sitePath } from '../lib/urls';
+import type { ReaderGuideContent, GuideTopic } from '../lib/reader-guide-content';
+import '../styles/reader-guide.css';
+
+interface Props { path: string; }
+const { path } = Astro.props;
+const [projects, sites, materials] = await Promise.all([
+  getCollection('projects'), getCollection('site'), getCollection('materials'),
+]);
+const profile = sites[0].data;
+const current = projects.find(item => path === `/projects/${item.data.slug}/`);
+const cv = materials.find(item => item.id === profile.cvMaterialId)?.data;
+const sheet = await getImage({ src: sprite, width: 768, height: 936, format: 'webp', quality: 85 });
+const perch = await getImage({ src: perchSprite, width: 400, format: 'webp', quality: 85 });
+const sourceLinks = [
+  { label: 'Research Portfolio', href: profile.githubUrl },
+  ...(cv?.accessStatus === 'PUBLIC' && cv.publicUrl ? [{ label: '学术 CV', href: sitePath(cv.publicUrl) }] : []),
+];
+const evidence: GuideTopic = {
+  id: 'evidence', label: '证据怎么读', title: '数字与条件，一起读。',
+  paragraphs: ['每项证据都列出结果、实验协议、来源与解释边界。先看它在哪些条件下成立，再读数值本身。', '“支持”“已更正”“已撤回”对应不同证据状态；更正和负结果也是研究记录的一部分。'],
+  links: [{ label: '查看证据与边界', href: current ? '#evidence' : sitePath('/projects/emvision/#evidence') }],
+};
+const figures: GuideTopic = {
+  id: 'figures', label: '图件怎么读', title: '先读图注，再看细节。',
+  paragraphs: ['图注说明这幅图表达什么，来源信息标明原始图件。复杂图可以点击放大，再平移或打开原图。', '把图件与对应的证据、协议和边界放在一起理解。'],
+  links: [{ label: '查看代表图件', href: current ? '#figures' : sitePath('/projects/emvision/#figures') }],
+};
+let content: ReaderGuideContent;
+if (current) {
+  const d = current.data;
+  content = {
+    pageTitle: d.title.zh,
+    topics: [
+      { id: 'start', label: '这项研究', title: `${d.title.zh} 在研究什么？`, paragraphs: [d.summary.zh, d.researchQuestion.zh], links: [{ label: '阅读研究问题', href: '#question-heading' }] },
+      { id: 'method', label: '方法与协议', title: '它是怎样研究的？', paragraphs: d.methods.slice(0, 2).map(item => item.zh), links: [{ label: '阅读完整方法', href: '#method-heading' }] },
+      evidence, figures,
+      { id: 'boundary', label: '研究边界', title: '结论适用于哪些条件？', paragraphs: d.limitations.slice(0, 2).map(item => item.zh), links: [{ label: '阅读全部限制', href: '#learning-heading' }] },
+      { id: 'resources', label: '公开资料', title: '继续深入阅读。', paragraphs: ['本页“公开资料”集中列出项目相关的证据摘要与研究材料。'], links: [{ label: '查看项目资料', href: '#materials' }] },
+    ],
+  };
+} else if (path === '/coursework/') {
+  content = { pageTitle: '课程基础', topics: [
+    { id: 'start', label: '课程与研究', title: '从本科知识基础读起。', paragraphs: ['这里按物理与电磁建模、数学与数值计算等方向整理已学课程。课程基础是了解研究背景的一个入口。'], links: [{ label: '回到研究脉络', href: sitePath('/#research-map') }] },
+    { id: 'resources', label: '继续阅读', title: '把基础与项目联系起来。', paragraphs: ['可以回到研究地图，进一步阅读计算电磁、传播机制、受控识别与自主系统的项目内容。'], links: [{ label: '探索研究脉络', href: sitePath('/#research-map') }, ...sourceLinks] },
+  ] };
+} else {
+  content = { pageTitle: '科研主页', topics: [
+    { id: 'start', label: '推荐路线', title: '从哪里开始读？', paragraphs: [`${profile.publicName.zh}是应用物理学本科生，关注电磁感知、智能探测与自主系统。`, '想先了解代表性研究，可以阅读 EMvision；想理解整体方向，先浏览研究地图。'], links: [{ label: '探索研究脉络', href: '#research-map' }, { label: '阅读 EMvision', href: sitePath('/projects/emvision/') }] },
+    { id: 'connections', label: '四个项目', title: '共同兴趣，两条研究方向。', paragraphs: ['EM-Trace → LowAlt-MD → EMvision 表示电磁感知主题与方法关注点的演进，不表示数据、代码依赖或因果关系。', 'QuadControl-Lab 是独立的自主系统分支，关注动力学、闭环仿真与观测来源。'], links: ['em-trace', 'lowalt-md', 'emvision', 'quadcontrol-lab'].map(slug => ({ label: projects.find(item => item.data.slug === slug)!.data.title.zh, href: sitePath(`/projects/${slug}/`) })) },
+    evidence, figures,
+    { id: 'resources', label: '资料与背景', title: '进一步了解赵斐然。', paragraphs: ['学术 CV、公开研究材料与课程基础提供不同的背景入口。'], links: [...sourceLinks, { label: '课程基础', href: sitePath('/coursework/') }, { label: '联系赵斐然', href: `mailto:${profile.publicEmail}` }] },
+  ] };
+}
+const data = JSON.stringify(content).replace(/</g, '\\u003c');
+---
+<aside class="reader-guide" data-reader-guide data-ready="false" data-state="idle" data-sprite-url={sheet.src} data-perch-url={perch.src} aria-label="阅读向导">
+  <div class="guide-greeting" role="status" aria-live="polite" aria-atomic="true" hidden>
+    <p data-guide-speech-text>你好，我来陪你读一读。点我看导读，也可以按住我，挪到你喜欢的位置哦。</p>
+    <button type="button" data-guide-greeting-close aria-label="关闭提示"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg></button>
+  </div>
+  <section class="guide-panel" id="reader-guide-panel" aria-labelledby="reader-guide-title" hidden>
+    <header class="guide-heading">
+      <div><h2 id="reader-guide-title">一起读一读</h2><p>deepseek酱 · <span data-guide-page>{content.pageTitle}</span></p></div>
+      <button class="guide-close" type="button" data-guide-close aria-label="关闭导读"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg></button>
+    </header>
+    <div class="guide-modes" role="group" aria-label="选择导读方式">
+      <button type="button" data-guide-mode="read" aria-pressed="true">阅读导读</button>
+      <button type="button" data-guide-mode="ask" aria-pressed="false">问我问题</button>
+    </div>
+    <div class="guide-read" data-guide-read>
+      <label class="guide-topic-label" for="guide-topic">想先了解什么？</label>
+      <select id="guide-topic" data-guide-topic>{content.topics.map(topic => <option value={topic.id}>{topic.label}</option>)}</select>
+      <div class="guide-answer" aria-live="polite" aria-atomic="true">
+        <h3 data-guide-answer-title></h3><div data-guide-answer-body></div>
+        <div class="guide-links" data-guide-links></div>
+      </div>
+    </div>
+    <div class="guide-ask" data-guide-ask hidden>
+      <p class="guide-preview-note">自由问答暂未开放</p>
+      <p>之后可以在这里提问、追问。现在先试试看提问界面。</p>
+      <label for="guide-question">想问什么？</label>
+      <textarea id="guide-question" rows="3" maxlength="400" placeholder={current ? `例如：${current.data.title.zh} 的研究结论有哪些适用条件？` : '例如：EMvision 与 LowAlt-MD 有什么联系？'} aria-describedby="guide-question-note"></textarea>
+      <button class="guide-submit" type="button" disabled>发送问题 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></button>
+      <p id="guide-question-note">当前为界面预览，问题不会发送。</p>
+      <button class="guide-return-read" type="button" data-guide-return-read>先看看阅读导读</button>
+    </div>
+    <footer class="guide-footer">
+      <div><button type="button" data-guide-pause aria-pressed="false">暂停动作</button><button type="button" data-guide-minimize>收起精灵</button><button type="button" data-guide-reset>自动选位</button></div>
+      <a href="https://petdex.dev/pets/deepseek" target="_blank" rel="noopener noreferrer">角色 · fightingshine / Petdex ↗</a>
+    </footer>
+  </section>
+  <button class="guide-trigger" type="button" data-guide-trigger aria-expanded="false" aria-controls="reader-guide-panel" aria-label="打开阅读向导" aria-describedby="reader-guide-controls" title="单击看导读，按住拖动">
+    <span class="guide-sprite" aria-hidden="true"></span><span class="guide-perch" aria-hidden="true"></span><span class="guide-trigger-label">阅读向导</span>
+  </button>
+  <p class="guide-instructions" id="reader-guide-controls">单击打开导读；按住拖动位置。键盘方向键也可以移动，Home 键恢复自动选位，Escape 键关闭提示。</p>
+  <script type="application/json" data-guide-content set:html={data} />
+</aside>
+<script>
+  import { setupReaderGuide } from '../lib/reader-guide';
+  setupReaderGuide();
+</script>
