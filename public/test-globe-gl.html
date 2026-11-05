@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <style> body { margin: 0; } </style>
+  <script src="https://unpkg.com/globe.gl"></script>
+</head>
+<body>
+  <div id="globeViz"></div>
+  <script>
+    fetch('/countries.json')
+      .then(res => res.json())
+      .then(countries => {
+        const world = Globe()
+          (document.getElementById('globeViz'))
+          .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+          .polygonsData(countries.features)
+          .polygonAltitude(0.01)
+          .polygonLabel(({ properties: d }) => d.name)
+          .polygonStrokeColor(() => '#00ffcc');
+      });
+  </script>
+</body>
+</html>

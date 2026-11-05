@@ -4,10 +4,21 @@ export interface GuideBox { left: number; top: number; right: number; bottom: nu
 /** Read content bounds when a scroll settles or a prompt opens, never during a drag. */
 export function guideOccupiedSpace(): GuideBox[] {
   const height = document.documentElement.clientHeight;
-  return Array.from(document.querySelectorAll<HTMLElement>(
-    'main p, main h1, main h2, main h3, main h4, main h5, main li, main dt, main dd, main a, main button, main img, .b-card, .site-header, [aria-label="返回导航"]',
-  )).flatMap(element => {
-    if (element.closest('[data-reader-guide]') || !element.getClientRects().length) return [];
+  const contents = 'p, h1, h2, h3, h4, h5, li, dt, dd, a, button, img, .b-card';
+  // Read section bounds first, so paragraphs in far-off sections need no geometry reads.
+  const visibleSections = Array.from(document.querySelector('main')?.children ?? []).filter(section => {
+    const rect = section.getBoundingClientRect();
+    return !rect.width || !rect.height || (rect.bottom > 0 && rect.top < height);
+  });
+  const candidates = new Set<Element>(document.querySelectorAll(
+    '.site-header, .cabinet-nav, .cabinet-footer, .space-nav a, .space-nav button, .space-owner, [aria-label="返回导航"]',
+  ));
+  visibleSections.forEach(section => {
+    if (section.matches(contents)) candidates.add(section);
+    section.querySelectorAll(contents).forEach(element => candidates.add(element));
+  });
+  return Array.from(candidates).flatMap(element => {
+    if (element.closest('[data-reader-guide]')) return [];
     const rect = element.getBoundingClientRect();
     return rect.width && rect.height && rect.bottom > 0 && rect.top < height ? [rect] : [];
   });
@@ -22,12 +33,15 @@ export function guideOverlap(box: GuideBox, occupied: GuideBox[]) {
 /** Prefer a quiet outer margin; retain a safe current spot rather than constantly moving. */
 export function guideRestingPoint(width: number, height: number, current: GuidePoint | null): GuidePoint {
   const viewWidth = document.documentElement.clientWidth, viewHeight = document.documentElement.clientHeight;
-  const header = document.querySelector('.site-header')?.getBoundingClientRect();
+  const header = document.querySelector('.site-header, .cabinet-nav, .space-nav')?.getBoundingClientRect();
   const top = Math.max(12, header && header.bottom > 0 && header.top < viewHeight ? header.bottom + 12 : 12);
   const bottom = Math.max(top, viewHeight - height - 16), right = Math.max(12, viewWidth - width - 16);
+  const spaceHeader = document.querySelector('.space-nav')?.getBoundingClientRect();
   const occupied = guideOccupiedSpace();
   const candidates = [
     ...(current && current.y >= top && current.y <= bottom && current.x >= 12 && current.x <= right ? [current] : []),
+    // The personal page has a quiet gap between Return and the owner name.
+    ...(spaceHeader && spaceHeader.bottom > 0 && spaceHeader.top < viewHeight ? [{ x: (viewWidth - width) / 2, y: Math.max(12, spaceHeader.top + 12) }] : []),
     ...[bottom, top, top + (bottom - top) * .35, top + (bottom - top) * .65]
       .flatMap(y => [{ x: right, y }, { x: 12, y }]),
   ];

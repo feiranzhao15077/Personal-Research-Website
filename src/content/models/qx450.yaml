@@ -1,0 +1,45 @@
+title: 四旋翼无人机
+designation: QX-450
+summary: 四个旋翼之间，装下对感知与飞行的好奇。
+software: Blender
+renderer: Cycles
+resolution: 1600 × 1200
+order: 7
+model3d:
+  desktop: /models/qx450/qx450.glb
+  mobile: /models/qx450/qx450-lite.glb
+  preview: /models/qx450/qx450-preview.glb
+  animation:
+    orbit: 360_Turntable_and_Exploded_Assembly
+    orbitDuration: 6
+    assembly: 360_Turntable_and_Exploded_Assembly
+    assemblyStart: 6.6666666667
+    assemblyEnd: 9.3333333333
+cover: ../../assets/models/qx450/qx450-cover.png
+spaceCover: ../../assets/models/qx450/qx450-cover.png
+views:
+  - id: hero
+    label: 整体展示
+    caption: 紧凑机身，四臂舒展。
+    alt: QX-450 四旋翼无人机的整体渲染，展示四个旋翼、碳纤维机架和云台相机
+    image: ../../assets/models/qx450/QX450_Hero.png
+  - id: exploded
+    label: 分层拆解
+    caption: 层层打开，让里面的小世界露个面。
+    alt: 四旋翼无人机的分层拆解图，展示机壳、机架、电池和电子模块
+    image: ../../assets/models/qx450/QX450_Exploded.png
+  - id: motor
+    label: 电机与桨叶
+    caption: 铜绕组与弯曲桨叶，各有自己的细节。
+    alt: 四旋翼无人机电机、铜绕组和桨叶特写
+    image: ../../assets/models/qx450/QX450_Motor_Detail.png
+  - id: gimbal
+    label: 云台相机
+    caption: 给镜头留一个灵活的视角。
+    alt: 四旋翼无人机云台相机及减振结构特写
+    image: ../../assets/models/qx450/QX450_Gimbal_Detail.png
+  - id: electronics
+    label: 电子模块
+    caption: 飞控、配电与感知，在这里相遇。
+    alt: 四旋翼无人机内部飞控、AI 模块、电调和配电板特写
+    image: ../../assets/models/qx450/QX450_Electronics_Detail.png

@@ -1,0 +1,60 @@
+title: 全球鹰无人机
+designation: RQ-4
+summary: 长翼舒展，目光越过地平线。
+software: Blender
+renderer: Cycles
+resolution: 最高 1800 × 1200
+order: 6
+model3d:
+  desktop: /models/rq4-global-hawk/rq4-global-hawk.glb
+  mobile: /models/rq4-global-hawk/rq4-global-hawk-lite.glb
+  preview: /models/rq4-global-hawk/rq4-global-hawk-preview.glb
+  animation:
+    orbit: RQ4_Demonstration
+    orbitDuration: 8
+    assembly: RQ4_Demonstration
+    assemblyStart: 8.0333333333
+    assemblyEnd: 10.0333333333
+cover: ../../assets/models/rq4-global-hawk/rq4-global-hawk-cover.png
+spaceCover: ../../assets/models/rq4-global-hawk/rq4-global-hawk-cover.png
+views:
+  - id: hero
+    label: 整体展示
+    caption: 用长长的机翼，画出一条安静的水平线。
+    alt: RQ-4 全球鹰无人机的整体渲染，展示长机翼、背部发动机和展开的起落架
+    image: ../../assets/models/rq4-global-hawk/RQ4_Hero.png
+  - id: exploded
+    label: 分解结构
+    caption: 拆开机体，看看外形之下的模块与连接。
+    alt: 全球鹰无人机的分解渲染，展示机体、机翼、发动机与内部示意设备
+    image: ../../assets/models/rq4-global-hawk/RQ4_Exploded.png
+  - id: eoir
+    label: 光电云台
+    caption: 机腹下的小小视窗。
+    alt: 全球鹰无人机 EO/IR 光电传感器云台特写
+    image: ../../assets/models/rq4-global-hawk/RQ4_EOIR_Detail.png
+  - id: engine
+    label: 发动机细节
+    caption: 从背部望进去，看看发动机的结构。
+    alt: 全球鹰无人机背部发动机模块特写
+    image: ../../assets/models/rq4-global-hawk/RQ4_Engine_Detail.png
+  - id: gear
+    label: 起落架细节
+    caption: 远行之前，总要有一个稳稳的支点。
+    alt: 全球鹰无人机起落架和轮胎结构特写
+    image: ../../assets/models/rq4-global-hawk/RQ4_Gear_Detail.png
+  - id: top
+    label: 俯视轮廓
+    caption: 俯视，长翼与机身的比例一目了然。
+    alt: 全球鹰无人机的透明背景俯视正交渲染
+    image: ../../assets/models/rq4-global-hawk/RQ4_Top.png
+  - id: front
+    label: 正面轮廓
+    caption: 从正面，看见两翼对称展开。
+    alt: 全球鹰无人机的透明背景正面正交渲染
+    image: ../../assets/models/rq4-global-hawk/RQ4_Front.png
+  - id: side
+    label: 侧面轮廓
+    caption: 换个角度，读一读机身的线条。
+    alt: 全球鹰无人机的透明背景侧面正交渲染
+    image: ../../assets/models/rq4-global-hawk/RQ4_Side.png

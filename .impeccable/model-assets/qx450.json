@@ -1,0 +1,68 @@
+{
+  "sourceDirectory": "E:\\blender建模\\Quadrotor_UAV",
+  "process": "Standard/lite: WebP color at quality 92, lossless normal textures, Meshopt medium with 16-bit positions/UVs and 12-bit normals; mobile simplification only when explicitly requested by --mobile-ratio. Entrance preview: separate lower-resolution derivative as described in its record.",
+  "records": [
+    {
+      "filename": "qx450.glb",
+      "sourceFilename": "QX450_Web_Animated.glb",
+      "yawDegrees": 0,
+      "mobileRatio": 1,
+      "animations": [
+        "360_Turntable_and_Exploded_Assembly"
+      ],
+      "sourceSha256": "fb01a0c46feee374a6dc5ea834ca0cc55641b31864a089519d53643896ebb686",
+      "outputSha256": "e3821e4a4b3891262e3d559f52a406a741d3370b98fa874ce1f34e1071b55776",
+      "sourceBytes": 10395284,
+      "outputBytes": 3750104,
+      "triangles": 366070,
+      "meshes": 18,
+      "materials": 18,
+      "textures": 1,
+      "extensions": [
+        "KHR_materials_clearcoat",
+        "KHR_materials_emissive_strength",
+        "EXT_texture_webp",
+        "KHR_mesh_quantization",
+        "EXT_meshopt_compression"
+      ]
+    },
+    {
+      "filename": "qx450-lite.glb",
+      "sourceFilename": "QX450_Web_Animated.glb",
+      "yawDegrees": 0,
+      "mobileRatio": 0.25,
+      "animations": [
+        "360_Turntable_and_Exploded_Assembly"
+      ],
+      "sourceSha256": "fb01a0c46feee374a6dc5ea834ca0cc55641b31864a089519d53643896ebb686",
+      "outputSha256": "1df34cddf5dc066ba92fce77809461634bd4f2eba48efdea8c3656898aa5e351",
+      "sourceBytes": 10395284,
+      "outputBytes": 1701924,
+      "triangles": 119944,
+      "meshes": 18,
+      "materials": 18,
+      "textures": 1,
+      "extensions": [
+        "KHR_materials_clearcoat",
+        "KHR_materials_emissive_strength",
+        "EXT_texture_webp",
+        "KHR_mesh_quantization",
+        "EXT_meshopt_compression"
+      ]
+    },
+    {
+      "filename": "qx450-preview.glb",
+      "sourceFilename": "QX450_Web_Animated.glb",
+      "yawDegrees": 0,
+      "sourceSha256": "fb01a0c46feee374a6dc5ea834ca0cc55641b31864a089519d53643896ebb686",
+      "outputSha256": "f5942bf4c19a0423fec43d7638736b9b8768fb7305f63a62d569ac49e3589e4b",
+      "sourceBytes": 10395284,
+      "outputBytes": 843288,
+      "triangles": 77901,
+      "meshes": 18,
+      "materials": 18,
+      "textures": 1,
+      "process": "Entrance only: welded mesh, simplification ratio .16/error .004; WebP color 768px/quality 86 and lossless non-color maps 512px; Meshopt medium with 14-bit position/UV and 10-bit normals."
+    }
+  ]
+}

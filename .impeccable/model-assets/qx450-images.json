@@ -1,0 +1,47 @@
+{
+  "sourceDirectory": "E:/blender建模/Quadrotor_UAV",
+  "files": [
+    {
+      "file": "qx450-cover.png",
+      "sha256": "ee78ded24b3344a933133c13ff6a4d5439e079ea1f0c776a00511db21fb3937e",
+      "width": 1600,
+      "height": 1000,
+      "source": "Separately rendered original Blender model, studio geometry hidden, original hero camera reframed, transparent RGBA, Cycles CPU 32 samples. Original .blend not saved."
+    },
+    {
+      "file": "QX450_Electronics_Detail.png",
+      "sha256": "3b047facdf97b987d233c4e6d41f2bf77a724efddd242b49e6596017fc393510",
+      "width": 1600,
+      "height": 1200,
+      "source": "E:/blender建模/Quadrotor_UAV/QX450_Electronics_Detail.png"
+    },
+    {
+      "file": "QX450_Exploded.png",
+      "sha256": "7effc27d198046b786688ff1c70e7ba888384d27187b2a59fb799d1d218d4797",
+      "width": 1600,
+      "height": 1200,
+      "source": "E:/blender建模/Quadrotor_UAV/QX450_Exploded.png"
+    },
+    {
+      "file": "QX450_Gimbal_Detail.png",
+      "sha256": "17d6a1418a79da78b9993b70dcce31eafaf031c03089d61a39b768f60cadaedf",
+      "width": 1600,
+      "height": 1200,
+      "source": "E:/blender建模/Quadrotor_UAV/QX450_Gimbal_Detail.png"
+    },
+    {
+      "file": "QX450_Hero.png",
+      "sha256": "b9ef5678342fca45edba160009c9fba7fa066d6dc5f77dce1354e2cca56eddea",
+      "width": 1600,
+      "height": 1200,
+      "source": "E:/blender建模/Quadrotor_UAV/QX450_Hero.png"
+    },
+    {
+      "file": "QX450_Motor_Detail.png",
+      "sha256": "caab4a9451e24e63655149a7cdaf43f431caf8ff9f3c2e37eb7792ae478a4175",
+      "width": 1600,
+      "height": 1200,
+      "source": "E:/blender建模/Quadrotor_UAV/QX450_Motor_Detail.png"
+    }
+  ]
+}

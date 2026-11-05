@@ -3,6 +3,9 @@
   --space-lemon: #f2df64; --space-blue: #3158c7; --space-pink: #ecabc4;
   --space-serif: Georgia, 'Noto Serif CJK SC', 'Songti SC', 'SimSun', serif;
   --space-sans: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  /* Reader guide tokens inherit the personal-space ground. */
+  --paper: var(--space-paper); --white: #fffefa; --ink: #292620; --ink-soft: #474238; --ink-faint: #585146;
+  --blue: #214f73; --blue-deep: #153b58; --blue-pale: #e7eef1; --line: #cdc9bd; --line-soft: #e2ddcf; --sans: var(--space-sans);
 }
 *, *::before, *::after { box-sizing: border-box; }
 html { background: var(--space-paper); color: var(--space-ink); }
@@ -31,7 +34,8 @@ svg { display: block; width: 24px; height: 24px; stroke: currentColor; stroke-wi
 .space-back:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgb(22 65 102 / .3); }
 .space-back:focus-visible { outline-color: #075fad; outline-offset: 2px; }
 .space-owner { font-family: var(--space-serif); font-size: 1.2rem; }
-.space-intro { margin: 100px clamp(20px, 4vw, 64px) 0; position: relative; z-index: 2; pointer-events: none; }
+.space-heading-row { margin: 100px clamp(20px, 4vw, 64px) 0; position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+.space-intro { position: relative; pointer-events: none; flex-shrink: 0; }
 .space-intro h1 { margin: 0; font: 500 clamp(2.7rem, 5vw, 4.5rem)/1.25 var(--space-serif); letter-spacing: -.03em; }
 .space-intro h1 span { color: var(--space-coral); }
 .space-intro p { margin: .5rem 0 0; font-size: 1rem; }
@@ -111,9 +115,9 @@ svg { display: block; width: 24px; height: 24px; stroke: currentColor; stroke-wi
 @media (max-width: 650px) {
   .space-nav { padding-block: 10px; }
   .space-owner { font-size: 1rem; }
-  .space-intro { margin-top: 88px; }
-  .space-enhanced .space-stage { height: max(420px, calc(100svh - 290px)); }
-  .space-controls { flex-direction: column; gap: 10px; align-items: stretch; padding-block: 12px; }
+  .space-heading-row { margin-top: 88px; display: grid; gap: 18px; }
+  .space-enhanced .space-stage { height: max(420px, calc(100svh - 420px)); }
+  .space-controls { position: relative; bottom: auto; flex-direction: column; gap: 10px; align-items: stretch; padding-block: 12px; }
   .space-controls p { font-size: .76rem; }
   .space-buttons { justify-content: flex-end; }
   .card-copy { padding: 12px 14px 16px; }
@@ -149,3 +153,4 @@ svg { display: block; width: 24px; height: 24px; stroke: currentColor; stroke-wi
   .card-title-line { flex-wrap: wrap; gap: 2px 8px; }
   .dialog-photo-footer { padding: 12px; align-items: flex-start; flex-wrap: wrap; }
 }
+#space-main:focus { outline: none; }

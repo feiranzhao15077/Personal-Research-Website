@@ -1,0 +1,37 @@
+{
+  "software": "Blender",
+  "renderEngine": "Cycles",
+  "origin": "User-supplied Blender render pack: J16_Web_PNG_Pack.zip",
+  "colorManagement": "AgX / sRGB",
+  "files": [
+    {
+      "sha256": "d49ff98adc7ff8f0366dcda5fbc41b7635e47e40377a45d94e7c2bfe5c9b1151",
+      "file": "J16_Web_01_Hero_A_Studio.png"
+    },
+    {
+      "sha256": "3ffde1acdb1f5ab9f055dcf7f76255915e7b83b18e4d406e266795b4da0b8221",
+      "file": "J16_Web_01_Hero_B_Transparent.png"
+    },
+    {
+      "sha256": "58b461a57807d167dc24ad666845e30bcac9650b03a60e08d0c0096a1879587a",
+      "file": "J16_Web_02_Side_A_Studio.png"
+    },
+    {
+      "sha256": "5ca7f2541939dcb90203d5db660cd96b40eaf327a13ff65e23bc54788693b9de",
+      "file": "J16_Web_03_TopQuarter_A_Studio.png"
+    },
+    {
+      "sha256": "45fa98f2885d8ab75fac4f9e609c0cc75dbcbf5ba6b18c5c3d35e138ffe3a14c",
+      "file": "J16_Web_03_TopQuarter_B_Transparent.png"
+    },
+    {
+      "sha256": "7e89ab59683c811e62b2d57509db6969f3434da1106d0ade610991d31850854e",
+      "file": "J16_Web_04_NoseCockpit_A_Studio.png"
+    },
+    {
+      "sha256": "79359685027ffd18dc546b5d7dc8986eb2e93559f86e951c5cf2e900f600ae9a",
+      "file": "J16_Web_05_TailExhaust_A_Studio.png"
+    }
+  ],
+  "resolution": "3840 x 2160"
+}

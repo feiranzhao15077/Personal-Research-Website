@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { ModelAnimation } from '../lib/model-animation';
+import { sitePath } from '../lib/urls';
+import ModelStageControls from './ModelStageControls.astro';
+import '../styles/model-stage.css';
+interface Props {
+  id?: string;
+  title: string;
+  poster: ImageMetadata;
+  model3d?: { desktop: string; mobile: string; preview?: string; animation?: ModelAnimation };
+  mode?: 'entry' | 'cabinet' | 'viewer';
+  controls?: 'inline' | 'external';
+}
+const { id, title, poster, model3d, mode = 'entry', controls = 'inline' } = Astro.props;
+const interactive = mode !== 'entry';
+const animation = model3d?.animation;
+---
+<div id={id} class:list={['model-stage', `model-stage-${mode}`]} data-model-stage data-stage-mode={mode} data-stage-name={title} data-stage-desktop={model3d ? sitePath(model3d.desktop) : undefined} data-stage-mobile={model3d ? sitePath(model3d.mobile) : undefined} data-stage-preview={model3d?.preview ? sitePath(model3d.preview) : undefined} data-stage-orbit={model3d?.animation?.orbit} data-stage-assembly={model3d?.animation?.assembly} data-stage-assembly-start={model3d?.animation?.assemblyStart} data-stage-assembly-end={model3d?.animation?.assemblyEnd}>
+  <div class="model-stage-surface" data-stage-surface data-stage-orbit-duration={animation?.orbitDuration} data-stage-orbit-node={animation?.orbitNode} data-stage-assembly-label={animation?.assemblyLabel} data-stage-assembly-return-label={animation?.assemblyReturnLabel} data-stage-assembly-view={animation?.assemblyView} data-stage-motion={animation?.motion ? JSON.stringify(animation.motion) : undefined}>
+    <div class="model-stage-poster" data-stage-poster aria-hidden="true">
+      <span class="model-stage-poster-case"></span><span class="model-stage-poster-disc"></span>
+      <Image src={poster} widths={mode === 'entry' ? [320, 480, 640] : [640, 960]} sizes={mode === 'entry' ? '(max-width: 700px) 90vw, 340px' : '(max-width: 700px) 90vw, 900px'} format="webp" quality={85} alt="" loading={mode === 'viewer' ? 'eager' : 'lazy'} />
+    </div>
+    <canvas data-stage-canvas tabindex={interactive ? 0 : undefined} role={interactive ? 'img' : undefined} aria-label={interactive ? `${title}三维模型，可拖动环绕观察；方向键转动，加减键缩放，Home键复位` : undefined} aria-hidden={!interactive ? 'true' : undefined}></canvas>
+    <p class="model-stage-status" data-stage-status role={interactive ? 'status' : undefined}>正在布置展柜…</p>
+    {interactive && <button class="model-stage-retry" type="button" data-stage-retry hidden>重新加载模型</button>}
+  </div>
+  {interactive && controls === 'inline' && <div class="model-stage-toolbar">
+    <p class="model-stage-help"><span class="model-stage-help-mouse">拖动环绕 · 滚轮缩放 · 右键平移</span><span class="model-stage-help-touch">单指转动 · 双指缩放</span></p>
+    <ModelStageControls animation={animation} />
+  </div>}
+</div>
+<script>
+  import { setupModelStages } from '../lib/model-stage';
+  setupModelStages();
+</script>

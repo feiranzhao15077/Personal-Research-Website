@@ -21,7 +21,7 @@ const pageTitle = `${title} · ${profile.publicName.zh}`;
     {path === '/' && <>
       <script is:inline>
         try {
-          if (matchMedia('(min-width: 901px)').matches && !sessionStorage.getItem('hasSeenHeroIntro')) {
+          if (matchMedia('(min-width: 901px) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches && !sessionStorage.getItem('hasSeenHeroIntro')) {
             document.documentElement.classList.add('hero-intro-pending');
             setTimeout(() => document.documentElement.classList.remove('hero-intro-pending'), 8000);
           }

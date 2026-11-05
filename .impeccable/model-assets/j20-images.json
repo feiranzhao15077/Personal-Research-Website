@@ -1,0 +1,59 @@
+{
+  "sourceDirectory": "E:/无人机unity/ArtSource/Aircraft/J16/WebShowcase/J16_Web_3D_Pack",
+  "sourcePack": "E:/无人机unity/ArtSource/Aircraft/J16/WebShowcase/J16_Web_3D_Pack.zip",
+  "sourcePackSha256": "5052b9dd470369fc92486274cc5a438bbbe04727745b6fdd5ffd265171f9126c",
+  "version": "V3, frame 1, parked, static canards",
+  "software": "Blender 5.2.1 LTS",
+  "renderer": "Cycles",
+  "imageProcessing": "Supplied renders copied without pixel modification; Astro prepares responsive WebP derivatives.",
+  "records": [
+    {
+      "filename": "j20-cover.png",
+      "source": "j20-standard-preview.png",
+      "width": 1920,
+      "height": 1080,
+      "alpha": true,
+      "sha256": "3b3f4d5493a5f9b4ed68118a18c08df12cb745186a90cea844f2eba8e119cfe0"
+    },
+    {
+      "filename": "j20-front.png",
+      "source": "images/J20_V3_前侧.png",
+      "width": 1600,
+      "height": 1000,
+      "alpha": true,
+      "sha256": "332dfb0797793180a1e6597bcee5b015c3649636498e86b7b398985f00e853e4"
+    },
+    {
+      "filename": "j20-side.png",
+      "source": "images/J20_V3_侧视.png",
+      "width": 1400,
+      "height": 660,
+      "alpha": true,
+      "sha256": "3b73ac48e7277687d5b592c83a94896ce1fc01380b17d0d858f410809d816ed2"
+    },
+    {
+      "filename": "j20-top.png",
+      "source": "images/J20_V3_俯视.png",
+      "width": 1000,
+      "height": 1400,
+      "alpha": true,
+      "sha256": "6ae5ce682f6fa71708b4870a1aab6b1c3136ed80ebabe732eb056f96cf1889dc"
+    },
+    {
+      "filename": "j20-rear.png",
+      "source": "images/J20_V3_后侧.png",
+      "width": 1600,
+      "height": 1000,
+      "alpha": true,
+      "sha256": "7d8d453277224210b7b4af183acbb60042de5727e215f884b61081f41689c639"
+    },
+    {
+      "filename": "j20-intake.png",
+      "source": "images/J20_V3_进气道.png",
+      "width": 1400,
+      "height": 950,
+      "alpha": true,
+      "sha256": "d3c12e1196afaaa7cc37533f0c238cb2e2b64d1b93bb5371c826597a20b8e563"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import { Image, getImage } from 'astro:assets';
+import ModelCabinetLayout from '../../layouts/ModelCabinetLayout.astro';
+import ModelStage from '../../components/ModelStage.astro';
+import ModelStageControls from '../../components/ModelStageControls.astro';
+export async function getStaticPaths() { return (await getCollection('models')).map(model => ({ params: { id: model.id }, props: { model } })); }
+const { model } = Astro.props;
+const d = model.data;
+const stageId = 'model-viewer';
+const galleryId = 'model-photos';
+const views = await Promise.all(d.views.map(async view => ({ ...view, full: await getImage({ src: view.image, width: view.image.width, format: 'webp', quality: 95 }) })));
+---
+<ModelCabinetLayout title={`${d.title} · 建模展柜`} description={`${d.title}个人 ${d.software} 建模作品：三维观察与多视角细节。`} path={`/models/${model.id}/`} detail>
+  <ModelStageControls slot="controls" target={stageId} placement="header" animation={d.model3d?.animation} galleryTarget={galleryId} galleryHref={views[0].full.src} />
+  <header class="model-title"><div><h1>{d.designation}<span>{d.title}</span></h1><p>{d.summary}</p></div><dl class="model-facts"><div><dt>建模</dt><dd>{d.software}</dd></div><div><dt>渲染</dt><dd>{d.renderer}</dd></div></dl></header>
+  <ModelStage id={stageId} title={d.title} poster={d.spaceCover} model3d={d.model3d} mode="viewer" controls="external" />
+  <section id={galleryId} class="model-showcase model-photo-panel" data-model-showcase data-model-gallery data-model-gallery-stage={stageId} aria-label={`${d.title}多视角展示`} hidden>
+    <div class="model-view-stack">
+      {views.map(view => <figure class="model-view" id={`view-${view.id}`} data-model-view>
+        <a class="model-view-image figure-image-link" href={view.full.src} data-figure-title={`${d.title} · ${view.label}`} aria-label={`${view.label}，点击放大高清图`}>
+          <Image src={view.image} widths={[800, 1280, 1920]} sizes="(max-width: 700px) 100vw, 92vw" format="webp" quality={90} alt={view.alt} loading="lazy" />
+          <span class="model-zoom-label"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5" /></svg>放大细看</span>
+        </a>
+        <figcaption><strong>{view.label}</strong><span>{view.caption}</span></figcaption>
+      </figure>)}
+      <p class="model-view-status" data-view-status role="status" hidden></p>
+    </div>
+    <div class="model-view-toolbar"><p>{d.resolution} · 高清渲染</p><div class="model-view-controls" data-view-controls hidden><button type="button" data-view-step="-1" aria-label="上一个建模视角"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m14 5-7 7 7 7" /></svg></button><span data-view-counter aria-live="polite">01 / {String(views.length).padStart(2, '0')}</span><button type="button" data-view-step="1" aria-label="下一个建模视角"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m10 5 7 7-7 7" /></svg></button></div></div>
+    <nav class="model-view-picker" aria-label="选择建模视角">{views.map(view => <a href={`#view-${view.id}`} data-select-view aria-label={`切换到${view.label}`}><Image src={view.image} width={280} format="webp" quality={82} alt="" loading="lazy" /><span>{view.label}</span></a>)}</nav>
+  </section>
+  <script>
+    import { setupModelShowcase } from '../../lib/model-cabinet';
+    setupModelShowcase();
+  </script>
+</ModelCabinetLayout>

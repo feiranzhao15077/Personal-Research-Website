@@ -1,0 +1,39 @@
+title: SAR 卫星
+designation: EO-01
+summary: 太阳翼舒展，雷达阵面朝向远方。拆开看看卫星里的小宇宙。
+software: Blender
+renderer: Cycles
+resolution: 最高 2048 × 1440
+order: 5
+model3d:
+  desktop: /models/sar-satellite/sar-satellite.glb
+  mobile: /models/sar-satellite/sar-satellite-lite.glb
+  preview: /models/sar-satellite/sar-satellite-preview.glb
+  animation:
+    orbit: Orbit_360
+    assembly: Exploded_Assembly
+    assemblyStart: 1
+    assemblyEnd: 3.5
+cover: ../../assets/models/sar-satellite/sar-satellite-cover.png
+spaceCover: ../../assets/models/sar-satellite/sar-satellite-cover.png
+views:
+  - id: hero
+    label: 太空全景
+    caption: 双翼展开，把目光投向地球。
+    alt: 金色 SAR 卫星在星空与地球地平线上方，展示两侧蓝色太阳翼和深灰色雷达阵面
+    image: ../../assets/models/sar-satellite/SAR_Hero.png
+  - id: radar
+    label: 雷达阵面
+    caption: 一片片阵面背后，是支撑与展开的结构。
+    alt: SAR 天线阵面和展开机构特写
+    image: ../../assets/models/sar-satellite/SAR_Radar_Detail.png
+  - id: bus
+    label: 卫星平台
+    caption: 金色隔热层之间，藏着卫星的平台与设备。
+    alt: 卫星主体平台特写，展示金色隔热层、通信天线和姿态控制设备
+    image: ../../assets/models/sar-satellite/SAR_Bus_Detail.png
+  - id: exploded
+    label: 分解结构
+    caption: 把外壳与设备分开，看看彼此如何组成一个整体。
+    alt: SAR 卫星部件分解图，展示主体、太阳翼、雷达阵面和内部设备的位置关系
+    image: ../../assets/models/sar-satellite/SAR_Exploded.png

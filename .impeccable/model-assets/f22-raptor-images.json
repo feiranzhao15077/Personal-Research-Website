@@ -1,0 +1,69 @@
+{
+  "sourceDirectory": "E:/blender建模/F22_Raptor",
+  "aftRevision": 4,
+  "files": [
+    {
+      "file": "f22-raptor-cover.png",
+      "sha256": "bf772608482f3b037ecc09df0ea77a128b8adde2035aa09545fea38872a8382a",
+      "width": 1600,
+      "height": 1000,
+      "source": "Separate transparent Cycles CPU cover render; original Blender file not saved."
+    },
+    {
+      "file": "F22_Aft_Gear.png",
+      "sha256": "3d328590d89456584ce35ddf145782f3f1825741fe2eec437ebbde669138e2d5",
+      "width": 1920,
+      "height": 1280,
+      "source": "E:/blender建模/F22_Raptor/F22_Aft_Gear.png"
+    },
+    {
+      "file": "F22_Aft_Rear.png",
+      "sha256": "dc30975df98e50b0c4bd2362a41d8cc2980cc246491df5a5781b88ae9e3a441d",
+      "width": 1920,
+      "height": 880,
+      "source": "E:/blender建模/F22_Raptor/F22_Aft_Rear.png"
+    },
+    {
+      "file": "F22_Head_Detail.png",
+      "sha256": "afdc66a72277afd196f3d0fe523447c4e88702c324e1ffbdb3ec01142b093684",
+      "width": 1920,
+      "height": 1280,
+      "source": "E:/blender建模/F22_Raptor/F22_Head_Detail.png"
+    },
+    {
+      "file": "F22_Hero.png",
+      "sha256": "5b225bad7ba6ee1e9d763c1e195cbb20f28d3394ac7f69784d461408c7c021ed",
+      "width": 1920,
+      "height": 1280,
+      "source": "E:/blender建模/F22_Raptor/F22_Hero.png"
+    },
+    {
+      "file": "F22_Nozzles_Detail.png",
+      "sha256": "6936fca59fc81f35575bc2d489dc89577a4bcfc19c658e92189ff33a1fe21cb8",
+      "width": 1920,
+      "height": 1280,
+      "source": "E:/blender建模/F22_Raptor/F22_Nozzles_Detail.png"
+    },
+    {
+      "file": "F22_Takeoff.png",
+      "sha256": "7f240644bc2c653ad181c554c076b333670edc7ef6b965b31ee3fab9d0420671",
+      "width": 1920,
+      "height": 1280,
+      "source": "E:/blender建模/F22_Raptor/F22_Takeoff.png"
+    },
+    {
+      "file": "F22_Top.png",
+      "sha256": "161fc74dcaf2c93d01d8a7b25575e1a4fa7273f13f1f3a70b91fe8da787118fa",
+      "width": 1600,
+      "height": 1600,
+      "source": "E:/blender建模/F22_Raptor/F22_Top.png"
+    },
+    {
+      "file": "F22_Weapon_Bay_Open.png",
+      "sha256": "0eeea6194582551b377d5f4af9f0738a546c9ba10c7a3a97654653659be699eb",
+      "width": 1920,
+      "height": 1280,
+      "source": "E:/blender建模/F22_Raptor/F22_Weapon_Bay_Open.png"
+    }
+  ]
+}

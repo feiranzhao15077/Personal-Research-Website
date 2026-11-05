@@ -1,0 +1,72 @@
+{
+  "sourceDirectory": "E:\\blender建模\\F22_Raptor",
+  "process": "Standard/lite: WebP color at quality 92, lossless normal textures, Meshopt medium with 16-bit positions/UVs and 12-bit normals; mobile simplification only when explicitly requested by --mobile-ratio. Entrance preview: separate lower-resolution derivative as described in its record.",
+  "records": [
+    {
+      "filename": "f22-raptor.glb",
+      "sourceFilename": "F22_Raptor_Animated.glb",
+      "yawDegrees": 0,
+      "mobileRatio": 1,
+      "animations": [
+        "F22_Exhibition"
+      ],
+      "sourceSha256": "e45b91921ea4b47997968b829ac1f835ae5c0bb9ad210a9e4bec53159a55342c",
+      "outputSha256": "bbb5830d106d14a81eaf4be50c5bf755fb9a0f60d4c0c790b1cc06f87d18fcdc",
+      "sourceBytes": 6817696,
+      "outputBytes": 1979212,
+      "triangles": 251460,
+      "meshes": 32,
+      "materials": 26,
+      "textures": 0,
+      "extensions": [
+        "KHR_materials_clearcoat",
+        "KHR_materials_emissive_strength",
+        "KHR_materials_ior",
+        "KHR_materials_specular",
+        "KHR_materials_transmission",
+        "KHR_mesh_quantization",
+        "EXT_meshopt_compression"
+      ]
+    },
+    {
+      "filename": "f22-raptor-lite.glb",
+      "sourceFilename": "F22_Raptor_Animated.glb",
+      "yawDegrees": 0,
+      "mobileRatio": 0.3,
+      "animations": [
+        "F22_Exhibition"
+      ],
+      "sourceSha256": "e45b91921ea4b47997968b829ac1f835ae5c0bb9ad210a9e4bec53159a55342c",
+      "outputSha256": "8d4ecca8037401a6b7b4a826fc60a288c1ebb1a0c87ddbae54d9de8b04041b8a",
+      "sourceBytes": 6817696,
+      "outputBytes": 1345096,
+      "triangles": 117693,
+      "meshes": 32,
+      "materials": 26,
+      "textures": 0,
+      "extensions": [
+        "KHR_materials_clearcoat",
+        "KHR_materials_emissive_strength",
+        "KHR_materials_ior",
+        "KHR_materials_specular",
+        "KHR_materials_transmission",
+        "KHR_mesh_quantization",
+        "EXT_meshopt_compression"
+      ]
+    },
+    {
+      "filename": "f22-raptor-preview.glb",
+      "sourceFilename": "F22_Raptor_Animated.glb",
+      "yawDegrees": 0,
+      "sourceSha256": "e45b91921ea4b47997968b829ac1f835ae5c0bb9ad210a9e4bec53159a55342c",
+      "outputSha256": "785e464b11ffd1371ebb96ab153576ca26f316209d79c979f9bcc71677817f50",
+      "sourceBytes": 6817696,
+      "outputBytes": 1121700,
+      "triangles": 86725,
+      "meshes": 32,
+      "materials": 25,
+      "textures": 0,
+      "process": "Entrance only: welded mesh, simplification ratio .16/error .004; WebP color 768px/quality 86 and lossless non-color maps 512px; Meshopt medium with 14-bit position/UV and 10-bit normals."
+    }
+  ]
+}

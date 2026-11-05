@@ -1,0 +1,39 @@
+title: 歼-20
+designation: J-20
+summary: 鸭翼平放，起落架落下，换个角度看看歼-20。
+software: Blender
+renderer: Cycles
+resolution: 1600 × 1000
+order: 2
+model3d:
+  desktop: /models/j20/j20.glb
+  mobile: /models/j20/j20-lite.glb
+  preview: /models/j20/j20-preview.glb
+cover: ../../assets/models/j20/j20-cover.png
+spaceCover: ../../assets/models/j20/j20-cover.png
+views:
+  - id: front
+    label: 前侧全景
+    caption: 平放的鸭翼、伸出的起落架，还有完整的机身轮廓。
+    alt: 歼-20的前侧全景，展示灰色迷彩、平放鸭翼、关闭的座舱盖和起落架
+    image: ../../assets/models/j20/j20-front.png
+  - id: side
+    label: 侧面轮廓
+    caption: 从侧面看看机身、鸭翼与双垂尾的比例。
+    alt: 歼-20的侧视渲染图，展示机身侧面轮廓及起落架
+    image: ../../assets/models/j20/j20-side.png
+  - id: top
+    label: 俯视布局
+    caption: 鸭翼与主翼，在俯视中展开。
+    alt: 歼-20的俯视渲染图，展示鸭翼、主翼和尾部布局
+    image: ../../assets/models/j20/j20-top.png
+  - id: rear
+    label: 后侧视角
+    caption: 换到后侧，看看双垂尾与尾部喷口。
+    alt: 歼-20的后侧渲染图，展示双垂尾、机翼及发动机喷口
+    image: ../../assets/models/j20/j20-rear.png
+  - id: intake
+    label: 进气道细节
+    caption: 靠近一点，看看进气道与机身的衔接。
+    alt: 歼-20进气道的近景渲染图
+    image: ../../assets/models/j20/j20-intake.png

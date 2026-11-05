@@ -44,6 +44,12 @@ if (current) {
       { id: 'resources', label: '公开资料', title: '继续深入阅读。', paragraphs: ['本页“公开资料”集中列出项目相关的证据摘要与研究材料。'], links: [{ label: '查看项目资料', href: '#materials' }] },
     ],
   };
+} else if (path === '/space/' || path.startsWith('/models/')) {
+  content = { pageTitle: path === '/space/' ? '个人空间' : '建模展柜', topics: [
+    { id: 'start', label: '建模作品', title: '和我一起逛逛展柜吧。', paragraphs: ['这些都是我用 Blender 完成的个人建模作品。展柜里可以走近每件作品，切换不同视角，点开高清图细看。'], links: [{ label: '进入建模展柜', href: sitePath('/models/') }] },
+    { id: 'details', label: '怎么看细节', title: '换个角度，再靠近一点。', paragraphs: ['在作品页选一个视角，点击大图就能放大。放大后可以平移，按 Esc 返回；手机上也可以直接切换与查看。'], links: [{ label: '看看歼-16', href: sitePath('/models/j16/') }] },
+    { id: 'space', label: '作品与生活', title: '我的另一个小宇宙。', paragraphs: ['个人空间记录自由作品与生活片段。照片长廊可以按住拖动，松开滑行，点开卡片看大图。'], links: [{ label: '回到个人空间', href: sitePath('/space/') }, { label: '阅读科研主页', href: sitePath('/') }] },
+  ] };
 } else if (path === '/coursework/') {
   content = { pageTitle: '课程基础', topics: [
     { id: 'start', label: '课程与研究', title: '从本科知识基础读起。', paragraphs: ['这里按物理与电磁建模、数学与数值计算等方向整理已学课程。课程基础是了解研究背景的一个入口。'], links: [{ label: '回到研究脉络', href: sitePath('/#research-map') }] },

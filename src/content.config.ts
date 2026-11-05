@@ -194,4 +194,47 @@ const maps = defineCollection({
   })
 });
 
-export const collections = { projects, evidence, figures, materials, site, maps };
+// Creative models live in their own collection, outside the research evidence.
+const models = defineCollection({
+  loader: glob({ pattern: '*.yaml', base: './src/content/models' }),
+  schema: ({ image }) => z.object({
+    title: z.string().trim().min(1),
+    designation: z.string().trim().min(1),
+    summary: z.string().trim().min(1),
+    software: z.string().trim().min(1),
+    renderer: z.string().trim().min(1),
+    resolution: z.string().trim().min(1),
+    order: z.number().int().nonnegative(),
+    cover: image(),
+    spaceCover: image(),
+    model3d: z.object({
+      desktop: z.string().regex(/^\/models\/[a-z0-9/-]+\.glb$/),
+      mobile: z.string().regex(/^\/models\/[a-z0-9/-]+\.glb$/),
+      preview: z.string().regex(/^\/models\/[a-z0-9/-]+\.glb$/).optional(),
+      animation: z.object({
+        orbit: z.string().min(1),
+        orbitDuration: z.number().positive().optional(),
+        orbitNode: z.string().min(1).optional(),
+        assembly: z.string().min(1),
+        assemblyStart: z.number().nonnegative(),
+        assemblyEnd: z.number().positive(),
+        assemblyLabel: z.string().min(1).optional(),
+        assemblyReturnLabel: z.string().min(1).optional(),
+        assemblyView: z.enum(['front', 'underside']).optional(),
+        motion: z.object({
+          clip: z.string().min(1), start: z.number().nonnegative(),
+          end: z.number().positive(), label: z.string().min(1),
+        }).refine(value => value.end > value.start).optional(),
+      }).refine(value => value.assemblyEnd > value.assemblyStart).optional(),
+    }).optional(),
+    views: z.array(z.object({
+      id: z.string().regex(/^[a-z0-9-]+$/),
+      label: z.string().trim().min(1),
+      caption: z.string().trim().min(1),
+      alt: z.string().trim().min(1),
+      image: image(),
+    })).min(1),
+  }),
+});
+
+export const collections = { projects, evidence, figures, materials, site, maps, models };

@@ -1,0 +1,58 @@
+{
+  "sourceDirectory": "E:\\blender建模\\Radar_Car_Web_3D_Pack",
+  "process": "Standard/lite: WebP color at quality 92, lossless normal textures, Meshopt medium with 16-bit positions/UVs and 12-bit normals; no additional decimation. Entrance preview: separate lower-resolution derivative as described in its record.",
+  "records": [
+    {
+      "filename": "radar-car.glb",
+      "sourceFilename": "radar-car.glb",
+      "yawDegrees": 0,
+      "sourceSha256": "be6bb4c37bfdad982c0dabbf69b7fcad9344e0f32ea31edb5a2de42faa78bdf5",
+      "outputSha256": "5031a7621889a7f2ad606d98fbbbbe02cdd16906df6d49fdd5b11c1d814c4ead",
+      "sourceBytes": 28200872,
+      "outputBytes": 7476092,
+      "triangles": 600994,
+      "meshes": 103,
+      "materials": 14,
+      "textures": 1,
+      "extensions": [
+        "KHR_materials_emissive_strength",
+        "EXT_texture_webp",
+        "KHR_mesh_quantization",
+        "EXT_meshopt_compression"
+      ]
+    },
+    {
+      "filename": "radar-car-lite.glb",
+      "sourceFilename": "radar-car-lite.glb",
+      "yawDegrees": 0,
+      "sourceSha256": "52a8dcb9e2e2dd8c177abf273ab91a04fd0bcd20f130f3dcecbd15be504e53f8",
+      "outputSha256": "2440f696ef511cfb09e7dad96cc3896eae36b835a53c8d13f2ae8f1364cc2f3d",
+      "sourceBytes": 3856212,
+      "outputBytes": 1260296,
+      "triangles": 68962,
+      "meshes": 65,
+      "materials": 12,
+      "textures": 1,
+      "extensions": [
+        "KHR_materials_emissive_strength",
+        "EXT_texture_webp",
+        "KHR_mesh_quantization",
+        "EXT_meshopt_compression"
+      ]
+    },
+    {
+      "filename": "radar-car-preview.glb",
+      "sourceFilename": "radar-car-lite.glb",
+      "yawDegrees": 0,
+      "sourceSha256": "52a8dcb9e2e2dd8c177abf273ab91a04fd0bcd20f130f3dcecbd15be504e53f8",
+      "outputSha256": "25ccef2ceee92f26e514560d118505f5bf628aa57863b64bd6583bb23ea02c0b",
+      "sourceBytes": 3856212,
+      "outputBytes": 1080888,
+      "triangles": 49595,
+      "meshes": 65,
+      "materials": 12,
+      "textures": 1,
+      "process": "Entrance only: welded mesh, simplification ratio .16/error .004; WebP color 768px/quality 86 and lossless non-color maps 512px; Meshopt medium with 14-bit position/UV and 10-bit normals."
+    }
+  ]
+}

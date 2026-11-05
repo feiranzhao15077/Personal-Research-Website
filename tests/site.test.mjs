@@ -15,6 +15,9 @@ const files = [
   'coursework/index.html', 'space/index.html', '404.html'
 ];
 const read = (file) => fs.readFileSync(path.join(dist, file), 'utf8');
+const modelFiles = fs.readdirSync(path.join(dist, 'models'), { withFileTypes: true })
+  .filter(entry => entry.isDirectory()).map(entry => `models/${entry.name}/index.html`);
+const allFiles = [...files, 'models/index.html', ...modelFiles];
 
 test('all required static routes exist with semantic metadata', () => {
   for (const file of files) {
@@ -48,7 +51,7 @@ test('navigation, core evidence and boundaries render in static HTML', () => {
 });
 
 test('local links and figure assets resolve in dist', () => {
-  for (const file of files) {
+  for (const file of allFiles) {
     const html = read(file);
     for (const match of html.matchAll(/(?:href|src)="(\/[^"]*)"/g)) {
       const url = new URL(match[1], 'https://draft.invalid');
@@ -61,41 +64,72 @@ test('local links and figure assets resolve in dist', () => {
   }
 });
 
-test('first-party CSS and interaction JavaScript stay within budget', () => {
+test('CSS, initial JavaScript and deferred 3D dependencies stay within separate budgets', () => {
   const cssDir = path.join(dist, '_astro');
   const cssFiles = fs.readdirSync(cssDir).filter((file) => file.endsWith('.css'));
   const bytes = cssFiles.reduce((n, file) => n + gzipSync(fs.readFileSync(path.join(cssDir,file))).length, 0);
   assert.ok(bytes < 50 * 1024, `CSS gzip ${bytes} > 50KB`);
-  // The budget applies to what a route can load, counting each dependency once.
-  // Include dynamic dependencies conservatively, even when a later action loads them.
-  for (const file of files) {
-    const html = read(file), seen = new Set();
+  // Independent module gzip sums are regression budgets, not measured network timing.
+  // Static imports and HTML modulepreloads belong to the initial graph. Dynamic
+  // imports remain counted in the total; only the known 3D routes get that allowance.
+  const measure = (html, includeDeferred) => {
+    const seen = new Set();
+    const resolve = (specifier, owner) => specifier.startsWith('.')
+      ? path.posix.normalize(path.posix.join(path.posix.dirname(owner), specifier))
+      : specifier.startsWith(base) ? decodeURIComponent(specifier.slice(base.length)) : null;
+    const imports = (source, owner) => {
+      const matches = [...source.matchAll(/\b(?:import|export)\s*(?:[^"'();]*?\bfrom\s*)?["']([^"']+)["']/g)];
+      if (includeDeferred) matches.push(...source.matchAll(/\bimport\s*\(\s*["']([^"']+)["']/g));
+      return matches.reduce((sum, match) => {
+        const dependency = resolve(match[1], owner);
+        return sum + (dependency?.endsWith('.js') ? visit(dependency) : 0);
+      }, 0);
+    };
     const visit = relative => {
       if (seen.has(relative)) return 0;
       seen.add(relative);
-      const source = fs.readFileSync(path.join(dist, relative), 'utf8');
-      let bytes = gzipSync(source).length;
-      const imports = [
-        ...source.matchAll(/\b(?:import|export)\s*(?:[^"'();]*?\bfrom\s*)?["']([^"']+)["']/g),
-        ...source.matchAll(/\bimport\s*\(\s*["']([^"']+)["']/g),
-      ];
-      for (const match of imports) {
-        if (!match[1].startsWith('.')) continue;
-        const dependency = path.posix.normalize(path.posix.join(path.posix.dirname(relative), match[1]));
-        if (dependency.endsWith('.js')) bytes += visit(dependency);
-      }
-      return bytes;
+      const source = read(relative);
+      return gzipSync(source).length + imports(source, relative);
     };
     let bytes = 0;
     for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
       if (/type="(?:application\/ld\+json|application\/json)"/.test(match[1])) continue;
-      const src = match[1].match(/src="([^"]+)"/)?.[1];
+      const src = match[1].match(/src="([^\"]+)"/)?.[1];
       if (src?.startsWith(base)) bytes += visit(decodeURIComponent(src.slice(base.length)));
-      else if (!src) bytes += gzipSync(match[2]).length;
+      else if (!src) bytes += gzipSync(match[2]).length + imports(match[2], 'index.html');
     }
-    assert.ok(bytes < 50 * 1024, `${file}: JS gzip ${bytes} > 50KiB per route`);
+    for (const match of html.matchAll(/<link\b[^>]*>/gi)) {
+      if (!/rel="modulepreload"/.test(match[0])) continue;
+      const href = match[0].match(/href="([^\"]+)"/)?.[1];
+      if (href?.startsWith(base)) bytes += visit(decodeURIComponent(href.slice(base.length)));
+    }
+    return { bytes, modules: seen };
+  };
+  for (const file of allFiles) {
+    const html = read(file);
+    const initial = measure(html, false);
+    const total = measure(html, true);
+    const permits3D = file === 'index.html' || file === 'space/index.html' || modelFiles.includes(file);
+    const totalLimit = (permits3D ? 250 : 50) * 1024;
+    assert.ok(initial.bytes < 50 * 1024, `${file}: initial JS gzip ${initial.bytes} > 50KiB`);
+    assert.ok(total.bytes < totalLimit, `${file}: total JS gzip ${total.bytes} > ${totalLimit / 1024}KiB`);
+    assert.ok(![...initial.modules].some(module => /model-stage-runtime\./.test(module)), `${file}: 3D runtime must remain deferred`);
+    assert.doesNotMatch(html, /<script[^>]+src="https?:/i, `${file}: third-party script`);
   }
-  for (const file of files) assert.doesNotMatch(read(file), /<script[^>]+src="https?:/i, `${file}: third-party script`);
+});
+
+test('every model detail has a native HD image entry before JavaScript enhancement', () => {
+  assert.ok(modelFiles.length > 0, 'model details must be included');
+  for (const file of modelFiles) {
+    const html = read(file);
+    const entry = html.match(/<a\b[^>]*data-model-gallery-toggle[^>]*>/)?.[0];
+    assert.ok(entry, `${file}: native image entry missing`);
+    const href = entry.match(/href="([^\"]+)"/)?.[1];
+    const firstImage = html.match(/<a\b[^>]*class="model-view-image[^\"]*"[^>]*href="([^\"]+)"/)?.[1];
+    assert.equal(href, firstImage, `${file}: native entry must open the first full-resolution view`);
+    assert.ok(href?.startsWith(base) && /\.webp$/.test(href), `${file}: full-resolution image link`);
+    assert.ok(fs.existsSync(path.join(dist, decodeURIComponent(href.slice(base.length)))), `${file}: HD image exists`);
+  }
 });
 
 test('gallery keeps full photos deferred and private space out of the sitemap', () => {

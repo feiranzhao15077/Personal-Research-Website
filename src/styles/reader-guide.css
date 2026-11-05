@@ -37,6 +37,7 @@
   to { background-position-x: calc(var(--frame-width) * var(--sprite-frames) * -1); }
 }
 .reader-guide[data-paused='true'] .guide-sprite, .reader-guide[data-blocked='true'] .guide-sprite { animation-play-state: paused; }
+html[data-scroll-active='true'] .guide-sprite { animation-play-state: paused; }
 .guide-trigger-label { padding: 3px 10px; border-radius: 12px; background: var(--paper); color: var(--blue); font-size: 12px; line-height: 1.5; }
 .guide-trigger:hover .guide-trigger-label, .guide-trigger:focus-visible .guide-trigger-label { background: var(--blue-pale); }
 .reader-guide[data-minimized='true'] .guide-sprite { display: none; }

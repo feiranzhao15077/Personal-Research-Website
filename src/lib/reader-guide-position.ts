@@ -1,4 +1,5 @@
-import { guideOccupiedSpace, guideOverlap, guideRestingPoint, type GuidePoint } from './reader-guide-safe-space';
+import { guideOccupiedSpace, guideOverlap, guideRestingPoint, type GuidePoint, type GuideBox } from './reader-guide-safe-space';
+import { isPageScrolling, onPageScrollChange } from './page-scroll';
 
 interface GuidePositionOptions {
   root: HTMLElement;
@@ -16,7 +17,7 @@ export function setupGuidePosition({ root, trigger, panel, speech, canAutoPlace,
   let manual: GuidePoint | null = null, rest: GuidePoint | null = null, position: GuidePoint | null = null;
   let card: Element | null = null, arrival: Animation | null = null;
   let drag: { id: number; startX: number; startY: number; x: number; y: number; maxX: number; maxY: number; moved: boolean } | null = null;
-  let frame = 0, scrollTimer = 0, suppressClick = false;
+  let frame = 0, placeTimer = 0, placeIdle = 0, suppressClick = false;
   const compact = matchMedia('(max-width: 700px)');
   const viewport = () => ({ width: document.documentElement.clientWidth, height: document.documentElement.clientHeight });
   const bottomEdge = () => compact.matches ? 80 : edge;
@@ -47,15 +48,19 @@ export function setupGuidePosition({ root, trigger, panel, speech, canAutoPlace,
     const perched = !!rect && !compact.matches && panel.hidden && root.dataset.perchReady === 'true'
       && root.dataset.blocked !== 'true' && root.dataset.minimized !== 'true'
       && rect.top > headerBottom + 150 && rect.top < height - 24 && rect.width >= 240;
-    root.dataset.perched = String(perched);
-    let anchor = trigger.getBoundingClientRect();
+    if (root.dataset.perched !== String(perched)) root.dataset.perched = String(perched);
+    let anchor: GuideBox & { width: number; height: number } = trigger.getBoundingClientRect();
     position = compact.matches ? null : perched && rect ? { x: rect.right - anchor.width - 10, y: rect.top - anchor.height + 5 } : manual ?? rest;
     if (position) {
       position = { x: clamp(position.x, edge, width - anchor.width - edge),
         y: clamp(position.y, edge, height - anchor.height - bottomEdge()) };
       if (!perched && manual) manual = position;
     }
-    applyPosition(); anchor = trigger.getBoundingClientRect();
+    applyPosition();
+    // A translation has a known final box; avoid forcing layout by measuring it again.
+    anchor = position ? { left: position.x, top: position.y,
+      right: position.x + anchor.width, bottom: position.y + anchor.height,
+      width: anchor.width, height: anchor.height } : trigger.getBoundingClientRect();
     if (!panel.hidden) {
       const panelWidth = Math.min(360, width - edge * 2);
       panel.style.width = `${panelWidth}px`;
@@ -68,7 +73,7 @@ export function setupGuidePosition({ root, trigger, panel, speech, canAutoPlace,
     }
     if (!speech.hidden) {
       const speechWidth = Math.min(perched && rect ? Math.max(190, rect.width - anchor.width - 24) : 258, 258, width - edge * 2);
-      speech.style.width = `${speechWidth}px`;
+      if (speech.style.width !== `${speechWidth}px`) speech.style.width = `${speechWidth}px`;
       const speechHeight = speech.getBoundingClientRect().height;
       let point: GuidePoint;
       if (perched && rect) {
@@ -93,7 +98,7 @@ export function setupGuidePosition({ root, trigger, panel, speech, canAutoPlace,
     }
   }
   const autoPlace = () => {
-    if (manual || card || drag || compact.matches || !canAutoPlace() || root.dataset.ready !== 'true') return;
+    if (isPageScrolling() || manual || card || drag || compact.matches || !canAutoPlace() || root.dataset.ready !== 'true') return;
     const rect = trigger.getBoundingClientRect();
     rest = guideRestingPoint(rect.width, rect.height, rest);
     layout();
@@ -101,6 +106,20 @@ export function setupGuidePosition({ root, trigger, panel, speech, canAutoPlace,
   const scheduleLayout = () => {
     if (!frame) frame = requestAnimationFrame(() => { frame = 0; layout(); });
   };
+  const cancelAutoPlace = () => {
+    clearTimeout(placeTimer);
+    if (placeIdle && 'cancelIdleCallback' in window) window.cancelIdleCallback(placeIdle);
+    placeTimer = placeIdle = 0;
+  };
+  const queueAutoPlace = () => {
+    cancelAutoPlace();
+    if (isPageScrolling()) return;
+    if (typeof window.requestIdleCallback === 'function') placeIdle = window.requestIdleCallback(() => { placeIdle = 0; autoPlace(); }, { timeout: 1000 });
+    else placeTimer = window.setTimeout(autoPlace, 80);
+  };
+  const stopScroll = onPageScrollChange(scrolling => {
+    if (scrolling) cancelAutoPlace(); else queueAutoPlace();
+  });
   const perch = (target: Element | null) => {
     const next = target?.closest('#research-map .b-card') ?? null;
     if (next === card) { layout(); return; }
@@ -185,13 +204,12 @@ export function setupGuidePosition({ root, trigger, panel, speech, canAutoPlace,
   });
   window.addEventListener('scroll', () => {
     if (card) scheduleLayout();
-    window.clearTimeout(scrollTimer);
-    scrollTimer = window.setTimeout(autoPlace, 140);
   }, { passive: true });
-  window.addEventListener('resize', () => { scheduleLayout(); window.clearTimeout(scrollTimer); scrollTimer = window.setTimeout(autoPlace, 140); });
+  window.addEventListener('resize', () => { scheduleLayout(); queueAutoPlace(); });
   window.visualViewport?.addEventListener('resize', scheduleLayout);
   compact.addEventListener('change', () => { finishDrag(true); layout(); autoPlace(); });
+  document.fonts.ready.then(autoPlace);
   document.addEventListener('transitionend', event => { if (event.target === card && event.propertyName === 'transform') scheduleLayout(); });
-  window.addEventListener('pagehide', () => { window.clearTimeout(scrollTimer); cancelAnimationFrame(frame); arrival?.cancel(); });
+  window.addEventListener('pagehide', event => { cancelAutoPlace(); cancelAnimationFrame(frame); frame = 0; arrival?.cancel(); if (!event.persisted) stopScroll(); });
   return { layout, restore, reset, perch, autoPlace, consumeClick: () => { const consumed = suppressClick; suppressClick = false; return consumed; } };
 }

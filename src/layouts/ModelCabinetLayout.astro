@@ -1,0 +1,55 @@
+---
+import '../styles/global.css';
+import '../styles/model-cabinet.css';
+import FigureViewer from '../components/FigureViewer.astro';
+import ReaderGuide from '../components/ReaderGuide.astro';
+import { sitePath } from '../lib/urls';
+interface Props { title: string; description: string; path: string; detail?: boolean; selector?: boolean; }
+const { title, description, path, detail = false, selector = false } = Astro.props;
+const canonical = new URL(sitePath(path), Astro.site);
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={`${title} · 赵斐然`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={sitePath('/favicon.svg')} type="image/svg+xml" />
+    <title>{title} · 赵斐然</title>
+  </head>
+  <body class:list={['model-cabinet-page', { 'model-detail-page': detail }]}>
+    <a class="skip-link" href="#cabinet-main">跳到建模作品</a>
+    <header class:list={['cabinet-nav', { 'cabinet-nav-with-controls': Astro.slots.has('controls') }]}>
+      <div class="cabinet-nav-primary">
+        <a class="cabinet-back" href={sitePath(detail ? '/models/' : '/#research-map')} data-cabinet-back data-cabinet-overview={!detail ? 'true' : undefined} aria-label={detail ? '返回建模展柜' : '返回科研主页'}><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg><span>返回</span></a>
+        <slot name="controls" />
+      </div>
+      <nav aria-label="展柜导航">{!selector && <a href={sitePath('/models/')} aria-current={!detail ? 'page' : undefined}>建模展柜</a>}<a href={sitePath('/space/')}>个人空间</a></nav>
+    </header>
+    <main class:list={['cabinet-shell', { 'model-selector-shell': selector }]} id="cabinet-main"><slot /></main>
+    {!detail && <footer class="cabinet-footer"><span>赵斐然 · 个人建模作品</span><a href={sitePath('/#about')}>关于我</a></footer>}
+    <FigureViewer label="建模作品放大查看" originalLabel="高清图" />
+    <ReaderGuide path={path} />
+    <script>
+      import { sitePath } from '../lib/urls';
+      // Preserve the visitor's entrance on a fresh overview navigation.
+      const back = document.querySelector<HTMLAnchorElement>('[data-cabinet-overview]');
+      if (back) {
+        try {
+          if (document.referrer) {
+            const from = new URL(document.referrer);
+            if (from.origin === location.origin && from.pathname === sitePath('/space/')) sessionStorage.setItem('zfr-model-cabinet-origin', 'space');
+            if (from.origin === location.origin && from.pathname === sitePath('/')) sessionStorage.setItem('zfr-model-cabinet-origin', 'research');
+          }
+          if (sessionStorage.getItem('zfr-model-cabinet-origin') === 'space') { back.href = sitePath('/space/'); back.setAttribute('aria-label', '返回个人空间'); }
+        } catch { /* The default homepage return remains available. */ }
+      }
+    </script>
+  </body>
+</html>

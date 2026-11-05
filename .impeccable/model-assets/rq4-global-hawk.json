@@ -1,0 +1,68 @@
+{
+  "sourceDirectory": "E:\\blender建模\\RQ4_Global_Hawk",
+  "process": "Standard/lite: WebP color at quality 92, lossless normal textures, Meshopt medium with 16-bit positions/UVs and 12-bit normals; mobile simplification only when explicitly requested by --mobile-ratio. Entrance preview: separate lower-resolution derivative as described in its record.",
+  "records": [
+    {
+      "filename": "rq4-global-hawk.glb",
+      "sourceFilename": "RQ4_Global_Hawk_Animated.glb",
+      "yawDegrees": 0,
+      "mobileRatio": 1,
+      "animations": [
+        "RQ4_Demonstration"
+      ],
+      "sourceSha256": "03edac0e3d29458b14fb34bbfe6ac2237f93655a1f94db01d693e666591391d6",
+      "outputSha256": "5915cd0592d2403dd266bef4f95de14d67339eaae548d3493ddf0d62452bc337",
+      "sourceBytes": 6909244,
+      "outputBytes": 1814244,
+      "triangles": 277314,
+      "meshes": 19,
+      "materials": 20,
+      "textures": 0,
+      "extensions": [
+        "KHR_materials_clearcoat",
+        "KHR_materials_ior",
+        "KHR_materials_transmission",
+        "KHR_mesh_quantization",
+        "EXT_meshopt_compression"
+      ]
+    },
+    {
+      "filename": "rq4-global-hawk-lite.glb",
+      "sourceFilename": "RQ4_Global_Hawk_Animated.glb",
+      "yawDegrees": 0,
+      "mobileRatio": 0.3,
+      "animations": [
+        "RQ4_Demonstration"
+      ],
+      "sourceSha256": "03edac0e3d29458b14fb34bbfe6ac2237f93655a1f94db01d693e666591391d6",
+      "outputSha256": "df6254d36e8942e8276fc14d57c89cfbd88a4582500d5fb8208c289d6b55b79b",
+      "sourceBytes": 6909244,
+      "outputBytes": 1120828,
+      "triangles": 126604,
+      "meshes": 19,
+      "materials": 20,
+      "textures": 0,
+      "extensions": [
+        "KHR_materials_clearcoat",
+        "KHR_materials_ior",
+        "KHR_materials_transmission",
+        "KHR_mesh_quantization",
+        "EXT_meshopt_compression"
+      ]
+    },
+    {
+      "filename": "rq4-global-hawk-preview.glb",
+      "sourceFilename": "RQ4_Global_Hawk_Animated.glb",
+      "yawDegrees": 0,
+      "sourceSha256": "03edac0e3d29458b14fb34bbfe6ac2237f93655a1f94db01d693e666591391d6",
+      "outputSha256": "54e2cb4953eba7149d199aae243c66fbec9226eeaedfc513a851332545364234",
+      "sourceBytes": 6909244,
+      "outputBytes": 888732,
+      "triangles": 89001,
+      "meshes": 19,
+      "materials": 20,
+      "textures": 0,
+      "process": "Entrance only: welded mesh, simplification ratio .16/error .004; WebP color 768px/quality 86 and lossless non-color maps 512px; Meshopt medium with 14-bit position/UV and 10-bit normals."
+    }
+  ]
+}

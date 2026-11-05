@@ -1,0 +1,69 @@
+title: F-22 猛禽
+designation: F-22
+summary: 沿着机鼻的棱线，看到尾部收拢的力量。
+software: Blender
+renderer: Cycles
+resolution: 1920 × 1280
+order: 3
+model3d:
+  desktop: /models/f22-raptor/f22-raptor.glb
+  mobile: /models/f22-raptor/f22-raptor-lite.glb
+  preview: /models/f22-raptor/f22-raptor-preview.glb
+  animation:
+    orbit: F22_Exhibition
+    orbitDuration: 8
+    orbitNode: F22_Raptor
+    assembly: F22_Exhibition
+    assemblyStart: 8
+    assemblyEnd: 10.1666666667
+    assemblyLabel: 弹舱
+    assemblyReturnLabel: 收起
+    assemblyView: underside
+    motion:
+      clip: F22_Exhibition
+      start: 14
+      end: 22
+      label: 起飞
+cover: ../../assets/models/f22-raptor/f22-raptor-cover.png
+spaceCover: ../../assets/models/f22-raptor/f22-raptor-cover.png
+views:
+  - id: hero
+    label: 整体展示
+    caption: 锋芒收进轮廓，细节留给目光。
+    alt: F-22 猛禽战斗机整体渲染，展示机鼻、机翼和双垂尾
+    image: ../../assets/models/f22-raptor/F22_Hero.png
+  - id: nose
+    label: 机鼻与座舱
+    caption: 一道侧棱，把机鼻与座舱连成流畅的线。
+    alt: F-22 机鼻曲面、侧棱和透明座舱罩的特写
+    image: ../../assets/models/f22-raptor/F22_Head_Detail.png
+  - id: rear
+    label: 尾部轮廓
+    caption: 双尾之间，扁平喷口藏着利落的收束。
+    alt: F-22 最新修正的尾部正视渲染，展示双垂尾和扁平喷口
+    image: ../../assets/models/f22-raptor/F22_Aft_Rear.png
+  - id: nozzles
+    label: 喷口细节
+    caption: 从边框到后机身，让每处衔接更自然。
+    alt: F-22 缩小宽度和高度后的喷口及后机身过渡特写
+    image: ../../assets/models/f22-raptor/F22_Nozzles_Detail.png
+  - id: gear
+    label: 起落架
+    caption: 飞向天空之前，也要稳稳站在地上。
+    alt: F-22 主起落架、轮胎、支柱和舱门结构特写
+    image: ../../assets/models/f22-raptor/F22_Aft_Gear.png
+  - id: bay
+    label: 弹舱打开
+    caption: 打开外壳，看看我画出的内部小世界。
+    alt: F-22 主弹舱和侧弹舱打开后的展示，内部结构为建模示意
+    image: ../../assets/models/f22-raptor/F22_Weapon_Bay_Open.png
+  - id: takeoff
+    label: 起飞姿态
+    caption: 把静止的想象，送进一段飞行。
+    alt: F-22 起飞姿态渲染，展示机身抬升与起落架收起
+    image: ../../assets/models/f22-raptor/F22_Takeoff.png
+  - id: top
+    label: 俯视轮廓
+    caption: 展开双翼，轮廓自有节奏。
+    alt: F-22 透明背景俯视图，展示完整机翼和尾翼轮廓
+    image: ../../assets/models/f22-raptor/F22_Top.png

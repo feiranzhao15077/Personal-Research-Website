@@ -1,0 +1,16 @@
+---
+import type { ModelAnimation } from '../lib/model-animation';
+interface Props { target?: string; placement?: 'inline' | 'header'; animation?: ModelAnimation; galleryTarget?: string; galleryHref?: string; }
+const { target, placement = 'inline', animation, galleryTarget, galleryHref } = Astro.props;
+const buttonClass = placement === 'header' ? 'cabinet-control' : undefined;
+---
+<div class={placement === 'header' ? 'cabinet-controls' : 'model-stage-actions'} role="group" aria-label={galleryTarget ? '模型展示控制' : '三维观察控制'} data-stage-controls-for={target}>
+  <button class={buttonClass} type="button" data-stage-action="front" aria-controls={target} disabled>前侧</button>
+  <button class={buttonClass} type="button" data-stage-action="top" aria-controls={target} disabled>俯视</button>
+  <button class={buttonClass} type="button" data-stage-action="rear" aria-controls={target} disabled>尾部</button>
+  <button class={buttonClass} type="button" data-stage-action="reset" aria-controls={target} disabled>复位</button>
+  {animation && <button class={buttonClass} type="button" data-stage-action="assembly" aria-controls={target} aria-pressed="false" disabled>{animation.assemblyLabel || '分解'}</button>}
+  {animation?.motion && <button class={buttonClass} type="button" data-stage-action="motion" aria-controls={target} aria-pressed="false" disabled>{animation.motion.label}</button>}
+  <button class={buttonClass} type="button" data-stage-action="rotate" aria-controls={target} aria-pressed="false" disabled><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M6.2 7a7 7 0 0 1 11.9-1L20 9M4 15l1.9 3a7 7 0 0 0 11.9-1" /></svg><span data-stage-rotate-label>转盘</span></button>
+  {galleryTarget && galleryHref && <a class={buttonClass} href={galleryHref} data-model-gallery-toggle>细节图</a>}
+</div>

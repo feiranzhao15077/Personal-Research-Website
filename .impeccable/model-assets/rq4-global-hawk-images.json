@@ -1,0 +1,68 @@
+{
+  "sourceDirectory": "E:/blender建模/RQ4_Global_Hawk",
+  "files": [
+    {
+      "file": "rq4-global-hawk-cover.png",
+      "sha256": "7636eb55ec2c312d95b8961d8fc5081f04264cb713a45495cbccf2fd66827b87",
+      "width": 1600,
+      "height": 1000,
+      "source": "Separately rendered original Blender model, studio geometry hidden, original hero camera reframed, transparent RGBA, Cycles CPU 32 samples. Original .blend not saved."
+    },
+    {
+      "file": "RQ4_Engine_Detail.png",
+      "sha256": "b31dae669c5220cb40279286196b8b6ae4e5ebd23a0d19998beeb452d9c89b2e",
+      "width": 1800,
+      "height": 1200,
+      "source": "E:/blender建模/RQ4_Global_Hawk/RQ4_Engine_Detail.png"
+    },
+    {
+      "file": "RQ4_EOIR_Detail.png",
+      "sha256": "2e4ea66f0085813e739a963997a379427a59c7c942039b7c0a1ccbd0e02bed08",
+      "width": 1800,
+      "height": 1200,
+      "source": "E:/blender建模/RQ4_Global_Hawk/RQ4_EOIR_Detail.png"
+    },
+    {
+      "file": "RQ4_Exploded.png",
+      "sha256": "ac0ed491a322ba7b5a75a03c5aeea4509e45cb338fff6bb1cda74a918c1f4919",
+      "width": 1800,
+      "height": 1200,
+      "source": "E:/blender建模/RQ4_Global_Hawk/RQ4_Exploded.png"
+    },
+    {
+      "file": "RQ4_Front.png",
+      "sha256": "7fb4f199f6cf3048cff5fe5a6cf824626d895bdb854cdb1e4320a6cfe78ab14f",
+      "width": 1800,
+      "height": 550,
+      "source": "E:/blender建模/RQ4_Global_Hawk/RQ4_Front.png"
+    },
+    {
+      "file": "RQ4_Gear_Detail.png",
+      "sha256": "3de672f35c693c05a2e01d93274d23979350635aaf4f1ea4d3d788cacbc11e3a",
+      "width": 1800,
+      "height": 1200,
+      "source": "E:/blender建模/RQ4_Global_Hawk/RQ4_Gear_Detail.png"
+    },
+    {
+      "file": "RQ4_Hero.png",
+      "sha256": "52478b8ca01be41b2598029ecf1ea5244bed00294468c6b47f6de94aed450f10",
+      "width": 1800,
+      "height": 1200,
+      "source": "E:/blender建模/RQ4_Global_Hawk/RQ4_Hero.png"
+    },
+    {
+      "file": "RQ4_Side.png",
+      "sha256": "c8c426801ead8b4c5aba3e79501633340218030dd10759653bf4b8a201d68e79",
+      "width": 1600,
+      "height": 650,
+      "source": "E:/blender建模/RQ4_Global_Hawk/RQ4_Side.png"
+    },
+    {
+      "file": "RQ4_Top.png",
+      "sha256": "1c88fc61db2847769ee1d9b1030cd99ec7fe97569f60dd205ea05444a23950e2",
+      "width": 1800,
+      "height": 900,
+      "source": "E:/blender建模/RQ4_Global_Hawk/RQ4_Top.png"
+    }
+  ]
+}

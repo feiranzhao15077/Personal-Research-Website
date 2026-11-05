@@ -1,4 +1,8 @@
-<dialog class="figure-viewer" aria-label="科研图放大查看">
+---
+interface Props { label?: string; originalLabel?: string; }
+const { label = '科研图放大查看', originalLabel = '原图' } = Astro.props;
+---
+<dialog class="figure-viewer" aria-label={label}>
   <div class="viewer-toolbar">
     <strong class="viewer-title"></strong>
     <div class="viewer-controls">
@@ -6,7 +10,7 @@
       <button type="button" data-viewer-action="fit">适应</button>
       <button type="button" data-viewer-action="actual">100%</button>
       <button type="button" data-viewer-action="in" aria-label="放大图片">＋</button>
-      <a class="viewer-original" target="_blank" rel="noopener" href="#">原图 ↗</a>
+      <a class="viewer-original" target="_blank" rel="noopener" href="#">{originalLabel} ↗</a>
       <button type="button" data-viewer-action="close" aria-label="关闭图片">关闭 ×</button>
     </div>
   </div>

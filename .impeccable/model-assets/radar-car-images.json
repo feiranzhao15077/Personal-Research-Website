@@ -1,0 +1,51 @@
+{
+  "sourceDirectory": "E:/blender建模/Radar_Car_Web_3D_Pack",
+  "sourcePack": "E:/blender建模/Radar_Car_Web_3D_Pack.zip",
+  "sourcePackSha256": "5c459a1f60c415e78e87cf7084bab5ce0099db3e0223d16bb85491d19bf78181",
+  "version": "R-04, static assembly",
+  "software": "Blender 5.2.1 LTS",
+  "renderer": "Cycles",
+  "imageProcessing": "Supplied renders copied without pixel modification; Astro prepares responsive WebP derivatives.",
+  "records": [
+    {
+      "filename": "radar-car-cover.png",
+      "source": "radar-car-cover.png",
+      "width": 3840,
+      "height": 2160,
+      "alpha": true,
+      "sha256": "ccc55104319c01781668bcc4c9950066349496098239721761f6acf92c9034c2"
+    },
+    {
+      "filename": "radar-car-detail-front.png",
+      "source": "radar-car-detail-front.png",
+      "width": 3840,
+      "height": 2160,
+      "alpha": true,
+      "sha256": "75fe425454ee52183d04c290237e1d7b7835c15088ca21d01d6df99fa179515e"
+    },
+    {
+      "filename": "radar-car-detail-side.png",
+      "source": "radar-car-detail-side.png",
+      "width": 3840,
+      "height": 2160,
+      "alpha": true,
+      "sha256": "50886f61a5f37cc66db23f1eb512626dda9e1b35304250f69b684a36afac7c01"
+    },
+    {
+      "filename": "radar-car-detail-rear.png",
+      "source": "radar-car-detail-rear.png",
+      "width": 3840,
+      "height": 2160,
+      "alpha": true,
+      "sha256": "3d628b19732c6a224ab72dea366ed654c1695eab4dd9a48b79684a92713e7958"
+    },
+    {
+      "filename": "radar-car-detail-radar.png",
+      "source": "radar-car-detail-radar.png",
+      "width": 3840,
+      "height": 2160,
+      "alpha": true,
+      "sha256": "f7fe962eede09ed17fbc2a37ae11d4f458f753c4aa6055923b41f164a051b089"
+    }
+  ]
+}

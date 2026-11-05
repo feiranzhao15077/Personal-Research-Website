@@ -1,0 +1,39 @@
+title: 歼-16
+designation: J-16
+summary: 把对天空的想象，做成可以细看的模型。
+software: Blender
+renderer: Cycles
+resolution: 3840 × 2160
+order: 1
+model3d:
+  desktop: /models/j16/j16.glb
+  mobile: /models/j16/j16-lite.glb
+  preview: /models/j16/j16-preview.glb
+cover: ../../assets/models/j16/J16_Web_01_Hero_B_Transparent.png
+spaceCover: ../../assets/models/j16/J16_Web_03_TopQuarter_B_Transparent.png
+views:
+  - id: hero
+    label: 前侧全景
+    caption: 从机鼻到双垂尾，看一眼完整的歼-16。
+    alt: 灰色歼-16建模的前侧四分之三视角，双座座舱、机翼和放下的起落架清晰可见
+    image: ../../assets/models/j16/J16_Web_01_Hero_A_Studio.png
+  - id: side
+    label: 侧面轮廓
+    caption: 换个方向，看机身的比例与轮廓。
+    alt: 歼-16模型的完整右侧正交视图
+    image: ../../assets/models/j16/J16_Web_02_Side_A_Studio.png
+  - id: top-quarter
+    label: 后上方视角
+    caption: 机翼、双垂尾与双发尾部，在这个角度相遇。
+    alt: 从后上方观察歼-16模型，展示机翼布局、双垂尾和两侧发动机喷口
+    image: ../../assets/models/j16/J16_Web_03_TopQuarter_A_Studio.png
+  - id: cockpit
+    label: 机鼻与座舱
+    caption: 靠近一点，看看双座座舱与机鼻的小细节。
+    alt: 歼-16模型的机鼻及双座透明座舱特写
+    image: ../../assets/models/j16/J16_Web_04_NoseCockpit_A_Studio.png
+  - id: exhaust
+    label: 尾部与喷口
+    caption: 金属环、尾喷口，还有藏在尾部的层次。
+    alt: 歼-16模型尾部的双发动机喷口及金属结构特写
+    image: ../../assets/models/j16/J16_Web_05_TailExhaust_A_Studio.png

@@ -1,0 +1,47 @@
+[
+  {
+    "route": "index.html",
+    "initialJSgzip": 48588,
+    "withDeferredJSgzip": 230819
+  },
+  {
+    "route": "projects/emvision/index.html",
+    "initialJSgzip": 9028,
+    "withDeferredJSgzip": 9028
+  },
+  {
+    "route": "projects/lowalt-md/index.html",
+    "initialJSgzip": 9028,
+    "withDeferredJSgzip": 9028
+  },
+  {
+    "route": "projects/em-trace/index.html",
+    "initialJSgzip": 9028,
+    "withDeferredJSgzip": 9028
+  },
+  {
+    "route": "projects/quadcontrol-lab/index.html",
+    "initialJSgzip": 9028,
+    "withDeferredJSgzip": 9028
+  },
+  {
+    "route": "coursework/index.html",
+    "initialJSgzip": 9028,
+    "withDeferredJSgzip": 9028
+  },
+  {
+    "route": "space/index.html",
+    "initialJSgzip": 17698,
+    "withDeferredJSgzip": 227604
+  },
+  {
+    "route": "models/index.html",
+    "initialJSgzip": 9018,
+    "withDeferredJSgzip": 9018
+  },
+  {
+    "route": "models/f22-raptor/index.html",
+    "initialJSgzip": 11984,
+    "withDeferredJSgzip": 194215
+  }
+]

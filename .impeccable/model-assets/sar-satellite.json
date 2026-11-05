@@ -1,0 +1,77 @@
+{
+  "sourceDirectory": "E:\\blender建模\\SAR_Satellite",
+  "process": "Source GLB preserved. Standard retains geometry; mobile weld/simplify ratio .35/error .002; textures WebP and meshopt medium. Preview ratio .16/error .004. Both supplied animations retained in all variants.",
+  "records": [
+    {
+      "filename": "sar-satellite.glb",
+      "sourceFilename": "SAR_Satellite_Web.glb",
+      "yawDegrees": 0,
+      "sourceSha256": "903c4731f98d6ebbd883c4bc99e3f0c38519e8041a57a492b25628f3c28e9545",
+      "outputSha256": "dd982b3c98d5f9370543e00813208861cd2a7921f3c96f14c9d03202b2057ae3",
+      "sourceBytes": 12104392,
+      "outputBytes": 2471332,
+      "triangles": 254428,
+      "meshes": 13,
+      "materials": 16,
+      "textures": 2,
+      "extensions": [
+        "KHR_materials_clearcoat",
+        "KHR_materials_ior",
+        "KHR_materials_specular",
+        "EXT_texture_webp",
+        "KHR_mesh_quantization",
+        "EXT_meshopt_compression"
+      ],
+      "mobileRatio": 1,
+      "animations": [
+        "Orbit_360",
+        "Exploded_Assembly"
+      ]
+    },
+    {
+      "filename": "sar-satellite-lite.glb",
+      "sourceFilename": "SAR_Satellite_Web.glb",
+      "yawDegrees": 0,
+      "sourceSha256": "903c4731f98d6ebbd883c4bc99e3f0c38519e8041a57a492b25628f3c28e9545",
+      "outputSha256": "35ff472a103a4d5f391391460fcb28ca8c16ec4d4b57a2b9d9ec005d87dfb3af",
+      "sourceBytes": 12104392,
+      "outputBytes": 1858456,
+      "triangles": 150137,
+      "meshes": 13,
+      "materials": 16,
+      "textures": 2,
+      "extensions": [
+        "KHR_materials_clearcoat",
+        "KHR_materials_ior",
+        "KHR_materials_specular",
+        "EXT_texture_webp",
+        "KHR_mesh_quantization",
+        "EXT_meshopt_compression"
+      ],
+      "mobileRatio": 0.35,
+      "animations": [
+        "Orbit_360",
+        "Exploded_Assembly"
+      ]
+    },
+    {
+      "filename": "sar-satellite-preview.glb",
+      "sourceFilename": "SAR_Satellite_Web.glb",
+      "yawDegrees": 0,
+      "sourceSha256": "903c4731f98d6ebbd883c4bc99e3f0c38519e8041a57a492b25628f3c28e9545",
+      "outputSha256": "49d24e96ce1aa449302daeca53a811f2bbae77a1bb5c2ecfb7a9c30d24823db1",
+      "sourceBytes": 12104392,
+      "outputBytes": 1658100,
+      "triangles": 137599,
+      "meshes": 13,
+      "materials": 16,
+      "textures": 2,
+      "process": "Entrance only: welded mesh, simplification ratio .16/error .004; WebP color 768px/quality 86 and lossless non-color maps 512px; Meshopt medium with 14-bit position/UV and 10-bit normals.",
+      "mobileRatio": 1,
+      "animations": [
+        "Orbit_360",
+        "Exploded_Assembly"
+      ]
+    }
+  ]
+}

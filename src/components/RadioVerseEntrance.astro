@@ -1,0 +1,40 @@
+---
+import { sitePath } from '../lib/urls';
+---
+<a
+  class="radioverse-entry"
+  href={sitePath('/radioverse/')}
+  data-guide-hint="我把旋翼微多普勒做成了一个小实验台～调一调参数，看看回波和频谱怎么变吧！这里用的是简化物理模型哦。"
+>
+  <span class="entry-heading">
+    <strong>RadioVerse</strong>
+    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 26 26 6M7 6h19v19" /></svg>
+  </span>
+  <span class="entry-title">旋翼微多普勒交互实验</span>
+  <span class="entry-description">调一调参数，看看旋翼运动如何改变回波与时频谱。</span>
+  <span class="entry-footer"><small>简化物理模型</small><span>进入实验</span></span>
+</a>
+<style>
+  .radioverse-entry {
+    display: flex; flex-direction: column; gap: .5rem; min-height: 212px;
+    margin-top: 1.5rem; padding: 1.5rem; border: 1px solid var(--line);
+    color: var(--blue); background: var(--white); text-decoration: none;
+    transition: background-color .3s ease, border-color .3s ease;
+  }
+  .entry-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .entry-heading strong { font: 500 clamp(1.6rem, 2.2vw, 2rem)/1.25 var(--serif); }
+  .entry-heading svg { width: 28px; height: 28px; flex: 0 0 28px; stroke: currentColor; stroke-width: 1.5; transition: transform .3s ease; }
+  .entry-title { font-size: .95rem; font-weight: 600; }
+  .entry-description { margin-top: .25rem; max-width: 32ch; font-size: .9rem; line-height: 1.75; }
+  .entry-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: 1rem; }
+  .entry-footer small { font-size: .78rem; }
+  .entry-footer > span { font-size: .85rem; text-decoration: underline; text-underline-offset: .3em; }
+  .radioverse-entry:focus-visible, .radioverse-entry:active { color: var(--blue-deep); background: var(--blue-pale); border-color: var(--blue); }
+  .radioverse-entry:focus-visible svg, .radioverse-entry:active svg { transform: translate(3px, -3px); }
+  @media (hover: hover) and (pointer: fine) {
+    .radioverse-entry:hover { color: var(--blue-deep); background: var(--blue-pale); border-color: var(--blue); }
+    .radioverse-entry:hover svg { transform: translate(3px, -3px); }
+  }
+  @media (max-width: 700px) { .radioverse-entry { min-height: 200px; } }
+  @media (prefers-reduced-motion: reduce) { .radioverse-entry, .entry-heading svg { transition: none; } }
+</style>

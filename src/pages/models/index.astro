@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import ModelCabinetLayout from '../../layouts/ModelCabinetLayout.astro';
+import { sitePath } from '../../lib/urls';
+import '../../styles/model-selector.css';
+
+const models = (await getCollection('models')).sort((a, b) => a.data.order - b.data.order);
+const works = await Promise.all(models.map(async model => ({
+  model,
+  image: await getImage({ src: model.data.spaceCover, width: 640, format: 'webp', quality: 88 }),
+})));
+const slotCount = Math.max(1, works.length);
+const slots = Array.from({ length: slotCount }, (_, i) => i);
+const angleStep = 360 / slotCount;
+const sectorHalfAngle = angleStep / 2 - 4;
+const polar = (radius: number, angle: number) => ({
+  x: 360 + Math.cos(angle * Math.PI / 180) * radius,
+  y: 360 + Math.sin(angle * Math.PI / 180) * radius,
+});
+const sectorPath = (angle: number) => {
+  const outerStart = polar(306, angle - sectorHalfAngle);
+  const outerEnd = polar(306, angle + sectorHalfAngle);
+  const innerStart = polar(157, angle - sectorHalfAngle);
+  const innerEnd = polar(157, angle + sectorHalfAngle);
+  return `M ${outerStart.x} ${outerStart.y} A 306 306 0 0 1 ${outerEnd.x} ${outerEnd.y} L ${innerEnd.x} ${innerEnd.y} A 157 157 0 0 0 ${innerStart.x} ${innerStart.y} Z`;
+};
+---
+<ModelCabinetLayout title="建模展柜" description="选择赵斐然的个人建模作品，拖动模型，看看不同角度与细节。" path="/models/" selector>
+  <section class="model-selector" data-model-selector aria-label="选择建模作品">
+    {works.length > 0 && <div class="model-ring-page" id="model-ring-1">
+      <div class="model-ring-frame">
+        <div class="model-ring-center">
+          <h1>建模展柜</h1>
+          <p>选一个模型，<br />走近看看。</p>
+        </div>
+        <svg class="model-selector-ring" viewBox="0 0 720 720" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="全部建模作品">
+          <g class="model-ring-depth" transform="translate(0 10)" aria-hidden="true">{slots.map(slot => <path d={sectorPath(-90 + slot * angleStep)} />)}</g>
+          {slots.map(slot => {
+            const work = works[slot];
+            const angle = -90 + slot * angleStep;
+            if (!work) return <path class="model-sector-empty" d={sectorPath(angle)} aria-hidden="true" />;
+            const { model, image } = work;
+            const point = polar(234, angle);
+            const width = Math.min(280, angleStep * 5);
+            const height = width * 9 / 16;
+            return <a class="model-sector" href={sitePath(`/models/${model.id}/`)} aria-label={`查看${model.data.title}三维模型`} data-guide-hint="这些都是我用 Blender 完成的建模哦～点选一个模型，就能拖动着看看不同角度啦！">
+              <path class="model-sector-surface" d={sectorPath(angle)} />
+              <image class="model-sector-image" href={image.src} x={point.x - width / 2} y={point.y - height / 2 - 24} width={width} height={height} preserveAspectRatio="xMidYMid meet" aria-hidden="true" />
+              <text class="model-sector-name" x={point.x} y={point.y + 54} text-anchor="middle" aria-hidden="true">{model.data.title}</text>
+            </a>;
+          })}
+        </svg>
+      </div>
+    </div>}
+    {models.length === 0 && <div class="model-selector-empty"><h1>建模展柜</h1><p>这里暂时还没有作品。</p><a href={sitePath('/space/')}>逛逛个人空间</a></div>}
+  </section>
+</ModelCabinetLayout>

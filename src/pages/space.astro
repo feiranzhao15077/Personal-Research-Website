@@ -2,6 +2,8 @@
 import { getImage } from 'astro:assets';
 import { sitePath } from '../lib/urls';
 import PersonalSpaceOpening from '../components/PersonalSpaceOpening.astro';
+import ModelCabinetEntrance from '../components/ModelCabinetEntrance.astro';
+import ReaderGuide from '../components/ReaderGuide.astro';
 import '../styles/personal-space.css';
 
 const photoImports = import.meta.glob<{ default: import('astro').ImageMetadata }>('../assets/personal/photo-*.jpg', { eager: true });
@@ -70,9 +72,12 @@ const slots = await Promise.all(Object.entries(photoImports).sort(([a], [b]) => 
       <span class="space-owner">赵斐然</span>
     </header>
     <main id="space-main">
-      <div class="space-intro">
-        <h1>个人空间<span aria-hidden="true">.</span></h1>
-        <p>自由作品，生活片段。</p>
+      <div class="space-heading-row">
+        <div class="space-intro">
+          <h1>个人空间<span aria-hidden="true">.</span></h1>
+          <p>自由作品，生活片段。</p>
+        </div>
+        <ModelCabinetEntrance variant="personal" />
       </div>
       <section class="space-stage" aria-label="作品与生活记录画廊" aria-describedby="space-help">
         <ol class="space-cards">
@@ -103,6 +108,7 @@ const slots = await Promise.all(Object.entries(photoImports).sort(([a], [b]) => 
       <div class="dialog-photo-footer"><div class="dialog-photo-description"><h2 id="space-dialog-title">照片</h2><p id="space-photo-caption" data-space-caption></p></div><div class="dialog-photo-actions"><button type="button" data-photo-rotate aria-label="顺时针旋转照片">旋转</button><button type="button" data-photo-step="-1" aria-label="上一张照片">上一张</button><button type="button" data-photo-step="1" aria-label="下一张照片">下一张</button></div></div>
     </dialog>
     <PersonalSpaceOpening />
+    <ReaderGuide path="/space/" />
     <script>
       import { setupPersonalSpace } from '../lib/personal-space';
       import { setupPersonalSpaceOpening } from '../lib/personal-space-opening';

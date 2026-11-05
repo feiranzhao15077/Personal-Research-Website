@@ -76,6 +76,7 @@ export function setupReaderGuide() {
   const syncAvailability = () => {
     const blocked = document.hidden || document.body.style.overflow === 'hidden'
       || document.documentElement.classList.contains('hero-intro-pending')
+      || document.documentElement.classList.contains('space-opening-pending')
       || !!document.querySelector('dialog[open]');
     root.dataset.blocked = String(blocked); root.inert = blocked;
     if (blocked) hintController.dismiss();

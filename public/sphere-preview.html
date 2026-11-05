@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>科研项目全息星图预览 - 浅绿幻境</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #0a1f15 0%, #020805 100%);
+      font-family: 'JetBrains Mono', monospace, sans-serif;
+      color: #a8e6cf;
+    }
+    #canvas-container {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    .overlay {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+      pointer-events: none;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin: 0;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: -webkit-linear-gradient(#fff, #a8e6cf);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p {
+      margin: 5px 0 0 0;
+      font-size: 0.85rem;
+      color: rgba(168, 230, 207, 0.7);
+    }
+    .back-btn {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      z-index: 10;
+      padding: 10px 20px;
+      border: 1px solid rgba(168, 230, 207, 0.5);
+      background: rgba(2, 8, 5, 0.7);
+      color: #a8e6cf;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .back-btn:hover {
+      background: rgba(168, 230, 207, 0.15);
+      box-shadow: 0 0 10px rgba(168, 230, 207, 0.3);
+    }
+    .hud {
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      pointer-events: none;
+    }
+    .hud-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0.6;
+    }
+    .hud-dot {
+      width: 4px;
+      height: 4px;
+      background: #a8e6cf;
+      border-radius: 50%;
+    }
+    .hud-text {
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+    }
+    .scroll-hint {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 2px;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h1>Emerald Nexus</h1>
+    <p>Bio-Tech Project Portal [Preview Build]</p>
+  </div>
+  
+  <div class="hud">
+    <div class="hud-line"><div class="hud-dot"></div><div class="hud-text">GRAVITY SENSORS: ACTIVE</div></div>
+    <div class="hud-line"><div class="hud-dot"></div><div class="hud-text">PARTICLE COUNT: 3,000</div></div>
+    <div class="hud-line"><div class="hud-dot"></div><div class="hud-text">METEOR SHIELD: DEPLOYED</div></div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>[ 滚轮放大/缩小宇宙 ]</span>
+  </div>
+
+  <a href="/" class="back-btn">RETURN TO REALITY</a>
+
+  <div id="canvas-container"></div>
+
+  <!-- Load Three.js and GSAP for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <script>
+    // 1. Setup Scene, Camera, Renderer
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    
+    // Emerald Fog
+    scene.fog = new THREE.FogExp2(0x020805, 0.001);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2500);
+    camera.position.z = 450;
+    
+    let targetZoom = camera.position.z;
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
+
+    // 2. Create the Sphere Structure
+    const sphereGroup = new THREE.Group();
+    scene.add(sphereGroup);
+
+    // Core Wireframe Sphere (Neon Emerald energy)
+    const coreGeometry = new THREE.IcosahedronGeometry(120, 2);
+    const coreMaterial = new THREE.MeshBasicMaterial({ 
+      color: 0x2ecc71, // Bright Emerald Green
+      wireframe: true, 
+      transparent: true, 
+      opacity: 0.08
+    });
+    const coreSphere = new THREE.Mesh(coreGeometry, coreMaterial);
+    sphereGroup.add(coreSphere);
+
+    // Inner Glowing Solid Sphere (Dark forest core)
+    const innerGeometry = new THREE.SphereGeometry(118, 32, 32);
+    const innerMaterial = new THREE.MeshBasicMaterial({
+      color: 0x011a0e, // Very dark green
+      transparent: true,
+      opacity: 0.25,
+      blending: THREE.AdditiveBlending
+    });
+    const innerSphere = new THREE.Mesh(innerGeometry, innerMaterial);
+    sphereGroup.add(innerSphere);
+
+    // 3. Create Starfield / Particles on Sphere Surface
+    const particleCount = 2000;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+
+    const color1 = new THREE.Color(0xa8e6cf); // Light Mint Green
+    const color2 = new THREE.Color(0x2ecc71); // Emerald Green
+    const color3 = new THREE.Color(0x1abc9c); // Teal / Aqua
+    const color4 = new THREE.Color(0xffffff); // Pure White
+
+    const colorPalette = [color1, color2, color3, color4];
+
+    for (let i = 0; i < particleCount; i++) {
+      const phi = Math.acos(-1 + (2 * i) / particleCount);
+      const theta = Math.sqrt(particleCount * Math.PI) * phi;
+      
+      const r = 125 + Math.random() * 8; 
+
+      positions[i * 3] = r * Math.cos(theta) * Math.sin(phi);
+      positions[i * 3 + 1] = r * Math.sin(theta) * Math.sin(phi);
+      positions[i * 3 + 2] = r * Math.cos(phi);
+
+      const c1 = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+      const c2 = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+      const mixedColor = c1.clone().lerp(c2, Math.random());
+      
+      colors[i * 3] = mixedColor.r;
+      colors[i * 3 + 1] = mixedColor.g;
+      colors[i * 3 + 2] = mixedColor.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const createCircleTexture = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 64;
+      canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+      grad.addColorStop(0.2, 'rgba(255, 255, 255, 0.8)');
+      grad.addColorStop(0.5, 'rgba(255, 255, 255, 0.2)');
+      grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 64, 64);
+      return new THREE.CanvasTexture(canvas);
+    };
+
+    const starTexture = createCircleTexture();
+
+    const particleMaterial = new THREE.PointsMaterial({
+      size: 4,
+      vertexColors: true,
+      map: starTexture,
+      transparent: true,
+      opacity: 0.6,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+
+    const particleSphere = new THREE.Points(geometry, particleMaterial);
+    sphereGroup.add(particleSphere);
+
+    // 4. Create Major Nodes
+    const nodeCount = 12;
+    const nodeGeometry = new THREE.BufferGeometry();
+    const nodePositions = new Float32Array(nodeCount * 3);
+    
+    for (let i = 0; i < nodeCount; i++) {
+      const u = Math.random();
+      const v = Math.random();
+      const theta = u * 2.0 * Math.PI;
+      const phi = Math.acos(2.0 * v - 1.0);
+      const r = 135; 
+
+      nodePositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      nodePositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      nodePositions[i * 3 + 2] = r * Math.cos(phi);
+    }
+    
+    nodeGeometry.setAttribute('position', new THREE.BufferAttribute(nodePositions, 3));
+    
+    const nodeMaterial = new THREE.PointsMaterial({
+      size: 25,
+      color: 0xa8e6cf, // Light Mint Glow
+      map: starTexture,
+      transparent: true,
+      opacity: 1.0,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+    
+    const nodePoints = new THREE.Points(nodeGeometry, nodeMaterial);
+    sphereGroup.add(nodePoints);
+
+    // Connecting lines (Constellation effect)
+    const lineMaterial = new THREE.LineBasicMaterial({ 
+      color: 0x2ecc71, 
+      transparent: true, 
+      opacity: 0.2,
+      blending: THREE.AdditiveBlending
+    });
+    
+    const lineGeo = new THREE.BufferGeometry();
+    const linePoints = [];
+    
+    for(let i=0; i<nodeCount; i++) {
+      const x1 = nodePositions[i*3], y1 = nodePositions[i*3+1], z1 = nodePositions[i*3+2];
+      let closest = [];
+      for(let j=0; j<nodeCount; j++) {
+        if (i === j) continue;
+        const x2 = nodePositions[j*3], y2 = nodePositions[j*3+1], z2 = nodePositions[j*3+2];
+        const dist = Math.sqrt((x1-x2)**2 + (y1-y2)**2 + (z1-z2)**2);
+        closest.push({index: j, dist: dist});
+      }
+      closest.sort((a,b) => a.dist - b.dist);
+      
+      for(let k=0; k<2; k++) {
+        const j = closest[k].index;
+        const x2 = nodePositions[j*3], y2 = nodePositions[j*3+1], z2 = nodePositions[j*3+2];
+        linePoints.push(
+          new THREE.Vector3(x1, y1, z1),
+          new THREE.Vector3(x2, y2, z2)
+        );
+      }
+    }
+    lineGeo.setFromPoints(linePoints);
+    const lines = new THREE.LineSegments(lineGeo, lineMaterial);
+    sphereGroup.add(lines);
+
+    // 5. Ambient Background Dust (The Galaxy)
+    const dustGeo = new THREE.BufferGeometry();
+    const dustPos = new Float32Array(1500 * 3);
+    const dustColors = new Float32Array(1500 * 3);
+    for(let i=0; i<1500; i++) {
+      const radius = 200 + Math.random() * 800;
+      const angle = Math.random() * Math.PI * 2;
+      const height = (Math.random() - 0.5) * 300;
+      
+      dustPos[i*3] = Math.cos(angle) * radius;
+      dustPos[i*3+1] = height;
+      dustPos[i*3+2] = Math.sin(angle) * radius - 200;
+      
+      const isGreen = Math.random() > 0.6;
+      dustColors[i*3] = isGreen ? 0.6 : 1.0;
+      dustColors[i*3+1] = isGreen ? 0.9 : 1.0;
+      dustColors[i*3+2] = isGreen ? 0.7 : 1.0;
+    }
+    dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+    dustGeo.setAttribute('color', new THREE.BufferAttribute(dustColors, 3));
+    
+    const dustMat = new THREE.PointsMaterial({
+      size: 2,
+      vertexColors: true,
+      map: starTexture,
+      transparent: true,
+      opacity: 0.5,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+    const dustParticles = new THREE.Points(dustGeo, dustMat);
+    scene.add(dustParticles);
+
+    // 5.5 Meteors (Shooting Stars)
+    const meteorCount = 15;
+    const meteorGeo = new THREE.BufferGeometry();
+    const meteorPos = new Float32Array(meteorCount * 2 * 3);
+    const meteorMaterial = new THREE.LineBasicMaterial({
+      color: 0xa8e6cf,
+      transparent: true,
+      opacity: 0.8,
+      blending: THREE.AdditiveBlending
+    });
+
+    const meteors = [];
+    for (let i = 0; i < meteorCount; i++) {
+      meteors.push({
+        active: false,
+        timer: Math.random() * 300,
+        x: 0, y: 0, z: 0,
+        vx: 0, vy: 0, vz: 0,
+        length: 0
+      });
+    }
+    const meteorLines = new THREE.LineSegments(meteorGeo, meteorMaterial);
+    scene.add(meteorLines);
+
+    // 6. Interaction: Mouse Tracking & Scrolling
+    let mouseX = 0;
+    let mouseY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    const windowHalfX = window.innerWidth / 2;
+    const windowHalfY = window.innerHeight / 2;
+
+    document.addEventListener('mousemove', (event) => {
+      mouseX = (event.clientX - windowHalfX) * 0.001;
+      mouseY = (event.clientY - windowHalfY) * 0.001;
+    });
+
+    window.addEventListener('wheel', (event) => {
+      targetZoom += event.deltaY * 0.5;
+      targetZoom = Math.max(150, Math.min(targetZoom, 1000));
+    }, { passive: true });
+
+    // Intro Animation & Heartbeat
+    gsap.fromTo(sphereGroup.scale, 
+      { x: 0.01, y: 0.01, z: 0.01 }, 
+      { 
+        x: 1, y: 1, z: 1, 
+        duration: 3, 
+        ease: "power3.out",
+        onComplete: () => {
+          // Heartbeat pulse effect (lub-dub)
+          const heartTl = gsap.timeline({ repeat: -1, repeatDelay: 1.5 });
+          heartTl.to(sphereGroup.scale, { x: 1.03, y: 1.03, z: 1.03, duration: 0.15, ease: "power1.out" })
+                 .to(sphereGroup.scale, { x: 1, y: 1, z: 1, duration: 0.15, ease: "power1.in" })
+                 .to(sphereGroup.scale, { x: 1.015, y: 1.015, z: 1.015, duration: 0.12, ease: "power1.out" })
+                 .to(sphereGroup.scale, { x: 1, y: 1, z: 1, duration: 0.12, ease: "power1.in" });
+        }
+      }
+    );
+
+    gsap.fromTo(sphereGroup.rotation,
+      { y: -Math.PI * 1.5 },
+      { y: 0, duration: 3, ease: "power3.out" }
+    );
+
+    gsap.to(nodeMaterial, {
+      size: 30,
+      opacity: 0.8,
+      duration: 1.2,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut"
+    });
+
+    // 7. Animation Loop
+    const clock = new THREE.Clock();
+    let baseRotationY = 0;
+    let baseRotationX = 0;
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const time = clock.getElapsedTime();
+
+      baseRotationY += 0.0015;
+      baseRotationX += 0.0005;
+      
+      dustParticles.rotation.y += 0.0003;
+
+      // Meteors Logic
+      for (let i = 0; i < meteorCount; i++) {
+        let m = meteors[i];
+        if (!m.active) {
+          m.timer -= 1;
+          if (m.timer <= 0) {
+            m.active = true;
+            m.x = (Math.random() - 0.5) * 1500;
+            m.y = 800 + Math.random() * 400;
+            m.z = (Math.random() - 0.5) * 1000 - 300;
+            m.vx = (Math.random() - 0.5) * 15;
+            m.vy = -15 - Math.random() * 20;
+            m.vz = Math.random() * 10;
+            m.length = 80 + Math.random() * 100;
+          }
+        } else {
+          m.x += m.vx;
+          m.y += m.vy;
+          m.z += m.vz;
+          if (m.y < -1000) {
+            m.active = false;
+            m.timer = 50 + Math.random() * 200; // Reset
+          }
+        }
+        
+        const idx = i * 6;
+        if (m.active) {
+          meteorPos[idx] = m.x;
+          meteorPos[idx+1] = m.y;
+          meteorPos[idx+2] = m.z;
+          meteorPos[idx+3] = m.x - m.vx * (m.length/15);
+          meteorPos[idx+4] = m.y - m.vy * (m.length/15);
+          meteorPos[idx+5] = m.z - m.vz * (m.length/15);
+        } else {
+          meteorPos[idx] = meteorPos[idx+1] = meteorPos[idx+2] = 0;
+          meteorPos[idx+3] = meteorPos[idx+4] = meteorPos[idx+5] = 0;
+        }
+      }
+      meteorGeo.setAttribute('position', new THREE.BufferAttribute(meteorPos, 3));
+      meteorGeo.attributes.position.needsUpdate = true;
+
+      currentX += (mouseX * 1.5 - currentX) * 0.05;
+      currentY += (mouseY * 1.5 - currentY) * 0.05;
+      
+      sphereGroup.rotation.y = baseRotationY + currentX;
+      sphereGroup.rotation.x = baseRotationX + currentY;
+      
+      camera.position.z += (targetZoom - camera.position.z) * 0.08;
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // 8. Handle Window Resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+  </script>
+</body>
+</html>

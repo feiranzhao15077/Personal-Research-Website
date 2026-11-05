@@ -27,7 +27,14 @@ const projects = fs.readdirSync(path.join(directory, 'projects')).filter(file =>
   };
 });
 const target = path.join(root, 'functions/_data/guide-knowledge.json');
+const modelDirectory = path.join(directory, 'models');
+const models = fs.existsSync(modelDirectory) ? fs.readdirSync(modelDirectory).filter(file => file.endsWith('.yaml')).map(file => {
+  const model = readYaml(path.join(modelDirectory, file));
+  return { slug: file.replace(/\.yaml$/, ''), title: model.title, designation: model.designation,
+    summary: model.summary, software: model.software, renderer: model.renderer, resolution: model.resolution,
+    views: model.views.map(view => ({ label: view.label, caption: view.caption })) };
+}) : [];
 fs.mkdirSync(path.dirname(target), { recursive: true });
 fs.writeFileSync(target, JSON.stringify({ name: profile.publicName.zh, school: profile.schoolWording.zh,
-  identity: profile.researchIdentity.zh, projects }, null, 2) + '\n');
-console.log(`Guide knowledge generated from ${projects.length} approved project records.`);
+  identity: profile.researchIdentity.zh, projects, models }, null, 2) + '\n');
+console.log(`Guide knowledge generated from ${projects.length} approved projects and ${models.length} model records.`);

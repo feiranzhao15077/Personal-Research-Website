@@ -1,0 +1,34 @@
+title: 雷达小车
+designation: R-04
+summary: 四轮底盘托起一块雷达，机械与感知在这里相遇。
+software: Blender
+renderer: Cycles
+resolution: 3840 × 2160
+order: 4
+model3d:
+  desktop: /models/radar-car/radar-car.glb
+  mobile: /models/radar-car/radar-car-lite.glb
+  preview: /models/radar-car/radar-car-preview.glb
+cover: ../../assets/models/radar-car/radar-car-cover.png
+spaceCover: ../../assets/models/radar-car/radar-car-cover.png
+views:
+  - id: front
+    label: 前侧全景
+    caption: 从车头看过去，轮胎、底盘和雷达各就其位。
+    alt: 灰色四轮雷达小车的前侧全景，展示雷达面板、越野轮胎及蓝色灯光
+    image: ../../assets/models/radar-car/radar-car-detail-front.png
+  - id: side
+    label: 侧面轮廓
+    caption: 四轮之间，留出悬挂与底盘的空间。
+    alt: 雷达小车的左侧正投影，展示车身轮廓、轮胎和离地间隙
+    image: ../../assets/models/radar-car/radar-car-detail-side.png
+  - id: rear
+    label: 后上方视角
+    caption: 绕到后方，看看雷达背板、接口和天线。
+    alt: 雷达小车的后上方视角，展示雷达背板、车身接口及两根天线
+    image: ../../assets/models/radar-car/radar-car-detail-rear.png
+  - id: radar
+    label: 雷达细节
+    caption: 藏在面板背后的，是散热结构与俯仰支座。
+    alt: 小车雷达背部特写，展示散热结构、俯仰支座和执行器
+    image: ../../assets/models/radar-car/radar-car-detail-radar.png

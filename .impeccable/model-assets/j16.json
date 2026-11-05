@@ -1,0 +1,57 @@
+{
+  "sourceDirectory": "E:\\无人机unity\\ArtSource\\Aircraft\\J16\\WebShowcase\\J16_Web_3D_Pack",
+  "process": "Standard/lite: WebP color at quality 92, lossless normal textures, Meshopt medium with 16-bit positions/UVs and 12-bit normals; no additional decimation. Entrance preview: separate lower-resolution derivative as described in its record.",
+  "records": [
+    {
+      "filename": "j16.glb",
+      "sourceSha256": "b5ae8186eb76eebc48a0846bf650b5e59f23e8aa1a53c37196af4765e0e87c62",
+      "outputSha256": "38bc9396ba8a480ad61b381df688caaacfb5c0985bba79d672ad83d10b132ae1",
+      "sourceBytes": 34162032,
+      "outputBytes": 9993904,
+      "triangles": 643309,
+      "meshes": 32,
+      "materials": 32,
+      "textures": 32,
+      "extensions": [
+        "KHR_materials_clearcoat",
+        "KHR_materials_ior",
+        "KHR_materials_transmission",
+        "EXT_texture_webp",
+        "KHR_mesh_quantization",
+        "EXT_meshopt_compression"
+      ]
+    },
+    {
+      "filename": "j16-lite.glb",
+      "sourceSha256": "dc7c0c2bf001dcb2fec976696b7538f558bd57b6772c8bc70a353f98719fa76c",
+      "outputSha256": "b1874f619c621adbb72de93a1839fe7397221e2353ff01cd52e9f414b4ecaf3c",
+      "sourceBytes": 10694120,
+      "outputBytes": 3792308,
+      "triangles": 215778,
+      "meshes": 32,
+      "materials": 32,
+      "textures": 32,
+      "extensions": [
+        "KHR_materials_clearcoat",
+        "KHR_materials_ior",
+        "KHR_materials_transmission",
+        "EXT_texture_webp",
+        "KHR_mesh_quantization",
+        "EXT_meshopt_compression"
+      ]
+    },
+    {
+      "filename": "j16-preview.glb",
+      "sourceFilename": "j16-lite.glb",
+      "sourceSha256": "dc7c0c2bf001dcb2fec976696b7538f558bd57b6772c8bc70a353f98719fa76c",
+      "outputSha256": "dde1451e6b00df14fae92f495afe28da6a92863a61cc27bf9a1dab5737efb49e",
+      "sourceBytes": 10694120,
+      "outputBytes": 2135408,
+      "triangles": 53752,
+      "meshes": 32,
+      "materials": 32,
+      "textures": 28,
+      "process": "Entrance only: welded mesh, simplification ratio .16/error .004; WebP color 768px/quality 86 and lossless non-color maps 512px; Meshopt medium with 14-bit position/UV and 10-bit normals."
+    }
+  ]
+}

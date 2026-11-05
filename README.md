@@ -41,7 +41,9 @@ build 顺序为内容/引用/原图与 PDF 哈希校验 → 源码公开性扫�
 
 ## 静态发布配置
 
-Astro 6.4.8 + strict TypeScript + plain CSS，无 SSR、React、GSAP、WebGL、外部字体或第三方脚本。地图/导航/正文零 JS；原生 dialog 仅增强原图链接。
+Astro 6.4.8 + strict TypeScript + plain CSS，页面静态生成。GSAP 用于动画，Three.js / WebGL 用于按需加载的三维展柜；阅读向导的 DeepSeek 问答由 Cloudflare Pages Function 提供。科研正文、导航及原图链接可直接访问，原生 dialog 增强原图查看，模型顶部“细节图”在脚本未执行时直接打开高清图。浏览器依赖随站构建，无外部字体或第三方脚本地址。
+
+`npm test` 保留所有路由初始脚本 gzip 小于 50 KiB 的预算，并将静态导入和 HTML modulepreload 纳入初始依赖。首页、个人空间及模型详情包含延迟三维依赖的总预算为 250 KiB，其他页面仍为 50 KiB；三维运行时必须保持动态导入。该指标为各模块独立 gzip 之和，不代表实测网络传输或加载时间。
 
 正式 URL 为 `https://zhaofeiran.pages.dev/`，base 为 `/`。Astro 使用 `PUBLIC_SITE_URL` 和 `PUBLIC_BASE_PATH` 统一生成 canonical、Open Graph、sitemap、robots 与站内链接。默认 build 是 noindex 草稿，robots 禁止抓取。初版发布本地预检：
 

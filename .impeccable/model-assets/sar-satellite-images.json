@@ -1,0 +1,41 @@
+{
+  "sourceDirectory": "E:/blender建模/SAR_Satellite",
+  "files": [
+    {
+      "file": "sar-satellite-cover.png",
+      "width": 1600,
+      "height": 1000,
+      "sha256": "e6e575a94a72a89cea40366378a9353895bdb179724443db154ea4dbf5d4b376",
+      "source": "Source Blender scene separately rendered: Camera_Hero reframed on model; Earth/star collections hidden; transparent RGBA; Cycles CPU 48 samples; original .blend not saved."
+    },
+    {
+      "file": "SAR_Bus_Detail.png",
+      "width": 1600,
+      "height": 1400,
+      "sha256": "0b29f4fb2a720f954e5c3495efd471c7b823390f54f322f5784022197e136133",
+      "source": "Supplied renders/SAR_Bus_Detail.png"
+    },
+    {
+      "file": "SAR_Exploded.png",
+      "width": 1800,
+      "height": 1600,
+      "sha256": "ae50f62ada59e5713370b3113dde3a2ea0fe358a381e2b78ebea68fa9e6fcf4e",
+      "source": "Supplied renders/SAR_Exploded.png"
+    },
+    {
+      "file": "SAR_Hero.png",
+      "width": 2048,
+      "height": 1440,
+      "sha256": "99ac611f5f46eb9b485e8937ce216024c8108b09911495ecd5901fe6e924476a",
+      "source": "Supplied renders/SAR_Hero.png"
+    },
+    {
+      "file": "SAR_Radar_Detail.png",
+      "width": 1600,
+      "height": 1200,
+      "sha256": "65ef9bbe670f7649988dc9ea941456d1b64ca80683b014b4b3c91719bb2af77b",
+      "source": "Supplied renders/SAR_Radar_Detail.png"
+    }
+  ],
+  "coverSourceBlendSha256": "5ed2b96ace44b06c0f854dcf5fc3fd24b5fafc96d5de99a5e7ecb74d9996c08e"
+}
